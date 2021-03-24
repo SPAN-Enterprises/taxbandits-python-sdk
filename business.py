@@ -26,7 +26,13 @@ def submit():
         else:
             response = callAPI(BusinessName, EINOrSSN)
 
-        return render_template('success.html', response='StatusMessage='+response['StatusMessage']+'<br>BusinessId ='+response['BusinessId'])
+        if response['StatusCode']==200:
+
+            return render_template('success.html', response='StatusMessage='+response['StatusMessage']+'<br>BusinessId ='+response['BusinessId'],ErrorMessage=' Business Created Successfully')
+
+        else:
+
+            return render_template('success.html', response='StatusMessage='+response['Message'],ErrorMessage='Message='+response['Message'])
 
 
 
@@ -34,12 +40,8 @@ def submit():
 def getbusiness():
         businessId = request.args['business_id_get']
         ein = request.args['ein_get']
-
-        # if not UtilsClass.isValidBusinessId(businessId) and not UtilsClass.isValidEIN(businessId):
-        #     return render_template('index.html', message='Please enter required fields')
-        # else:
-        getBusinessAPI(businessId, ein)
-        return render_template('success.html')
+        response=  getBusinessAPI(businessId, ein)
+        return render_template('success.html',response=response)
 
 
 
@@ -54,7 +56,7 @@ def getBusinessAPI(businessId, einOrSSN):
     jwtToken = JwtGeneration.get_jwt_token()
     print(jwtToken)
     access_token = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
-    response = Business.get_business(businessId, einOrSSN)
+    return Business.get_business(businessId, einOrSSN)
 
 
 if __name__ == '__main__':

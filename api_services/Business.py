@@ -24,3 +24,5 @@ def get_business(BusinessId, EIN):
                             params={"BusinessId": BusinessId, "EIN": EIN}, headers=HeaderUtils.getheaders())
 
     print(response.json())
+
+    return  response.json()
