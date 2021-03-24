@@ -28,7 +28,7 @@ def submit():
         else:
             response = callAPI(BusinessName, EINOrSSN)
 
-        return render_template('index.html', response='StatusMessage='+response['StatusMessage']+'<br>BusinessId ='+response['BusinessId'])
+        return render_template('success.html', response='StatusMessage='+response['StatusMessage']+'<br>BusinessId ='+response['BusinessId'])
 
     elif request.method == 'GET':
         businessId = request.form['business_id_get']
@@ -37,7 +37,7 @@ def submit():
         # if not UtilsClass.isValidBusinessId(businessId) and not UtilsClass.isValidEIN(businessId):
         #     return render_template('index.html', message='Please enter required fields')
         # else:
-        getBusinessAPI(businessId,ein)
+        getBusinessAPI(businessId, ein)
         return render_template('success.html')
 
 
