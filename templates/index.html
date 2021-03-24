@@ -8,24 +8,33 @@
 <div>
 
     <img src="../style/logo.png" alt="Lexus">
-{% if message %}
+    {% if message %}
     <p> {{message | safe }}</p>
-{% endif %}
+    {% endif %}
 
     <form action="/success" method="post">
+        <!--Create business Endpoint-->
+        <h2><u>Create Business</u></h2>
 
-    <h3>New Business Creation</h3>
+        <h3>Business/Create</h3>
 
-    <input
-     type="text"
-     name="business_name"
-     placeholder="Business Name"
-    />
-            <input type="number" name= "einorssn" maxlength="8" placeholder="EINorSSN"/>
-            <br><br><br>
+        <input type="text" name="business_name" placeholder="Business Name"/>
 
+        <input type="number" name="einorssn" maxlength="8" placeholder="EINorSSN"/>
 
-        <input type="submit" value="Create Business" />
+        <input type="submit" value="Create Business"/>
+    </form>
+
+    <form action="/success" method="get">
+        <!--Get business Details Endpoint-->
+        <h2><u>Get Business</u></h2>
+        <h3>Business/Get</h3>
+
+        <input type="text" name="business_id_get" placeholder="BusinessId"/>
+
+        <input type="number" name="ein_get" maxlength="8" placeholder="EIN"/>
+
+        <input type="submit" value="Submit"/>
 
     </form>
 </div>
