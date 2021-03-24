@@ -13,20 +13,17 @@
 {% endif %}
 
     <form action="/success" method="post">
-<div >
+
     <h3>New Business Creation</h3>
+
     <input
      type="text"
      name="business_name"
      placeholder="Business Name"
     />
+            <input type="number" name= "einorssn" maxlength="8" placeholder="EINorSSN"/>
+            <br><br><br>
 
-</div>
-        <div >
-            <input type="number"
-            name= "einorssn"
-            placeholder="EINorSSN"/>
-        </div>
 
         <input type="submit" value="Submit" />
 
