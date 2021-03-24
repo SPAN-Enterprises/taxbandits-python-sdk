@@ -12,9 +12,8 @@ def index():
     return render_template('index.html')
 
 
-@business.route('/success', methods=['POST', 'GET'])
+@business.route('/success', methods=['POST'])
 def submit():
-    if request.method == 'POST':
         BusinessName = request.form['business_name']
         EINOrSSN = request.form['einorssn']
         print(BusinessName, EINOrSSN)
@@ -30,9 +29,10 @@ def submit():
 
         return render_template('success.html')
 
-    elif request.method == 'GET':
-        businessId = request.form['business_id_get']
-        ein = request.form['ein_get']
+@business.route('/list', methods=['GET'])
+def getbusiness():
+        businessId = request.args['business_id_get']
+        ein = request.args['ein_get']
 
         # if not UtilsClass.isValidBusinessId(businessId) and not UtilsClass.isValidEIN(businessId):
         #     return render_template('index.html', message='Please enter required fields')
