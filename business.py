@@ -29,6 +29,8 @@ def submit():
 
         return render_template('success.html')
 
+
+
 @business.route('/list', methods=['GET'])
 def getbusiness():
         businessId = request.args['business_id_get']
