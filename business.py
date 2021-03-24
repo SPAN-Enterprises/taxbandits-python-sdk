@@ -25,9 +25,9 @@ def submit():
             return render_template('index.html', message='Please enter valid input')
 
         else:
-            callAPI(BusinessName, EINOrSSN)
+            response = callAPI(BusinessName, EINOrSSN)
 
-        return render_template('success.html')
+        return render_template('index.html', response='StatusMessage='+response['StatusMessage']+'<br>BusinessId ='+response['BusinessId'])
 
 
 
@@ -49,6 +49,7 @@ def callAPI(businessName, einOrSSN):
     print(jwtToken)
     access_token = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
     response = Business.create(businessName, einOrSSN)
+    return response
 
 def getBusinessAPI(businessId, einOrSSN):
     jwtToken = JwtGeneration.get_jwt_token()

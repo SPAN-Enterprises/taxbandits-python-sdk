@@ -23,6 +23,10 @@
         <input type="number" name="einorssn" maxlength="9" placeholder="EINorSSN"/>
 
         <input type="submit" value="Create Business"/>
+
+        {% if response %}
+        <p>{{response | safe}}</p>
+        {% endif %}
     </form>
 
     <form action="/list" method="get" >
