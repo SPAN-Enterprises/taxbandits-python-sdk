@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tax Bandits Public SDK</title>
+</head>
+<body>
+<div>
+
+    <img src="../style/logo.png" alt="Lexus">
+{% if message %}
+    <p> {{message | safe }}</p>
+{% endif %}
+
+    <form action="/submit" method="post">
+<div >
+    <h3>New Business Creation</h3>
+    <input
+     type="text"
+     name="business_name"
+     placeholder="Business Name"
+    />
+
+</div>
+        <div >
+            <input type="number"
+            name= "einorssn"
+            placeholder="EINorSSN"/>
+        </div>
+
+        <input type="submit" value="Submit" />
+
+    </form>
+</div>
+</body>
+</html>
