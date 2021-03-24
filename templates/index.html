@@ -20,18 +20,18 @@
 
         <input type="text" name="business_name" placeholder="Business Name"/>
 
-        <input type="number" name="einorssn" maxlength="8" placeholder="EINorSSN"/>
+        <input type="number" name="einorssn" maxlength="9" placeholder="EINorSSN"/>
 
         <input type="submit" value="Create Business"/>
 
     </form>
 
-    <form action="/success" method="get">
+    <form action="/list" method="get" >
         <!--Get business Details Endpoint-->
         <h2><u>Get Business</u></h2>
         <h3>Business/Get</h3>
 
-        <input type="text" name="business_id_get" placeholder="BusinessId"/>
+        <input type="text" name="business_id_get" placeholder="Business Id"/>
 
         <input type="number" name="ein_get" maxlength="8" placeholder="EIN"/>
 
