@@ -14,7 +14,7 @@ def create(businessName, einOrSSN):
 
     print(response.json())
 
-    return response
+    return response.json()
 
 
 # Get Business Information by using BusinessId and EIN
