@@ -12,21 +12,13 @@
     <p> {{message | safe }}</p>
     {% endif %}
 
-    <form action="/success" method="post">
-        <!--Create business Endpoint-->
-        <h2><u>Create Business</u></h2>
-
-        <h3>Business/Create</h3>
-
-        <input type="text" name="business_name" placeholder="Business Name"/>
-
-        <input type="number" name="ein_or_ssn" maxlength="9" placeholder="EINorSSN"/>
+    <form action="/createbusiness" method="post">
+        <p>Create Business</p>
 
         <input type="submit" value="Create Business"/>
-
     </form>
 
-    <form action="/detail" method="get" >
+    <form action="/detail" method="get">
         <!--Get business Details Endpoint-->
         <h2><u>Get Business</u></h2>
 

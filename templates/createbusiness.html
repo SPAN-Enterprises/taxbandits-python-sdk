@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Business</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
+
+</head>
+<body>
+
+<div class="container">
+    <form action="/success" method="post">
+        <!--Create business Endpoint-->
+        <h2><u>Create Business</u></h2>
+
+        <h3>Business/Create</h3>
+
+        <label for="business_name">BusinessName:</label>
+        <input type="text" name="business_name" placeholder="Business Name"/><br>
+
+        <label for="trade_nm">TradeNm:</label>
+        <input type="text" name="trade_nm" placeholder="TradeNm"/><br>
+
+        <label for="is_ein">IsEIN:</label>
+        <input type="text" name="is_ein" value="IsEIN"/><br><br>
+
+        <label for="einorssn">EINorSSN:</label>
+        <input type="number" name="einorssn" maxlength="9" placeholder="EINorSSN"/><br>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" placeholder="Email"/><br>
+
+        <label for="contact_nm">ContactNm:</label>
+        <input type="text" name="contact_nm" placeholder="ContactNm"/><br>
+
+        <label for="phone">Phone:</label>
+        <input type="text" name="phone" placeholder="Phone"/><br>
+
+        <label for="phone_extn">PhoneExtn:</label>
+        <input type="number" name="phone_extn" placeholder="PhoneExtn"/><br>
+
+        <label for="fax">Fax:</label>
+        <input type="text" name="fax" placeholder="Fax"/><br>
+
+        <label for="business_Type">BusinessType:</label>
+        <input type="text" name="business_Type" placeholder="BusinessType"/><br>
+
+        <label for="sa_name">Signing Authority Name:</label>
+        <input type="text" name="sa_name" placeholder="Signing Authority Name"/><br>
+
+        <label for="sa_phone">Signing Authority Phone:</label>
+        <input type="text" name="sa_phone" placeholder="Signing Authority Phone"/><br>
+
+        <label for="business_member_type">BusinessMemberType:</label>
+        <input type="text" name="business_member_type" placeholder="BusinessMemberType"/><br>
+
+        <label for="kind_of_employer">KindOfEmployer:</label>
+        <input type="text" name="kind_of_employer" placeholder="KindOfEmployer"/><br>
+
+        <label for="kind_of_payer">KindOfPayer:</label>
+        <input type="text" name="kind_of_payer" placeholder="KindOfPayer"/><br>
+
+        <label for="is_business_terminated">IsBusinessTerminated:</label>
+        <input type="text" name="is_business_terminated" placeholder="IsBusinessTerminated"/><br>
+
+        <label for="is_foreign">IsForeign:</label>
+        <input type="text" name="is_foreign" placeholder="IsForeign"/><br>
+
+        <label for="address1">Address 1:</label>
+        <input type="text" name="address1" placeholder="Address1"/><br>
+
+        <label for="address2">Address 2:</label>
+        <input type="text" name="address2" placeholder="Address2"/><br>
+
+        <label for="city">City:</label>
+        <input type="text" name="city" placeholder="City"/><br>
+
+        <label for="state">State:</label>
+        <input type="text" name="state" placeholder="State"/><br>
+
+        <label for="zip_cd">ZipCd:</label>
+        <input type="text" name="zip_cd" placeholder="ZipCd"/><br>
+
+        <label for="country">Country:</label>
+        <input type="text" name="county" placeholder="Country"/><br>
+
+
+        <input type="submit" value="Create Business"/>
+
+    </form>
+
+</div>
+</body>
+</html>

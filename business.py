@@ -1,5 +1,4 @@
 from api_services import Business
-
 from flask import Flask, render_template, request
 
 business = Flask(__name__)
@@ -11,10 +10,15 @@ def index():
     return render_template('index.html')
 
 
+@business.route('/createbusiness', methods=['POST'])
+def loadCreateBusiness():
+    return render_template('createbusiness.html')
+
+
 @business.route('/success', methods=['POST'])
 def submit():
     BusinessName = request.form['business_name']
-    EINOrSSN = request.form['ein_or_ssn']
+    EINOrSSN = request.form['einorssn']
     print(BusinessName, EINOrSSN)
 
     if BusinessName == '' or EINOrSSN == '':
