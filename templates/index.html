@@ -12,7 +12,11 @@
     <p> {{message | safe }}</p>
     {% endif %}
 
-    <p>Create Business</p>
+    <form action="/createbusiness" method="post">
+        <p>Create Business</p>
+
+        <input type="submit" value="Create Business"/>
+    </form>
 
     <form action="/detail" method="get">
         <!--Get business Details Endpoint-->

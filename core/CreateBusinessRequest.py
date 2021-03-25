@@ -2,7 +2,6 @@ from core import SigningAuthority
 from core import ForeignAddress
 from core import USAddress
 
-
 def create(businessName, einOrSSN):
     return {
         "BusinessNm": businessName,
