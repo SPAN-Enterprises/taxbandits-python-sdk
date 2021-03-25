@@ -5,6 +5,7 @@ import json
 from utils import HeaderUtils, Config, EndPointConfig
 from core.CreateBusinessRequest import CreateBusinessRequest
 from core.SigningAuthority import SigningAuthority
+from api_services import JwtGeneration
 
 # Create the new Business
 def create(request):
@@ -13,7 +14,7 @@ def create(request):
 
     requestModel = CreateBusinessRequest()
     requestModel.set_BusinessNm(request.form['business_name'])
-    requestModel.set_IsEIN(request.form['is_ein'])
+    # requestModel.set_IsEIN(request.form['is_ein'])
     requestModel.set_EINorSSN(request.form['einorssn'])
     # requestModel.set_TradeNm(request.form['trade_nm'])
     # requestModel.set_Email(request.form['email'])
@@ -26,6 +27,7 @@ def create(request):
     # requestModel.set_KindOfPayer(request.form['kind_of_payer'])
     # requestModel.set_IsBusinessTerminated(request.form['is_business_terminated'])
     # requestModel.set_IsForeign(request.form['is_foreign'])
+    requestModel.set_IsEIN(True)
     requestModel.set_TradeNm("kodak")
     requestModel.set_Email("sharmila.k@dotnetethics.com")
     requestModel.set_ContactNm("John")
@@ -66,9 +68,9 @@ def create(request):
                              headers=HeaderUtils.getheaders())
 
     print(f'statuscode = {response.status_code}')
-    print(response.json())
+    print(json.dumps(response.__dict__))
 
-    return response.json()
+    return json.dumps(response.__dict__)
 
 
 # Get Business Information by using BusinessId and EIN
