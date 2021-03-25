@@ -1,15 +1,11 @@
-
 from utils import Config
 import jwt
 import time
 import requests
 
 
-
-
 # get JWT Token by using user credential
 def get_jwt_token():
-
     epoch_time = int(time.time())
 
     payload = {"iss": Config.userCredential["CLIENT_ID"], "sub": Config.userCredential["CLIENT_ID"],
@@ -22,7 +18,6 @@ def get_jwt_token():
 
 # get Access token by using jwt token
 def get_access_token_by_jwt_token(jwtToken):
-
     headers = {'Authentication': jwtToken, 'Content-Type': 'application/json'}
 
     response = requests.get(Config.apiBaseUrls["O_AUTH_BASE_URL"], headers=headers)
@@ -31,7 +26,7 @@ def get_access_token_by_jwt_token(jwtToken):
 
         Config.access_token = response.json()['AccessToken']
 
-       # return response.json()['AccessToken']
+    # return response.json()['AccessToken']
 
     else:
 
