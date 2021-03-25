@@ -24,7 +24,7 @@ def loadCreateBusiness():
 @business.route('/success', methods=['POST'])
 def submit():
     BusinessName = request.form['business_name']
-    EINOrSSN = request.form['einorssn']
+    EINOrSSN = request.form['ein_or_ssn']
     print(BusinessName, EINOrSSN)
 
     if BusinessName == '' or EINOrSSN == '':
