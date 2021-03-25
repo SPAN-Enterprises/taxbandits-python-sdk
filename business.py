@@ -10,6 +10,10 @@ global jwtToken
 def index():
     return render_template('index.html')
 
+@business.route('/CreateBusiness', methods = ['POST'])
+def loadCreateBusiness():
+    return render_template('create_business.html')
+
 
 @business.route('/success', methods=['POST'])
 def submit():
