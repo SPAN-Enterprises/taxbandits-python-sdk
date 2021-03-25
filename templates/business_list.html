@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+
+<body>
+<ul>
+    <!-- Iterate over object_list -->
+    {% for user in users %}
+    <!-- Display Objects -->
+    <div class="form-select-div"> <div><span style="color:#585858; margin-right:5px">SubmissionId:</span><span>{{ user }}</span></div></div>
+
+    {% endfor %}
+</ul>
+</body>
+</html>

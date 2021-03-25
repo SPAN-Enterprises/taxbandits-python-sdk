@@ -45,6 +45,11 @@ def get_business():
     response = get_business_detail_api(business_id, ein)
     return render_template('success.html', response=response)
 
+@business.route('/users/')
+def users():
+    users = ['maateen', 'nabin', 'shadd']
+    return render_template('business_list.html', users=users)
+
 
 def create_business(businessName, einOrSSN):
     response = Business.create(businessName, einOrSSN)
