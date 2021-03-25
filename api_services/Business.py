@@ -15,7 +15,7 @@ def create(request):
     requestModel = CreateBusinessRequest()
     requestModel.set_BusinessNm(request.form['business_name'])
     # requestModel.set_IsEIN(request.form['is_ein'])
-    requestModel.set_EINorSSN(request.form['einorssn'])
+    requestModel.set_EINorSSN(request.form['ein_or_ssn'])
     # requestModel.set_TradeNm(request.form['trade_nm'])
     # requestModel.set_Email(request.form['email'])
     # requestModel.set_ContactNm(request.form['contact_nm'])
@@ -60,6 +60,12 @@ def create(request):
 
     requestModel.set_ForeignAddress(addressModel.__dict__)
 
+    jwtToken = JwtGeneration.get_jwt_token()
+
+    print(jwtToken)
+
+    access_token = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+
     # inputData = json.dumps(CreateBusinessRequest.create(requestModel))
     print(f"Request Model = {json.dumps(requestModel.__dict__)}")
     # print(json.dumps(requestModel))
@@ -68,9 +74,10 @@ def create(request):
                              headers=HeaderUtils.getheaders())
 
     print(f'statuscode = {response.status_code}')
-    print(json.dumps(response.__dict__))
+    print(f'response header = {response.headers}')
 
-    return json.dumps(response.__dict__)
+    json_obj = json.loads(response.text)
+    return json_obj
 
 
 # Get Business Information by using BusinessId and EIN

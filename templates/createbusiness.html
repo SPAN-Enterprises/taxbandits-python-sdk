@@ -4,28 +4,55 @@
     <meta charset="UTF-8">
     <title>Create Business</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
+    <script>
+        function validateInputs()
+       {
 
+       var isValidInput = true;
+
+        if(document.getElementById("txtBusinessName").value==undefined || document.getElementById("txtBusinessName").value=="" || document.getElementById("txtBusinessName").value==null)
+        {
+        alert("business Name is Empty")
+        isValidInput = false;
+        }
+
+        if(document.getElementById("txtEinOrSsn").value==undefined || document.getElementById("txtEinOrSsn").value=="" || document.getElementById("txtEinOrSsn").value==null)
+        {
+        alert("EINorSSN should not be empty")
+        isValidInput = false;
+        }
+        else if(document.getElementById("txtEinOrSsn").value.length<9)
+        {
+        alert("EINorSSN must be more than 9 digits")
+        isValidInput = false;
+        }
+       return isInputValid;
+
+       }
+
+
+    </script>
 </head>
 <body>
 
 <div class="container">
-    <form action="/success" method="post">
+    <form action="/success" method="post" name="create" onsubmit="return validateInputs()">
         <!--Create business Endpoint-->
         <h2><u>Create Business</u></h2>
 
         <h3>Business/Create</h3>
 
         <label for="business_name">BusinessName:</label>
-        <input type="text" name="business_name" placeholder="Business Name"/><br>
+        <input id="txtBusinessName" type="text" name="business_name" placeholder="Business Name"/><br>
 
         <label for="trade_nm">TradeNm:</label>
         <input type="text" name="trade_nm" placeholder="TradeNm"/><br>
 
-        <label for="is_ein">IsEIN:</label>
-        <input type="text" name="is_ein" placeholder="IsEIN"/><br><br>
+        <input type="checkbox" name="is_ein" placeholder="IsEIN"/>
+        <label for="is_ein">IsEIN?</label><br><br>
 
-        <label for="einorssn">EINorSSN:</label>
-        <input type="number" name="einorssn" maxlength="9" placeholder="EINorSSN"/><br>
+        <label for="ein_or_ssn">EINorSSN:</label>
+        <input id="txtEinOrSsn" type="number" name="ein_or_ssn" placeholder="EINorSSN"/><br>
 
         <label for="email">Email:</label>
         <input type="email" name="email" placeholder="Email"/><br>

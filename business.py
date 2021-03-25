@@ -17,18 +17,8 @@ def loadCreateBusiness():
 
 @business.route('/success', methods=['POST'])
 def submit():
-    BusinessName = request.form['business_name']
-    EINOrSSN = request.form['einorssn']
-    print(BusinessName, EINOrSSN)
 
-    if BusinessName == '' or EINOrSSN == '':
-        return render_template('index.html', message='Please enter required fields')
-
-    elif len(EINOrSSN) < 9:
-        return render_template('index.html', message='Please enter valid input')
-
-    else:
-        response = create_business(request)
+    response = create_business(request)
 
     if response['StatusCode'] == 200:
 
