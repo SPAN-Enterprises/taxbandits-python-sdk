@@ -9,9 +9,15 @@
 <body>
 <ul>
     <!-- Iterate over object_list -->
-    {% for user in users %}
+
+    {% for user in businesses %}
     <!-- Display Objects -->
-    <div class="form-select-div"> <div><span style="color:#585858; margin-right:5px">SubmissionId:</span><span>{{ user }}</span></div></div>
+    <li class="form-select-div">
+        <div><span style="color:#585858; margin-right:5px">Business Id:</span><span>{{ user.BusinessId }}</span></div>
+        <div><span style="color:#585858; margin-right:5px">Business Name:</span><span>{{ user.BusinessNm }}</span></div>
+        <div><span style="color:#585858; margin-right:5px">Email:</span><span>{{ user.Email }}</span></div>
+        <div><span style="color:#585858; margin-right:5px">EIN or SSN:</span><span>{{ user.EINorSSN }}</span></div>
+    </li>
 
     {% endfor %}
 </ul>

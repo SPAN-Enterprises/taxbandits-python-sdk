@@ -1,5 +1,11 @@
-from api_services import Business
+import json
+
+from api_services import Business,JwtGeneration
 from flask import Flask, render_template, request
+
+from core.BusinessList import Businesses
+from core.GetBusinssList import BusinessListRequest
+
 
 business = Flask(__name__)
 global jwtToken
@@ -49,13 +55,44 @@ def get_business():
     response = get_business_detail_api(business_id, ein)
     return render_template('success.html', response=response)
 
-@business.route('/users/')
+@business.route('/businesslist/')
 def users():
-    users = ['maateen', 'nabin', 'shadd']
-    return render_template('business_list.html', users=users)
+
+    jwtToken = JwtGeneration.get_jwt_token()
+
+    print(jwtToken)
+
+    JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+
+    get_business_request = BusinessListRequest()
+
+    get_business_request.set_page(1)
+
+    get_business_request.set_page_size(10)
+
+    get_business_request.set_from_date('03/20/2021')
+
+    get_business_request.set_to_date('03/25/2021')
+
+    response = Business.get_business_list(get_business_request)
+
+    businesses = response['Businesses']
+
+
+    print(businesses)
+
+    print(businesses[0]['BusinessId'])
+
+    return render_template('business_list.html', businesses=businesses)
 
 
 def create_business(businessName, einOrSSN):
+
+    jwtToken = JwtGeneration.get_jwt_token()
+
+    print(jwtToken)
+
+    JwtGeneration.get_access_token_by_jwt_token(jwtToken)
     response = Business.create(businessName, einOrSSN)
     return response
 

@@ -1,7 +1,5 @@
-class CreateBusinessRequest:
 
-    def __init__(self):
-        self.BusinessNm =''
+class CreateBusinessRequest:
 
     def get_BusinessNm(self):
         return self.BusinessNm
@@ -103,3 +101,6 @@ class CreateBusinessRequest:
 
     def set_ForeignAddress(self, foreignAddress):
         self.ForeignAddress = foreignAddress
+
+
+

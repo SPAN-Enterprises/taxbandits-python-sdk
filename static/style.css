@@ -1,1 +1,1 @@
-.form-select-div { display: flex; border-radius: 5px; border: 1px solid #ddd; align-items: center; background: #FAFBFD; position:relative; padding:10px; margin-bottom:15px }
+.form-select-div { border-radius: 5px; list-style-type:none !important; border: 1px solid #ddd; background: #FAFBFD; position:relative; padding:10px; margin-bottom:15px }
