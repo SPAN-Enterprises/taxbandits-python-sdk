@@ -2,8 +2,6 @@ from api_services import Business, JwtGeneration
 
 from flask import Flask, render_template, request
 
-from utils import UtilsClass
-
 business = Flask(__name__)
 global jwtToken
 
