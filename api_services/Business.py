@@ -7,12 +7,25 @@ from core.CreateBusinessRequest import CreateBusinessRequest
 from core.SigningAuthority import SigningAuthority
 
 # Create the new Business
-def create(businessName, einOrSSN):
+def create(request):
+
+    print(f"form model{request.form['business_name']}")
 
     requestModel = CreateBusinessRequest()
-    requestModel.set_BusinessNm("ER Systems")
-    requestModel.set_IsEIN(True)
-    requestModel.set_EINorSSN("003453453")
+    requestModel.set_BusinessNm(request.form['business_name'])
+    requestModel.set_IsEIN(request.form['is_ein'])
+    requestModel.set_EINorSSN(request.form['einorssn'])
+    # requestModel.set_TradeNm(request.form['trade_nm'])
+    # requestModel.set_Email(request.form['email'])
+    # requestModel.set_ContactNm(request.form['contact_nm'])
+    # requestModel.set_Phone(request.form['phone'])
+    # requestModel.set_PhoneExtn(request.form['phone_extn'])
+    # requestModel.set_Fax(request.form['fax'])
+    # requestModel.set_BusinessType(request.form['business_Type'])
+    # requestModel.set_KindOfEmployer(request.form['kind_of_employer'])
+    # requestModel.set_KindOfPayer(request.form['kind_of_payer'])
+    # requestModel.set_IsBusinessTerminated(request.form['is_business_terminated'])
+    # requestModel.set_IsForeign(request.form['is_foreign'])
     requestModel.set_TradeNm("kodak")
     requestModel.set_Email("sharmila.k@dotnetethics.com")
     requestModel.set_ContactNm("John")
@@ -26,11 +39,14 @@ def create(businessName, einOrSSN):
     requestModel.set_IsForeign(True)
 
     saModel = SigningAuthority()
-    saModel.set_SAName("Peter")
-    saModel.set_SAPhone("9836476853")
+    # saModel.set_SAName(request.form['sa_name'])
+    # saModel.set_SAPhone(request.form['sa_phone'])
+    # saModel.set_SABusinessMemberType(request.form['business_member_type'])
+    saModel.set_SAName("John")
+    saModel.set_SAPhone("1234567890")
     saModel.set_SABusinessMemberType("ADMINISTRATOR")
 
-    requestModel.set_SigningAuthority(saModel)
+    requestModel.set_SigningAuthority(saModel.__dict__)
 
     addressModel = ForeignAddress()
     addressModel.set_Address1("22 St")
@@ -40,15 +56,16 @@ def create(businessName, einOrSSN):
     addressModel.set_Country("M1R 0E9")
     addressModel.set_PostalCd("M1R 0E9")
 
-    requestModel.set_ForeignAddress(addressModel)
+    requestModel.set_ForeignAddress(addressModel.__dict__)
 
     # inputData = json.dumps(CreateBusinessRequest.create(requestModel))
-    print(f"Request Model = {requestModel}")
+    print(f"Request Model = {json.dumps(requestModel.__dict__)}")
     # print(json.dumps(requestModel))
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_BUSINESS,
-                             data=json.dumps(requestModel),
+                             data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
 
+    print(f'statuscode = {response.status_code}')
     print(response.json())
 
     return response.json()

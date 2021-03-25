@@ -28,7 +28,7 @@ def submit():
         return render_template('index.html', message='Please enter valid input')
 
     else:
-        response = create_business(BusinessName, EINOrSSN)
+        response = create_business(request)
 
     if response['StatusCode'] == 200:
 
@@ -50,8 +50,8 @@ def get_business():
     return render_template('success.html', response=response)
 
 
-def create_business(businessName, einOrSSN):
-    response = Business.create(businessName, einOrSSN)
+def create_business(request):
+    response = Business.create(request)
     return response
 
 
