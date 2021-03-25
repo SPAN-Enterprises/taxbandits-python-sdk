@@ -1,4 +1,4 @@
-from api_services import Business, JwtGeneration
+from api_services import Business
 
 from flask import Flask, render_template, request
 
@@ -19,7 +19,7 @@ def loadCreateBusiness():
 @business.route('/success', methods=['POST'])
 def submit():
     BusinessName = request.form['business_name']
-    EINOrSSN = request.form['einorssn']
+    EINOrSSN = request.form['ein_or_ssn']
     print(BusinessName, EINOrSSN)
 
     if BusinessName == '' or EINOrSSN == '':
