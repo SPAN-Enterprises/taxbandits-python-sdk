@@ -8,7 +8,10 @@
 <div>
 
     <img src="../style/logo.png" alt="Lexus">
-    <h3>Business Created Successfully</h3>
+    {% if ErrorMessage %}
+    <h3>{{ErrorMessage | safe}}</h3>
+    {% endif %}
+
 
     {% if response %}
     <p>{{response | safe}}</p>
