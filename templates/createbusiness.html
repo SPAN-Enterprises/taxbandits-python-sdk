@@ -49,7 +49,7 @@
 
         <div class="form-control">
             <label for="contact_nm">ContactNm:</label>
-            <input type="text" id="" contact_nm name="contact_nm" placeholder="ContactNm" maxlength="27"/>
+            <input type="text" id="contact_nm" contact_nm name="contact_nm" placeholder="ContactNm" maxlength="27"/>
             <small>Error message</small>
         </div>
 
@@ -187,23 +187,43 @@
 		        setErrorFor(document.getElementById('txtEinOrSsn'), 'EINorSSN cannot be blank');
 	        }
 
-	        if(isValidText(document.getElementById('email').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('email'), 'Enter Email address');
-	        }
-	        else if(isValidEmail(document.getElementById('email').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('email'), 'Enter valid Email');
-	        }
+<!--	        if(isValidText(document.getElementById('contact_nm').value)) {-->
+<!--	            isValidInput = false;-->
+<!--		        setErrorFor(document.getElementById('contact_nm'), 'Contact Name cannot be blank');-->
+<!--	        }-->
 
-	        if(isValidText(document.getElementById('phone').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('phone'), 'Enter Phone Number');
-	        }
-	        else if(isValidPhone(document.getElementById('phone').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('phone'), 'Enter a valid Phone Number');
-	        }
+<!--	        if(isValidText(document.getElementById('business_Type').value)) {-->
+<!--	            isValidInput = false;-->
+<!--		        setErrorFor(document.getElementById('business_Type'), 'Business Type cannot be blank');-->
+<!--	        }-->
+
+<!--	        if(isValidText(document.getElementById('kind_of_employer').value)) {-->
+<!--	            isValidInput = false;-->
+<!--		        setErrorFor(document.getElementById('kind_of_employer'), 'Kind Of Employer cannot be blank');-->
+<!--	        }-->
+
+<!--	        if(isValidText(document.getElementById('kind_of_payer').value)) {-->
+<!--	            isValidInput = false;-->
+<!--		        setErrorFor(document.getElementById('kind_of_payer'), 'Kind Of Payer cannot be blank');-->
+<!--	        }-->
+
+<!--	        if(isValidText(document.getElementById('email').value)) {-->
+<!--	            isValidInput = false;-->
+<!--		        setErrorFor(document.getElementById('email'), 'Enter Email address');-->
+<!--	        }-->
+<!--	        else if(isValidEmail(document.getElementById('email').value)) {-->
+<!--	            isValidInput = false;-->
+<!--		        setErrorFor(document.getElementById('email'), 'Enter valid Email');-->
+<!--	        }-->
+
+<!--	        if(isValidText(document.getElementById('phone').value)) {-->
+<!--	            isValidInput = false;-->
+<!--		        setErrorFor(document.getElementById('phone'), 'Enter Phone Number');-->
+<!--	        }-->
+<!--	        else if(isValidPhone(document.getElementById('phone').value)) {-->
+<!--	            isValidInput = false;-->
+<!--		        setErrorFor(document.getElementById('phone'), 'Enter a valid Phone Number');-->
+<!--	        }-->
 
 	        return isValidInput;
 	   }
@@ -300,10 +320,6 @@
                 select.appendChild(el);
             }
         }
-
-
-
-
     </script>
 </body>
 </html>
