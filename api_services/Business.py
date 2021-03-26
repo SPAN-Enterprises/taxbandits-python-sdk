@@ -8,14 +8,12 @@ from core.SigningAuthority import SigningAuthority
 from api_services import JwtGeneration
 
 # Create the new Business
-def create(request):
-
-    print(f"form model{request.form['business_name']}")
+def create(businessName, einOrSSN):
 
     requestModel = CreateBusinessRequest()
-    requestModel.set_BusinessNm(request.form['business_name'])
+    requestModel.set_BusinessNm(businessName)
     # requestModel.set_IsEIN(request.form['is_ein'])
-    requestModel.set_EINorSSN(request.form['ein_or_ssn'])
+    requestModel.set_EINorSSN(einOrSSN)
     # requestModel.set_TradeNm(request.form['trade_nm'])
     # requestModel.set_Email(request.form['email'])
     # requestModel.set_ContactNm(request.form['contact_nm'])
@@ -29,7 +27,7 @@ def create(request):
     # requestModel.set_IsForeign(request.form['is_foreign'])
     requestModel.set_IsEIN(True)
     requestModel.set_TradeNm("kodak")
-    requestModel.set_Email("sharmila.k@dotnetethics.com")
+    requestModel.set_Email("sharmila.k+123@dotnetethics.com")
     requestModel.set_ContactNm("John")
     requestModel.set_Phone("1234567890")
     requestModel.set_PhoneExtn("12345")
@@ -102,3 +100,5 @@ def get_business_list(get_business_request: BusinessListRequest):
                                     "ToDate": get_business_request.get_to_date()}, headers=HeaderUtils.getheaders())
 
     print(response.json())
+
+    return response.json()

@@ -1,5 +1,6 @@
 import json
 
+
 class CreateBusinessRequest:
 
     def __init__(self):
@@ -53,7 +54,7 @@ class CreateBusinessRequest:
         return self.Phone
 
     def set_Phone(self, phone):
-        self.Phone= phone
+        self.Phone = phone
 
     def get_PhoneExtn(self):
         return self.PhoneExtn
@@ -65,10 +66,11 @@ class CreateBusinessRequest:
         return self.Fax
 
     def set_Fax(self, fax):
-         self.Fax = fax
+        self.Fax = fax
 
     def get_BusinessType(self):
         return self.BusinessType
+
     def set_BusinessType(self, type):
         self.BusinessType = type
 
