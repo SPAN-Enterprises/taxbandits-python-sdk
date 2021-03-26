@@ -55,7 +55,7 @@ def create(request):
     addressModel.set_Address2("Clair Ave E")
     addressModel.set_City("Toronto")
     addressModel.set_ProvinceOrStateNm("Ontario")
-    addressModel.set_Country("M1R 0E9")
+    addressModel.set_Country("CK")
     addressModel.set_PostalCd("M1R 0E9")
 
     requestModel.set_ForeignAddress(addressModel.__dict__)
@@ -67,14 +67,17 @@ def create(request):
     access_token = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
 
     # inputData = json.dumps(CreateBusinessRequest.create(requestModel))
-    print(f"Request Model = {json.dumps(requestModel.__dict__)}")
+
+    convertedModel = json.dumps(requestModel.__dict__)
+
+    print(f"Request Model = {convertedModel}")
     # print(json.dumps(requestModel))
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_BUSINESS,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
 
     print(f'statuscode = {response.status_code}')
-    print(f'response header = {response.headers}')
+    print(f'response header = {response.text}')
 
     json_obj = json.loads(response.text)
     return json_obj

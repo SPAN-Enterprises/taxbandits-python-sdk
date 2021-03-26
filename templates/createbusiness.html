@@ -4,118 +4,306 @@
     <meta charset="UTF-8">
     <title>Create Business</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
-    <script>
-        function validateInputs()
-       {
 
-       var isValidInput = true;
-
-        if(document.getElementById("txtBusinessName").value==undefined || document.getElementById("txtBusinessName").value=="" || document.getElementById("txtBusinessName").value==null)
-        {
-        alert("business Name is Empty")
-        isValidInput = false;
-        }
-
-        if(document.getElementById("txtEinOrSsn").value==undefined || document.getElementById("txtEinOrSsn").value=="" || document.getElementById("txtEinOrSsn").value==null)
-        {
-        alert("EINorSSN should not be empty")
-        isValidInput = false;
-        }
-        else if(document.getElementById("txtEinOrSsn").value.length<9)
-        {
-        alert("EINorSSN must be more than 9 digits")
-        isValidInput = false;
-        }
-       return isInputValid;
-
-       }
-
-
-    </script>
 </head>
 <body>
 
 <div class="container">
-    <form action="/success" method="post" name="create" onsubmit="return validateInputs()">
+    <form action="/success" method="post" name="create" onsubmit="return checkInputs()">
         <!--Create business Endpoint-->
         <h2><u>Create Business</u></h2>
 
         <h3>Business/Create</h3>
 
-        <label for="business_name">BusinessName:</label>
-        <input id="txtBusinessName" type="text" name="business_name" placeholder="Business Name"/><br>
+        <div class="form-control">
+            <label for="business_name">BusinessName:</label>
+            <input id="txtBusinessName" type="text" name="business_name" placeholder="Business Name" maxlength="75"/>
+            <small>Error message</small>
+        </div>
 
-        <label for="trade_nm">TradeNm:</label>
-        <input type="text" name="trade_nm" placeholder="TradeNm"/><br>
+        <div class="form-control">
+            <label for="trade_nm">TradeNm:</label>
+            <input type="text" name="trade_nm" placeholder="TradeNm" maxlength="75"/><br>
+            <small>Error message</small>
 
-        <input type="checkbox" name="is_ein" placeholder="IsEIN"/>
-        <label for="is_ein">IsEIN?</label><br><br>
+        </div>
 
-        <label for="ein_or_ssn">EINorSSN:</label>
-        <input id="txtEinOrSsn" type="number" name="ein_or_ssn" placeholder="EINorSSN"/><br>
+        <div class="form-control">
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" placeholder="Email"/><br>
+            <input type="checkbox" name="is_ein" placeholder="IsEIN"/>
+            <label for="is_ein">IsEIN?</label>
+            <small>Error message</small>
+        </div>
 
-        <label for="contact_nm">ContactNm:</label>
-        <input type="text" name="contact_nm" placeholder="ContactNm"/><br>
+        <div class="form-control">
+            <label for="ein_or_ssn">EINorSSN:</label>
+            <input id="txtEinOrSsn" type="number" name="ein_or_ssn" placeholder="EINorSSN"/>
+            <small>Error message</small>
+        </div>
 
-        <label for="phone">Phone:</label>
-        <input type="text" name="phone" placeholder="Phone"/><br>
+        <div class="form-control">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Email" maxlength="40"/>
+            <small>Error message</small>
+        </div>
 
-        <label for="phone_extn">PhoneExtn:</label>
-        <input type="number" name="phone_extn" placeholder="PhoneExtn"/><br>
+        <div class="form-control">
+            <label for="contact_nm">ContactNm:</label>
+            <input type="text" id="" contact_nm name="contact_nm" placeholder="ContactNm" maxlength="27"/>
+            <small>Error message</small>
+        </div>
 
-        <label for="fax">Fax:</label>
-        <input type="text" name="fax" placeholder="Fax"/><br>
+        <div class="form-control">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Phone" maxlength="10"/>
+            <small>Error message</small>
+        </div>
 
-        <label for="business_Type">BusinessType:</label>
-        <input type="text" name="business_Type" placeholder="BusinessType"/><br>
+        <div class="form-control">
+            <label for="phone_extn">PhoneExtn:</label>
+            <input type="number" id="phone_extn" name="phone_extn" placeholder="PhoneExtn"/>
+            <small>Error message</small>
+        </div>
 
-        <label for="sa_name">Signing Authority Name:</label>
-        <input type="text" name="sa_name" placeholder="Signing Authority Name"/><br>
+        <div class="form-control">
+            <label for="fax">Fax:</label>
+            <input type="text" name="fax" id="fax" placeholder="Fax" maxlength="10"/>
+            <small>Error message</small>
+        </div>
 
-        <label for="sa_phone">Signing Authority Phone:</label>
-        <input type="text" name="sa_phone" placeholder="Signing Authority Phone"/><br>
+        <div class="form-control">
+            <label for="business_Type">BusinessType:</label>
+            <input type="text" name="business_Type" id="business_Type" placeholder="BusinessType" maxlength="75"/>
+            <small>Error message</small>
+        </div>
 
-        <label for="business_member_type">BusinessMemberType:</label>
-        <input type="text" name="business_member_type" placeholder="BusinessMemberType"/><br>
+        <div class="form-control">
+            <label for="sa_name">Signing Authority Name:</label>
+            <input type="text" name="sa_name" id="sa_name" placeholder="Signing Authority Name"/><br>
+            <small>Error message</small>
+        </div>
 
-        <label for="kind_of_employer">KindOfEmployer:</label>
-        <input type="text" name="kind_of_employer" placeholder="KindOfEmployer"/><br>
+        <div class="form-control">
+            <label for="sa_phone">Signing Authority Phone:</label>
+            <input type="text" name="sa_phone" id="sa_phone" placeholder="Signing Authority Phone"/><br>
+            <small>Error message</small>
+        </div>
 
-        <label for="kind_of_payer">KindOfPayer:</label>
-        <input type="text" name="kind_of_payer" placeholder="KindOfPayer"/><br>
+        <div class="form-control">
+            <label for="business_member_type">BusinessMemberType:</label>
+            <input type="text" name="business_member_type" id="business_member_type"
+                   placeholder="BusinessMemberType"/><br>
+            <small>Error message</small>
+        </div>
 
-        <label for="is_business_terminated">IsBusinessTerminated:</label>
-        <input type="text" name="is_business_terminated" placeholder="IsBusinessTerminated"/><br>
+        <div class="form-control">
+            <label for="kind_of_employer">KindOfEmployer:</label>
+            <input type="text" name="kind_of_employer" id="kind_of_employer" placeholder="KindOfEmployer"/><br>
+            <small>Error message</small>
+        </div>
 
-        <label for="is_foreign">IsForeign:</label>
-        <input type="text" name="is_foreign" placeholder="IsForeign"/><br>
+        <div class="form-control">
+            <label for="kind_of_payer">KindOfPayer:</label>
+            <input type="text" name="kind_of_payer" id="kind_of_payer" placeholder="KindOfPayer"/><br>
+            <small>Error message</small>
+        </div>
 
-        <label for="address1">Address 1:</label>
-        <input type="text" name="address1" placeholder="Address1"/><br>
+        <div class="form-control">
+            <label for="is_business_terminated">IsBusinessTerminated:</label>
+            <input type="text" name="is_business_terminated" id="is_business_terminated"
+                   placeholder="IsBusinessTerminated"/><br>
+            <small>Error message</small>
+        </div>
 
-        <label for="address2">Address 2:</label>
-        <input type="text" name="address2" placeholder="Address2"/><br>
+        <div class="form-control">
+            <label for="is_foreign">IsForeign:</label>
+            <input type="checkbox" name="is_foreign" id="is_foreign" placeholder="IsForeign"
+                   onclick="enableOrDisableFields()"/><br>
+        </div>
 
-        <label for="city">City:</label>
-        <input type="text" name="city" placeholder="City"/><br>
+        <div class="form-control">
+            <label for="address1">Address 1:</label>
+            <input type="text" name="address1" id="address1" placeholder="Address1" maxlength="35"/><br>
+            <small>Error message</small>
+        </div>
 
-        <label for="state">State:</label>
-        <input type="text" name="state" placeholder="State"/><br>
+        <div class="form-control">
+            <label for="address2">Address 2:</label>
+            <input type="text" name="address2" id="address2" placeholder="Address2" maxlength="35"/><br>
+        </div>
 
-        <label for="zip_cd">ZipCd:</label>
-        <input type="text" name="zip_cd" placeholder="ZipCd"/><br>
+        <div class="form-control">
+            <label for="city">City:</label>
+            <input type="text" name="city" id="city" placeholder="City" maxlength="27"/><br>
+            <small>Error message</small>
+        </div>
 
-        <label for="country">Country:</label>
-        <input type="text" name="county" placeholder="Country"/><br>
+        <div class="form-control">
+            <label id="state_lbl" for="state">State:</label>
+            <input type="text" name="state" id="state" placeholder="State" maxlength="2"/><br>
+            <small>Error message</small>
+        </div>
 
+        <div class="form-control">
+            <label id="zip_code_lbl" for="zip_cd">ZipCd:</label>
+            <input type="text" name="zip_cd" id="zip_cd" placeholder="ZipCd"/><br>
+            <small>Error message</small>
+        </div>
+
+        <div class="form-control">
+            <label for="country">Country:</label>
+            <input type="text" name="country" id="country" placeholder="Country" maxlength="2"/><br>
+            <select id="arr"></select>
+            <small>Error message</small>
+        </div>
 
         <input type="submit" value="Create Business"/>
 
     </form>
 
 </div>
+ <script>
+
+    (function() {
+        // your page initialization code here
+        loadElements();
+        // the DOM will be available here
+    })();
+
+
+       function checkInputs() {
+
+            var isValidInput = true;
+	        // trim to remove the whitespaces
+	        const usernameValue = document.getElementById('txtBusinessName').value;
+
+	        if(isValidText(usernameValue)) {
+	            isValidInput = false;
+		        setErrorFor(document.getElementById('txtBusinessName'), 'Business Name cannot be blank');
+	        }
+
+	        if(isValidText(document.getElementById('txtEinOrSsn').value)) {
+	            isValidInput = false;
+		        setErrorFor(document.getElementById('txtEinOrSsn'), 'EINorSSN cannot be blank');
+	        }
+
+	        if(isValidText(document.getElementById('email').value)) {
+	            isValidInput = false;
+		        setErrorFor(document.getElementById('email'), 'Enter Email address');
+	        }
+	        else if(isValidEmail(document.getElementById('email').value)) {
+	            isValidInput = false;
+		        setErrorFor(document.getElementById('email'), 'Enter valid Email');
+	        }
+
+	        if(isValidText(document.getElementById('phone').value)) {
+	            isValidInput = false;
+		        setErrorFor(document.getElementById('phone'), 'Enter Phone Number');
+	        }
+	        else if(isValidPhone(document.getElementById('phone').value)) {
+	            isValidInput = false;
+		        setErrorFor(document.getElementById('phone'), 'Enter a valid Phone Number');
+	        }
+
+	        return isValidInput;
+	   }
+
+	    function setErrorFor(input, message) {
+	        const formControl = input.parentElement;
+	        const small = formControl.querySelector('small');
+	        formControl.className = 'form-control error';
+	        small.innerText = message;
+        }
+
+        function isValidText(inputText)
+        {
+            return inputText == null || inputText === '';
+        }
+
+        function isValidEmail(inputText)
+        {
+            return !(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(inputText));
+        }
+
+        function isValidPhone(inputText) {
+            var phoneno = /^\d{10}$/;
+            return !(inputText.value.match(phoneno));
+        }
+
+        function enableOrDisableFields()
+        {
+
+        debugger
+            var country = document.getElementById("country");
+
+            country.disabled = document.getElementById("is_foreign").checked ? false : true;
+
+            changeFieldName();
+
+<!--            loadElements();-->
+        }
+
+        function changeFieldName()
+        {
+            var zipCodeLbl = document.getElementById("zip_code_lbl");
+            var stateLbl = document.getElementById("state_lbl");
+            var fieldVal = document.getElementById("zip_cd");
+            var stateFieldVal = document.getElementById("state");
+
+            if(document.getElementById("is_foreign").checked == true)
+            {
+                zipCodeLbl.innerHTML  = "PostalCd";
+                fieldVal.placeholder = "PostalCd";
+                stateLbl.innerHTML  = "ProvinceOrStateNm";
+                stateFieldVal.placeholder = "ProvinceOrStateNm";
+                stateFieldVal.maxLength = 30;
+            }
+            else
+            {
+                zipCodeLbl.innerHTML  = "ZipCd";
+                fieldVal.placeholder = "ZipCd";
+                stateLbl.innerHTML  = "State";
+                stateFieldVal.placeholder = "State";
+                stateFieldVal.maxLength = 2;
+            }
+        }
+
+
+        function loadElements()
+        {
+            var list = ["US", "CA", "MX", "AF", "AX", "XI", "AL", "AG", "AQ", "AN", "AO", "AV", "AY", "AC",
+                        "AR", "AM", "AA", "XA", "AT", "AS", "AU", "AJ", "XZ", "BF", "BA", "FQ", "BG", "BB", "BS", "BO",
+                        "BE", "BH", "BN", "BD", "BT", "BL", "BK", "BC", "BV", "BR", "IO", "VI", "BX", "BU", "UV", "BM",
+                        "BY", "CB", "CM", "XY", "CV", "CJ", "CT", "CD", "XC", "CI", "CH", "KT", "IP", "CK", "CO", "CN",
+                        "CF", "CG", "CW", "CR", "VP", "CS", "IV", "HR", "CU", "CY", "EZ", "DA", "DX", "DJ", "DO", "DR",
+                        "TT", "EC", "EG", "ES", "UK", "EK", "ER", "EN", "ET", "EU", "FK", "FO", "FM", "FJ", "FI", "FR",
+                        "FG", "FP", "FS", "GB", "GA", "GZ", "GG", "GM", "GH", "GI", "GO", "GR", "GL", "GJ", "GP", "GQ",
+                        "GT", "GK", "GV", "PU", "GY", "HA", "HM", "HO", "HK", "HQ", "HU", "IC", "IN", "ID", "IR", "IZ",
+                        "EI", "IS", "IT", "JM", "JN", "JA", "DQ", "JE", "JQ", "JO", "JU", "KZ", "KE", "KQ", "KR", "KN",
+                        "KS", "KU", "KG", "LA", "LG", "LE", "LT", "LI", "LY", "LS", "LH", "LU", "MC", "MK", "MA", "MI",
+                        "MY", "MV", "ML", "MT", "IM", "RM", "MB", "MR", "MP", "MF", "MQ", "MD", "MN", "MG", "MJ", "MH",
+                        "MO", "MZ", "XM", "WA", "NR", "BQ", "NP", "NL", "NT", "NC", "NZ", "NU", "NG", "NI", "NE", "NF",
+                        "XN", "CQ", "NO", "MU", "OC", "PK", "LQ", "PS", "PM", "PP", "PF", "PA", "PE", "RP", "PC", "PL",
+                        "PO", "RQ", "QA", "RE", "RO", "RS", "RW", "WS", "SM", "TP", "SA", "XS", "SG", "RI", "SE", "SL",
+                        "SN", "XR", "LO", "SI", "BP", "SO", "SF", "SX", "SP", "PG", "CE", "SH", "SC", "ST", "SB", "VC",
+                        "SU", "NS", "SV", "WZ", "SW", "SZ", "SY", "TW", "TI", "TZ", "TH", "TO", "TL", "TN", "TD", "XT",
+                        "TE", "TS", "TU", "TX", "TK", "TV", "UG", "UP", "AE", "UY", "UZ", "NH", "VT", "VE", "VM", "VQ",
+                        "WQ", "XW", "WF", "WE", "WI", "YM", "YI", "ZA", "ZI"];
+
+            var select = document.getElementById("arr");
+            debugger
+            for (var i = 0; i < list.length; i++) {
+                var optn = list[i];
+                var el = document.createElement("option");
+                el.textContent = optn;
+                el.value = optn;
+                select.appendChild(el);
+            }
+        }
+
+
+
+
+    </script>
 </body>
 </html>

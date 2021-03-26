@@ -2,7 +2,7 @@ body {
   font-family: Arial;
 }
 
-input[type=text],input[type=email],input[type=number], select {
+input[type=text],input[type=email],input[type=number],input[type=tel], select {
   width: 50%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -31,4 +31,18 @@ div.container {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
+}
+
+.form-control small {
+	color: #e74c3c;
+	display: none;
+}
+
+.form-control.error small {
+	display: block;
+}
+
+.form-control input:focus {
+	outline: 0;
+	border-color: #777;
 }

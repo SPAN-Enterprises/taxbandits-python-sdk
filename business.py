@@ -1,5 +1,6 @@
 from api_services import Business
 from flask import Flask, render_template, request
+import json
 
 business = Flask(__name__)
 global jwtToken
@@ -28,8 +29,8 @@ def submit():
 
     else:
 
-        return render_template('success.html', response='StatusMessage=' + response['Message'],
-                               ErrorMessage='Message=' + response['Message'])
+        return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                               ErrorMessage='Message=' + json.dumps(response))
 
 
 @business.route('/detail', methods=['GET'])
