@@ -58,8 +58,9 @@ def get_business_detail(BusinessId, EIN):
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_BUSINESS,
                             params={"BusinessId": BusinessId, "EIN": EIN}, headers=HeaderUtils.getheaders())
 
-    print(response.json())
+    print(response)
 
+    print(response.json())
     return response.json()
 
 

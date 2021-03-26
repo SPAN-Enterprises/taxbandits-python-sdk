@@ -50,10 +50,13 @@ def submit():
 
 @business.route('/detail', methods=['GET'])
 def get_business():
-    business_id = request.args['business_id_get']
-    ein = request.args['ein_get']
-    response = get_business_detail_api(business_id, ein)
-    return render_template('success.html', response=response)
+    business_id=request.args.get('business_id')
+    ein = request.args.get('ein')
+    print(business_id)
+    print(ein)
+    response=get_business_detail_api(business_id, ein)
+    return render_template('detail.html',response=response)
+
 
 @business.route('/businesslist/')
 def users():
@@ -77,7 +80,6 @@ def users():
     response = Business.get_business_list(get_business_request)
 
     businesses = response['Businesses']
-
 
     print(businesses)
 

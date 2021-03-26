@@ -7,19 +7,38 @@
 </head>
 
 <body>
+<img src="../static/logo.png" alt="Lexus">
+<form id="myForm" >
+
+
+
 <ul>
     <!-- Iterate over object_list -->
 
-    {% for user in businesses %}
+    {% for business in businesses %}
+
     <!-- Display Objects -->
-    <li class="form-select-div">
-        <div><span style="color:#585858; margin-right:5px">Business Id:</span><span>{{ user.BusinessId }}</span></div>
-        <div><span style="color:#585858; margin-right:5px">Business Name:</span><span>{{ user.BusinessNm }}</span></div>
-        <div><span style="color:#585858; margin-right:5px">Email:</span><span>{{ user.Email }}</span></div>
-        <div><span style="color:#585858; margin-right:5px">EIN or SSN:</span><span>{{ user.EINorSSN }}</span></div>
+    <li class="form-select-div"  onclick="getdata('{{business.BusinessId}}','{{business.EINorSSN}}');" >
+
+        <div><span style="color:#585858; margin-right:5px">Business Id:</span><span>{{ business.BusinessId }}</span></div>
+        <div><span style="color:#585858; margin-right:5px">Business Name:</span><span>{{ business.BusinessNm }}</span></div>
+        <div><span style="color:#585858; margin-right:5px">Email:</span><span>{{ business.Email }}</span></div>
+        <div><span style="color:#585858; margin-right:5px">EIN or SSN:</span><span>{{ business.EINorSSN }}</span></div>
+
     </li>
 
     {% endfor %}
 </ul>
+</form>
 </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+function getdata(business_id,ein)
+{
+window.location = '/detail?business_id='+business_id+'&ein='+ein;
+}
+
+
+</script>
