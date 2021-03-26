@@ -7,7 +7,7 @@
 <body>
 <div>
 
-    <img src="../style/logo.png" alt="Lexus">
+    <img src="../static/logo.png" alt="Lexus">
     {% if message %}
     <p> {{message | safe }}</p>
     {% endif %}
@@ -18,19 +18,14 @@
         <input type="submit" value="Create Business"/>
     </form>
 
-    <form action="/detail" method="get">
-        <!--Get business Details Endpoint-->
-        <h2><u>Get Business</u></h2>
+    <form action="/businesslist" method="get">
+        <p>Business List Business</p>
 
-        <h3>Business/Get</h3>
 
-        <input type="text" name="business_id_get" placeholder="Business Id"/>
-
-        <input type="number" name="ein_get" maxlength="8" placeholder="EIN"/>
-
-        <input type="submit" value="Submit"/>
-
+        <input type="submit" value="Get Business List"/>
     </form>
+
+
 </div>
 </body>
 </html>
