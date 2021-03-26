@@ -72,11 +72,11 @@ def users():
 
     get_business_request.set_page(1)
 
-    get_business_request.set_page_size(10)
+    get_business_request.set_page_size(20)
 
     get_business_request.set_from_date('03/20/2021')
 
-    get_business_request.set_to_date('03/25/2021')
+    get_business_request.set_to_date('03/31/2021')
 
     response = Business.get_business_list(get_business_request)
 
