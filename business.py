@@ -57,7 +57,7 @@ def get_business():
     return render_template('detail.html', response=response)
 
 
-@business.route('/businesslist/',me)
+@business.route('/businesslist/', methods=['GET'])
 def users():
     jwtToken = JwtGeneration.get_jwt_token()
 
@@ -100,14 +100,14 @@ def get_business_detail_api(businessId, einOrSSN):
     return Business.get_business_detail(businessId, einOrSSN)
 
 
-@business.route('/detail', methods=['GET'])
-def get_business():
-    business_id = request.args.get()
-    ein = request.args.get('ein')
-    print(business_id)
-    print(ein)
-    response = get_business_detail_api(business_id, ein)
-    return render_template('detail.html', response=response)
+# @business.route('/detail', methods=['GET'])
+# def get_business():
+#     business_id = request.args.get()
+#     ein = request.args.get('ein')
+#     print(business_id)
+#     print(ein)
+#     response = get_business_detail_api(business_id, ein)
+#     return render_template('detail.html', response=response)
 
 
 
