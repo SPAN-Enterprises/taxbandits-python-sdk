@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Form1099 NEC</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
+</head>
+<body>
+<div class="container">
+    <form action="/create1099nec" method="post">
+        <h2><u>Create a New Form 1099 NEC</u></h2>
+
+        <h3>Form1099NEC/Create</h3>
+
+        <div class="form-control">
+            <label for="business_list">Businesses:</label>
+            <select id="business_list" name="business_list"></select>
+            <small>Error message</small>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    (function() {
+        loadElements();
+    })();
+
+    functions loadElements()
+    {
+        $("#select_county").change(function() {
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('select_county') }}",
+                data: {
+                    county: $("#select_county").val()
+                },
+                success: function(data) {
+                    $("#select_city").html(data);
+                }
+            });
+        });
+    }
+
+
+</script>
+</body>
+</html>

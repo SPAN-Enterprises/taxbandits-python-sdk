@@ -64,15 +64,14 @@ def create(requestJson):
         addressModel.set_Address2(requestJson['address2'][0])
         addressModel.set_City(requestJson['city'][0])
         addressModel.set_ProvinceOrStateNm(requestJson['state'][0])
-        # addressModel.set_Country(requestJson['country'][0])
-        addressModel.set_Country('CA')
+        addressModel.set_Country(requestJson['country'][0])
         addressModel.set_PostalCd(requestJson['zip_cd'][0])
     else:
         requestModel.set_IsForeign(False)
         addressModel.set_Address1(requestJson['address1'][0])
         addressModel.set_Address2(requestJson['address2'][0])
         addressModel.set_City(requestJson['city'][0])
-        addressModel.set_State(requestJson['state'][0])
+        addressModel.set_State(requestJson['state_drop_down'][0])
         addressModel.set_ZipCd(requestJson['zip_cd'][0])
 
     requestModel.set_ForeignAddress(addressModel.__dict__)
@@ -109,8 +108,11 @@ def create(requestJson):
     print(f'statuscode = {response.status_code}')
     print(f'response header = {response}')
 
-    json_obj = json.loads(response.text)
-    return json_obj
+    if response.status_code == 200:
+        json_obj = json.loads(response.text)
+        return json_obj
+    else:
+        return response
 
 
 # Get Business Information by using BusinessId and EIN

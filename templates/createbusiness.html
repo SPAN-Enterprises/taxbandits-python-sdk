@@ -9,7 +9,7 @@
 <body>
 
 <div class="container">
-    <form action="/success" method="post" name="create" onsubmit="return checkInputs()">
+    <form action="/success" method="post" name="create">
         <!--Create business Endpoint-->
         <h2><u>Create Business</u></h2>
 
@@ -17,13 +17,13 @@
 
         <div class="form-control">
             <label for="business_name">BusinessName:</label>
-            <input id="txtBusinessName" type="text" name="business_name" placeholder="Business Name" maxlength="75"/>
+            <input id="txtBusinessName" type="text" name="business_name" placeholder="Business Name" maxlength="75" value="M&M Bricks"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="trade_nm">TradeNm:</label>
-            <input type="text" name="trade_nm" placeholder="TradeNm" maxlength="75"/><br>
+            <input type="text" name="trade_nm" placeholder="TradeNm" maxlength="75" value = "Kodak"/><br>
             <small>Error message</small>
 
         </div>
@@ -43,71 +43,70 @@
 
         <div class="form-control">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Email" maxlength="40"/>
+            <input type="email" id="email" name="email" placeholder="Email" maxlength="40" value="sharmila.k+m@dotnetethics.com"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="contact_nm">ContactNm:</label>
-            <input type="text" id="contact_nm" name="contact_nm" placeholder="ContactNm" maxlength="27"/>
+            <input type="text" id="contact_nm" name="contact_nm" placeholder="ContactNm" maxlength="27" value="Merry"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" placeholder="Phone" maxlength="10"/>
+            <input type="tel" id="phone" name="phone" placeholder="Phone" maxlength="10" value="8799878788"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="phone_extn">PhoneExtn:</label>
-            <input type="tel" maxlength="5" id="phone_extn" name="phone_extn" placeholder="PhoneExtn"/>
+            <input type="tel" maxlength="5" id="phone_extn" name="phone_extn" placeholder="PhoneExtn" value="12345"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="fax">Fax:</label>
-            <input type="text" name="fax" id="fax" placeholder="Fax" maxlength="10"/>
+            <input type="text" name="fax" id="fax" placeholder="Fax" maxlength="10" value="1231231344"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="business_Type">BusinessType:</label>
-<!--            <input type="text" name="business_Type" id="business_Type" placeholder="BusinessType" maxlength="75"/>-->
+            <!--            <input type="text" name="business_Type" id="business_Type" placeholder="BusinessType" maxlength="75"/>-->
             <select id="business_Type"></select>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="sa_name">Signing Authority Name:</label>
-            <input type="text" name="sa_name" id="sa_name" placeholder="Signing Authority Name"/>
+            <input type="text" name="sa_name" id="sa_name" placeholder="Signing Authority Name" value="Jacob"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="sa_phone">Signing Authority Phone:</label>
-            <input type="tel" name="sa_phone" id="sa_phone" placeholder="Signing Authority Phone" maxlength="10"/>
+            <input type="tel" name="sa_phone" id="sa_phone" placeholder="Signing Authority Phone" maxlength="10" value="1231231312"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="business_member_type">BusinessMemberType:</label>
-            <input type="text" name="business_member_type" id="business_member_type"
-                   placeholder="BusinessMemberType"/>
+            <select id="business_member_type"></select>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="kind_of_employer">KindOfEmployer:</label>
-<!--            <input type="text" name="kind_of_employer" id="kind_of_employer" placeholder="KindOfEmployer"/>-->
-            <select id="kind_of_employer"></select>
+            <!--            <input type="text" name="kind_of_employer" id="kind_of_employer" placeholder="KindOfEmployer"/>-->
+            <select id="kind_of_employer" name="kind_of_employer"></select>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="kind_of_payer">KindOfPayer:</label>
-<!--            <input type="text" name="kind_of_payer" id="kind_of_payer" placeholder="KindOfPayer"/>-->
-            <select id="kind_of_payer"></select>
+            <!--            <input type="text" name="kind_of_payer" id="kind_of_payer" placeholder="KindOfPayer"/>-->
+            <select id="kind_of_payer" name="kind_of_payer"></select>
             <small>Error message</small>
         </div>
 
@@ -126,37 +125,38 @@
 
         <div class="form-control">
             <label for="address1">Address 1:</label>
-            <input type="text" name="address1" id="address1" placeholder="Address1" maxlength="35"/>
+            <input type="text" name="address1" id="address1" placeholder="Address1" maxlength="35" value ="22 St"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="address2">Address 2:</label>
-            <input type="text" name="address2" id="address2" placeholder="Address2" maxlength="35"/>
+            <input type="text" name="address2" id="address2" placeholder="Address2" maxlength="35" value="Clair Ave E"/>
         </div>
 
         <div class="form-control">
             <label for="city">City:</label>
-            <input type="text" name="city" id="city" placeholder="City" maxlength="27"/>
+            <input type="text" name="city" id="city" placeholder="City" maxlength="27" value = "Toronto"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label id="state_lbl" for="state">State:</label>
-            <input type="text" name="state" id="state" placeholder="State" maxlength="2"/>
+            <input type="text" name="state" id="state" placeholder="State" maxlength="30" style="display:none" value="Ontario"/>
+            <select id="state_drop_down" name="state_drop_down"></select>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label id="zip_code_lbl" for="zip_cd">ZipCd:</label>
-            <input type="text" name="zip_cd" id="zip_cd" placeholder="ZipCd"/>
+            <input type="text" name="zip_cd" id="zip_cd" placeholder="ZipCd" value="M1R 0E9"/>
             <small>Error message</small>
         </div>
 
-        <div class="form-control">
+        <div class="form-control" id="country_div" style="display:none">
             <label for="country">Country:</label>
-<!--            <input type="text" name="country" id="country" placeholder="Country" maxlength="2"/><br>-->
-            <select id="country"></select>
+            <!--            <input type="text" name="country" id="country" placeholder="Country" maxlength="2"/><br>-->
+            <select id="country" name="country"></select>
             <small>Error message</small>
         </div>
 
@@ -165,7 +165,8 @@
     </form>
 
 </div>
- <script>
+
+<script>
 
     (function() {
         // your page initialization code here
@@ -173,118 +174,6 @@
         // the DOM will be available here
     })();
 
-
-       function checkInputs() {
-
-            var isValidInput = true;
-	        // trim to remove the whitespaces
-	        const usernameValue = document.getElementById('txtBusinessName').value;
-
-	        if(!isValidText(usernameValue)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('txtBusinessName'), 'Business Name is required');
-	        }
-
-	        if(!isValidText(document.getElementById('txtEinOrSsn').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('txtEinOrSsn'), 'EINorSSN is required');
-	        }
-	        else if(!isValidEINorSSN(document.getElementById('txtEinOrSsn').value))
-	        {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('txtEinOrSsn'), 'EINorSSN must be of 9 digit');
-	        }
-
-	        if(!isValidText(document.getElementById('contact_nm').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('contact_nm'), 'Contact Name is required');
-	        }
-
-	        if(!isValidText(document.getElementById('business_Type').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('business_Type'), 'Business Type cannot be blank');
-	        }
-
-	        if(!isValidText(document.getElementById('kind_of_employer').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('kind_of_employer'), 'Kind Of Employer is required');
-	        }
-
-	        if(!isValidText(document.getElementById('kind_of_payer').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('kind_of_payer'), 'Kind Of Payer is required');
-	        }
-
-	        if(!isValidText(document.getElementById('email').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('email'), 'Email address is required');
-	        }
-	        else if(isValidEmail(document.getElementById('email').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('email'), 'Enter a valid Email address');
-	        }
-
-	        if(!isValidText(document.getElementById('phone').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('phone'), 'Enter Phone Number');
-	        }
-	        else if(!isValidPhone(document.getElementById('phone').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('phone'), 'Enter a valid Phone Number');
-	        }
-
-	        if(isValidText(document.getElementById('sa_phone').value) && !isValidPhone(document.getElementById('sa_phone').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('sa_phone'), 'Phone number should be 10 digits long');
-	        }
-
-	        if(!isValidText(document.getElementById('address1').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('address1'), 'Address1 is required');
-	        }
-
-	        if(!isValidText(document.getElementById('city').value)) {
-	            isValidInput = false;
-		        setErrorFor(document.getElementById('city'), 'City is required');
-	        }
-
-	        if(!isValidText(document.getElementById('zip_cd').value)) {
-	            isValidInput = false;
-
-	            if(document.getElementById('is_foreign').checked)
-		            setErrorFor(document.getElementById('zip_cd'), 'Postal Code is required');
-		        else
-		            setErrorFor(document.getElementById('zip_cd'), 'Zip Code is required');
-	        }
-
-	        return isValidInput;
-	   }
-
-	    function setErrorFor(input, message) {
-	        const formControl = input.parentElement;
-	        const small = formControl.querySelector('small');
-	        formControl.className = 'form-control error';
-	        small.innerText = message;
-        }
-
-        function isValidText(inputText)
-        {
-            return inputText != null && inputText.trim().length>0;
-        }
-        function isValidEINorSSN(inputText)
-        {
-            return inputText.length==9;
-        }
-
-        function isValidEmail(inputText)
-        {
-            return !(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(inputText));
-        }
-
-        function isValidPhone(inputText) {
-            var phoneno = /^\d{10}$/;
-            return (inputText.match(phoneno));
-        }
 
         function enableOrDisableFields()
         {
@@ -310,6 +199,13 @@
                 stateLbl.innerHTML  = "ProvinceOrStateNm";
                 stateFieldVal.placeholder = "ProvinceOrStateNm";
                 stateFieldVal.maxLength = 30;
+                var x = document.getElementById("country_div");
+
+                x.style.display = "block";
+
+                document.getElementById("state").style.display = "block";
+                document.getElementById("state_drop_down").style.display = "none";
+
             }
             else
             {
@@ -318,6 +214,13 @@
                 stateLbl.innerHTML  = "State";
                 stateFieldVal.placeholder = "State";
                 stateFieldVal.maxLength = 2;
+
+                var x = document.getElementById("country_div");
+
+                x.style.display = "none";
+
+                document.getElementById("state").style.display = "none";
+                document.getElementById("state_drop_down").style.display = "block";
             }
         }
 
@@ -350,14 +253,22 @@
                 var el = document.createElement("option");
                 el.textContent = optn;
                 el.value = optn;
+                el.name = optn;
+                el.id = optn;
+                el.form = select.form;
                 select.appendChild(el);
             }
 
             loadBusinessTypeList();
 
+            debugger
             loadKindOfEmployer();
 
             loadKindOfPayer();
+
+            loadStateList();
+
+            loadBusinessMemberType();
         }
 
         function loadBusinessTypeList()
@@ -366,9 +277,13 @@
             var select = document.getElementById("business_Type");
 
             for (var i = 0; i < bList.length; i++) {
+                var optn = bList[i];
                 var el = document.createElement("option");
-                el.textContent = bList[i];
-                el.value = bList[i];
+                el.textContent = optn;
+                el.value = optn;
+                el.name = optn;
+                el.id = optn;
+                el.form = select.form;
                 select.appendChild(el);
             }
         }
@@ -379,9 +294,13 @@
             var select = document.getElementById("kind_of_employer");
 
             for (var i = 0; i < eList.length; i++) {
+                var optn = eList[i];
                 var el = document.createElement("option");
-                el.textContent = eList[i];
-                el.value = eList[i];
+                el.textContent = optn;
+                el.value = optn;
+                el.name = optn;
+                el.id = optn;
+                el.form = select.form;
                 select.appendChild(el);
             }
         }
@@ -392,12 +311,50 @@
             var select = document.getElementById("kind_of_payer");
 
             for (var i = 0; i < eList.length; i++) {
+                var optn = eList[i];
                 var el = document.createElement("option");
-                el.textContent = eList[i];
-                el.value = eList[i];
+                el.textContent = optn;
+                el.value = optn;
+                el.name = optn;
+                el.id = optn;
+                el.form = select.form;
                 select.appendChild(el);
             }
         }
-    </script>
+
+        function loadStateList()
+        {
+            var sList = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "AS", "FM", "GU", "MH", "MP", "PW", "PR", "VI", "AA", "AE", "AP"];
+            var select = document.getElementById("state_drop_down");
+
+            for (var i = 0; i < sList.length; i++) {
+                var optn = sList[i];
+                var el = document.createElement("option");
+                el.textContent = optn;
+                el.value = optn;
+                el.name = optn;
+                el.id = optn;
+                el.form = select.form;
+                select.appendChild(el);
+            }
+        }
+        function loadBusinessMemberType()
+        {
+            var typeList = ["CORPORATESECRETARY", "SECRETARYTREASURER", "PARTNER", "GENERALPARTNER", "LIMITEDPARTNER", "LLCMEMBER", "MANAGINGMEMBER", "MANAGER", "TAXMATTERPARTNER", "PRESIDENT", "VICEPRESIDENT", "CORPORATETREASURER", "TREASURER", "ASSISTANTTREASURER", "CHIEFACCOUNTINGOFFICER", "CHIEFEXECUTIVEOFFICER", "CHIEFFINANCIALOFFICER", "TAXOFFICER", "CHIEFOPERATINGOFFICER", "CORPORATEOFFICER", "EXECUTIVEDIRECTOR", "DIRECTOR", "CHAIRMAN", "EXECUTIVEADMINISTRATOR", "RECEIVER", "PASTOR", "ASSISTANTTORELIGIOUSLEADER", "REVEREND", "PRIEST", "MINISTER", "RABBI", "LEADEROFRELIGIOUSORGANIZATION", "SECRETARY", "DIRECTOROFTAXATION", "DIRECTOROFPERSONNEL", "ADMINISTRATOR", "EXECUTOR", "TRUSTEE", "FIDUCIARY", "OWNER", "SOLEPROPRIETOR", "MEMBER", "SOLEMEMBER"];
+            var select = document.getElementById("business_member_type");
+
+            for (var i = 0; i < typeList.length; i++) {
+                var optn = typeList[i];
+                var el = document.createElement("option");
+                el.textContent = optn;
+                el.value = optn;
+                el.name = optn;
+                el.id = optn;
+                el.form = select.form;
+                select.appendChild(el);
+            }
+        }
+
+</script>
 </body>
 </html>

@@ -1,13 +1,12 @@
 import json
 
-from api_services import Business,JwtGeneration
+from api_services import Business, JwtGeneration
 from flask import Flask, render_template, request
 import json
 
 from core.BusinessList import Businesses
 from core.GetBusinssList import BusinessListRequest
 from core.CreateBusinessRequest import CreateBusinessRequest
-
 
 business = Flask(__name__)
 global jwtToken
@@ -18,14 +17,18 @@ def index():
     return render_template('index.html')
 
 
-@business.route('/createbusiness', methods=['POST'])
+@business.route('/createbusiness', methods=['get'])
 def loadCreateBusiness():
     return render_template('createbusiness.html')
+
+# Create Form 1099 NEC
+@business.route('/createForm1099NEC', methods=['get'])
+def loadCreateForm1099NEC():
+    return render_template('create_form_1099_nec.html')
 
 
 @business.route('/success', methods=['POST'])
 def submit():
-
     input_request_json = request.form.to_dict(flat=False)
 
     print(input_request_json)
@@ -35,9 +38,9 @@ def submit():
     if response['StatusCode'] == 200:
 
         return render_template('success.html',
-                               response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' + response[
-                                   'BusinessId'], ErrorMessage=' Business Created Successfully')
-
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' +
+                                        response[
+                                            'BusinessId'], ErrorMessage=' Business Created Successfully')
     else:
 
         return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
@@ -46,17 +49,16 @@ def submit():
 
 @business.route('/detail', methods=['GET'])
 def get_business():
-    business_id=request.args.get('business_id')
+    business_id = request.args.get('business_id')
     ein = request.args.get('ein')
     print(business_id)
     print(ein)
-    response=get_business_detail_api(business_id, ein)
-    return render_template('detail.html',response=response)
+    response = get_business_detail_api(business_id, ein)
+    return render_template('detail.html', response=response)
 
 
-@business.route('/businesslist/')
+@business.route('/businesslist/',me)
 def users():
-
     jwtToken = JwtGeneration.get_jwt_token()
 
     print(jwtToken)
@@ -85,7 +87,6 @@ def users():
 
 
 def create_business(requestJson):
-
     jwtToken = JwtGeneration.get_jwt_token()
 
     print(jwtToken)
@@ -97,6 +98,17 @@ def create_business(requestJson):
 
 def get_business_detail_api(businessId, einOrSSN):
     return Business.get_business_detail(businessId, einOrSSN)
+
+
+@business.route('/detail', methods=['GET'])
+def get_business():
+    business_id = request.args.get()
+    ein = request.args.get('ein')
+    print(business_id)
+    print(ein)
+    response = get_business_detail_api(business_id, ein)
+    return render_template('detail.html', response=response)
+
 
 
 if __name__ == '__main__':

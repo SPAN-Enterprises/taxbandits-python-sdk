@@ -12,7 +12,7 @@
     <p> {{message | safe }}</p>
     {% endif %}
 
-    <form action="/createbusiness" method="post">
+    <form action="/createbusiness" method="get">
         <p>Create Business</p>
 
         <input type="submit" value="Create Business"/>
@@ -23,6 +23,12 @@
 
 
         <input type="submit" value="Get Business List"/>
+    </form>
+
+    <form action="/businesslist" method="get">
+        <p>Form1099NEC</p>
+
+        <input type="submit" value="Create Form10099NEC"/>
     </form>
 
 
