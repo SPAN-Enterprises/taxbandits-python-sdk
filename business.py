@@ -21,6 +21,7 @@ def index():
 def loadCreateBusiness():
     return render_template('createbusiness.html')
 
+
 # Create Form 1099 NEC
 @business.route('/createForm1099NEC', methods=['get'])
 def loadCreateForm1099NEC():
@@ -34,6 +35,8 @@ def submit():
     print(input_request_json)
 
     response = create_business(input_request_json)
+
+    print(response)
 
     if response['StatusCode'] == 200:
 
@@ -57,7 +60,7 @@ def get_business():
     return render_template('detail.html', response=response)
 
 
-@business.route('/businesslist/',me)
+@business.route('/businesslist/', methods=['GET'])
 def users():
     jwtToken = JwtGeneration.get_jwt_token()
 
@@ -87,11 +90,10 @@ def users():
 
 
 def create_business(requestJson):
+
     jwtToken = JwtGeneration.get_jwt_token()
-
-    print(jwtToken)
-
-    JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+    accessToekn = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+    print(accessToekn)
     response = Business.create(requestJson)
     return response
 
@@ -100,15 +102,14 @@ def get_business_detail_api(businessId, einOrSSN):
     return Business.get_business_detail(businessId, einOrSSN)
 
 
-@business.route('/detail', methods=['GET'])
-def get_business():
-    business_id = request.args.get()
-    ein = request.args.get('ein')
-    print(business_id)
-    print(ein)
-    response = get_business_detail_api(business_id, ein)
-    return render_template('detail.html', response=response)
-
+# @business.route('/detail', methods=['GET'])
+# def get_business():
+#     business_id = request.args.get()
+#     ein = request.args.get('ein')
+#     print(business_id)
+#     print(ein)
+#     response = get_business_detail_api(business_id, ein)
+#     return render_template('detail.html', response=response)
 
 
 if __name__ == '__main__':
