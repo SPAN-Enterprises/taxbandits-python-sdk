@@ -6,6 +6,7 @@ import json
 
 from core.BusinessList import Businesses
 from core.GetBusinssList import BusinessListRequest
+from core.CreateBusinessRequest import CreateBusinessRequest
 
 
 business = Flask(__name__)
@@ -24,18 +25,12 @@ def loadCreateBusiness():
 
 @business.route('/success', methods=['POST'])
 def submit():
-    BusinessName = request.form['business_name']
-    EINOrSSN = request.form['ein_or_ssn']
-    print(BusinessName, EINOrSSN)
 
-    if BusinessName == '' or EINOrSSN == '':
-        return render_template('index.html', message='Please enter required fields')
+    input_request_json = request.form.to_dict(flat=False)
 
-    elif len(EINOrSSN) < 9:
-        return render_template('index.html', message='Please enter valid input')
+    print(input_request_json)
 
-    else:
-        response = create_business(BusinessName, EINOrSSN)
+    response = create_business(input_request_json)
 
     if response['StatusCode'] == 200:
 
@@ -89,14 +84,14 @@ def users():
     return render_template('business_list.html', businesses=businesses)
 
 
-def create_business(businessName, einOrSSN):
+def create_business(requestJson):
 
     jwtToken = JwtGeneration.get_jwt_token()
 
     print(jwtToken)
 
     JwtGeneration.get_access_token_by_jwt_token(jwtToken)
-    response = Business.create(businessName, einOrSSN)
+    response = Business.create(requestJson)
     return response
 
 

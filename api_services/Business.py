@@ -8,55 +8,87 @@ from core.SigningAuthority import SigningAuthority
 from api_services import JwtGeneration
 
 # Create the new Business
-def create(businessName, einOrSSN):
+def create(requestJson):
 
     requestModel = CreateBusinessRequest()
-    requestModel.set_BusinessNm(businessName)
-    # requestModel.set_IsEIN(request.form['is_ein'])
-    requestModel.set_EINorSSN(einOrSSN)
-    # requestModel.set_TradeNm(request.form['trade_nm'])
-    # requestModel.set_Email(request.form['email'])
-    # requestModel.set_ContactNm(request.form['contact_nm'])
-    # requestModel.set_Phone(request.form['phone'])
-    # requestModel.set_PhoneExtn(request.form['phone_extn'])
-    # requestModel.set_Fax(request.form['fax'])
-    # requestModel.set_BusinessType(request.form['business_Type'])
-    # requestModel.set_KindOfEmployer(request.form['kind_of_employer'])
-    # requestModel.set_KindOfPayer(request.form['kind_of_payer'])
-    # requestModel.set_IsBusinessTerminated(request.form['is_business_terminated'])
-    # requestModel.set_IsForeign(request.form['is_foreign'])
-    requestModel.set_IsEIN(True)
-    requestModel.set_TradeNm("kodak")
-    requestModel.set_Email("sharmila.k+123@dotnetethics.com")
-    requestModel.set_ContactNm("John")
-    requestModel.set_Phone("1234567890")
-    requestModel.set_PhoneExtn("12345")
-    requestModel.set_Fax("1234567890")
-    requestModel.set_BusinessType("ESTE")
-    requestModel.set_KindOfEmployer("FEDERALGOVT")
-    requestModel.set_KindOfPayer("REGULAR941")
-    requestModel.set_IsBusinessTerminated(False)
-    requestModel.set_IsForeign(True)
+    requestModel.set_BusinessNm(requestJson['business_name'][0])
 
-    saModel = SigningAuthority()
-    # saModel.set_SAName(request.form['sa_name'])
-    # saModel.set_SAPhone(request.form['sa_phone'])
-    # saModel.set_SABusinessMemberType(request.form['business_member_type'])
-    saModel.set_SAName("John")
-    saModel.set_SAPhone("1234567890")
-    saModel.set_SABusinessMemberType("ADMINISTRATOR")
+    if 'is_ein' in requestJson:
+        requestModel.set_IsEIN(True)
+    else:
+        requestModel.set_IsEIN(False)
 
-    requestModel.set_SigningAuthority(saModel.__dict__)
+    requestModel.set_EINorSSN(requestJson['ein_or_ssn'][0])
+
+    if 'trade_nm' in requestJson:
+        requestModel.set_TradeNm(requestJson['trade_nm'][0])
+
+    requestModel.set_Email(requestJson['email'][0])
+
+    if 'contact_nm' in requestJson:
+        requestModel.set_ContactNm(requestJson['contact_nm'][0])
+
+    requestModel.set_Phone(requestJson['phone'][0])
+
+    if 'phone_extn' in requestJson:
+        requestModel.set_PhoneExtn(requestJson['phone_extn'][0])
+
+    if 'fax' in requestJson:
+        requestModel.set_Fax(requestJson['fax'][0])
+
+    if 'business_Type' in requestJson:
+        requestModel.set_BusinessType(requestJson['business_Type'][0])
+    else:
+        requestModel.set_BusinessType('ESTE')
+
+    if 'kind_of_employer' in requestJson:
+        requestModel.set_KindOfEmployer(requestJson['kind_of_employer'][0])
+    else:
+        requestModel.set_KindOfEmployer('FEDERALGOVT')
+
+    if 'kind_of_payer' in requestJson:
+        requestModel.set_KindOfPayer(requestJson['kind_of_payer'][0])
+    else:
+        requestModel.set_KindOfPayer('REGULAR941')
+
+    if 'is_business_terminated' in requestJson:
+        requestModel.set_IsBusinessTerminated(True)
+    else:
+        requestModel.set_IsBusinessTerminated(False)
 
     addressModel = ForeignAddress()
-    addressModel.set_Address1("22 St")
-    addressModel.set_Address2("Clair Ave E")
-    addressModel.set_City("Toronto")
-    addressModel.set_ProvinceOrStateNm("Ontario")
-    addressModel.set_Country("CK")
-    addressModel.set_PostalCd("M1R 0E9")
+
+    if 'is_foreign' in requestJson:
+        requestModel.set_IsForeign(True)
+        addressModel.set_Address1(requestJson['address1'][0])
+        addressModel.set_Address2(requestJson['address2'][0])
+        addressModel.set_City(requestJson['city'][0])
+        addressModel.set_ProvinceOrStateNm(requestJson['state'][0])
+        # addressModel.set_Country(requestJson['country'][0])
+        addressModel.set_Country('CA')
+        addressModel.set_PostalCd(requestJson['zip_cd'][0])
+    else:
+        requestModel.set_IsForeign(False)
+        addressModel.set_Address1(requestJson['address1'][0])
+        addressModel.set_Address2(requestJson['address2'][0])
+        addressModel.set_City(requestJson['city'][0])
+        addressModel.set_State(requestJson['state'][0])
+        addressModel.set_ZipCd(requestJson['zip_cd'][0])
 
     requestModel.set_ForeignAddress(addressModel.__dict__)
+
+    saModel = SigningAuthority()
+
+    if 'sa_name' in requestJson:
+        saModel.set_SAName(requestJson['sa_name'][0])
+
+    if 'sa_phone' in requestJson:
+        saModel.set_SAPhone(requestJson['sa_phone'][0])
+
+    if 'business_member_type' in requestJson:
+        saModel.set_SABusinessMemberType(requestJson['business_member_type'][0])
+
+    requestModel.set_SigningAuthority(saModel.__dict__)
 
     jwtToken = JwtGeneration.get_jwt_token()
 
@@ -75,7 +107,7 @@ def create(businessName, einOrSSN):
                              headers=HeaderUtils.getheaders())
 
     print(f'statuscode = {response.status_code}')
-    print(f'response header = {response.text}')
+    print(f'response header = {response}')
 
     json_obj = json.loads(response.text)
     return json_obj

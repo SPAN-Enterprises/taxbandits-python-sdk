@@ -41,3 +41,15 @@ class ForeignAddress:
 
     def set_PostalCd(self,postal):
         self.PostalCd = postal
+
+    def get_State(self):
+        return self.State
+
+    def set_State(self, state):
+        self.State = state
+
+    def get_ZipCd(self):
+        return self.ZipCd
+
+    def set_ZipCd(self,zipCd):
+        self.ZipCd = zipCd
