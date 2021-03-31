@@ -76,7 +76,7 @@ def users():
 
     get_business_request.set_from_date('03/20/2021')
 
-    get_business_request.set_to_date('03/31/2021')
+    get_business_request.set_to_date('04/31/2021')
 
     response = Business.get_business_list(get_business_request)
 
@@ -102,14 +102,14 @@ def get_business_detail_api(businessId, einOrSSN):
     return Business.get_business_detail(businessId, einOrSSN)
 
 
-# @business.route('/detail', methods=['GET'])
-# def get_business():
-#     business_id = request.args.get()
-#     ein = request.args.get('ein')
-#     print(business_id)
-#     print(ein)
-#     response = get_business_detail_api(business_id, ein)
-#     return render_template('detail.html', response=response)
+@business.route('/neclist', methods=['GET'])
+def get_business():
+    business_id = request.args.get()
+    ein = request.args.get('ein')
+    print(business_id)
+    print(ein)
+    response = get_business_detail_api(business_id, ein)
+    return render_template('detail.html', response=response)
 
 
 if __name__ == '__main__':
