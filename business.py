@@ -1,12 +1,13 @@
 import json
 
-from api_services import Business, JwtGeneration
+from api_services import Business, JwtGeneration, Form1099NEC
 from flask import Flask, render_template, request
 import json
 
 from core.BusinessList import Businesses
 from core.GetBusinssList import BusinessListRequest
 from core.CreateBusinessRequest import CreateBusinessRequest
+from core.RecipientModel import RecipientModel
 
 business = Flask(__name__)
 global jwtToken
@@ -50,6 +51,28 @@ def submit():
                                ErrorMessage='Message=' + json.dumps(response))
 
 
+@business.route('/create1099nec', methods=['POST'])
+def submitCreateForm1099NEC():
+    input_request_json = request.form.to_dict(flat=False)
+
+    print(input_request_json)
+
+    # if 'business_list' in input_request_json:
+    #     x = input_request_json['business_list'].split()
+
+    response = create_form1099_nec()
+
+    if response['StatusCode'] == 200:
+
+        return render_template('success.html',
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' +
+                                        response['SubmissionId'], ErrorMessage=' Form 1099NEC Created Successfully')
+    else:
+
+        return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                               ErrorMessage='Message=' + json.dumps(response))
+
+
 @business.route('/detail', methods=['GET'])
 def get_business():
     business_id = request.args.get('business_id')
@@ -76,7 +99,7 @@ def users():
 
     get_business_request.set_from_date('03/20/2021')
 
-    get_business_request.set_to_date('04/31/2021')
+    get_business_request.set_to_date('03/31/2021')
 
     response = Business.get_business_list(get_business_request)
 
@@ -98,18 +121,79 @@ def create_business(requestJson):
     return response
 
 
+def create_form1099_nec():
+    jwtToken = JwtGeneration.get_jwt_token()
+
+    print(jwtToken)
+
+    JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+    response = Form1099NEC.create()
+    return response
+
+
 def get_business_detail_api(businessId, einOrSSN):
     return Business.get_business_detail(businessId, einOrSSN)
 
 
-@business.route('/neclist', methods=['GET'])
-def get_business():
-    business_id = request.args.get()
-    ein = request.args.get('ein')
-    print(business_id)
-    print(ein)
-    response = get_business_detail_api(business_id, ein)
-    return render_template('detail.html', response=response)
+@business.route('/ReadBusinessList', methods=['GET'])
+def get_businessList():
+    jwtToken = JwtGeneration.get_jwt_token()
+
+    print(jwtToken)
+
+    JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+
+    get_business_request = BusinessListRequest()
+
+    get_business_request.set_page(1)
+
+    get_business_request.set_page_size(20)
+
+    get_business_request.set_from_date('03/20/2021')
+
+    get_business_request.set_to_date('03/31/2021')
+
+    response = Business.get_business_list(get_business_request)
+
+    businesses = response['Businesses']
+
+    print(businesses)
+
+    return render_template('create_form_1099_nec.html', businesses=businesses)
+
+
+# on selecting business from drop down this method gets invoked
+@business.route('/readRecipientsList', methods=['POST'])
+def readRecipientsList():
+    selectedBusiness = request.form['BusinessId']
+    jwtToken = JwtGeneration.get_jwt_token()
+
+    accessToken = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+
+    print(f"\nAccessToken = {accessToken}")
+
+    response = Form1099NEC.getForm1099NECList(selectedBusiness)
+
+    recipientNameList = []
+
+    if response is not None:
+
+        if 'Form1099Records' in response:
+
+            for records in response['Form1099Records']:
+                recipientData = RecipientModel()
+                recipientData.set_RecipientId(records['Recipient']['RecipientId'])
+                recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                recipientNameList.append(recipientData.__dict__)
+
+            return json.dumps(recipientNameList)
+
+    return None
+
+
+def Convert(lst):
+    res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 1)}
+    return res_dct
 
 
 if __name__ == '__main__':

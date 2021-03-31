@@ -12,7 +12,7 @@ apiBaseUrls = {
 
     "O_AUTH_BASE_URL": "http://oauth.taxforall.com/v2/tbsauth",
 
-    "TBS_API_BASE_URL": "http://tbsapi.taxforall.com/v1.6.0/"
+    "TBS_API_BASE_URL": "http://tbsapi.taxforall.com/v1.6.1/"
 
 }
 
