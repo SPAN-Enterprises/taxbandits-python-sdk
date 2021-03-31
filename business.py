@@ -37,6 +37,8 @@ def submit():
 
     response = create_business(input_request_json)
 
+    print(response)
+
     if response['StatusCode'] == 200:
 
         return render_template('success.html',
@@ -111,11 +113,10 @@ def users():
 
 
 def create_business(requestJson):
+
     jwtToken = JwtGeneration.get_jwt_token()
-
-    print(jwtToken)
-
-    JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+    accessToekn = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+    print(accessToekn)
     response = Business.create(requestJson)
     return response
 

@@ -66,6 +66,7 @@ def create(requestJson):
         addressModel.set_ProvinceOrStateNm(requestJson['state'][0])
         addressModel.set_Country(requestJson['country'][0])
         addressModel.set_PostalCd(requestJson['zip_cd'][0])
+        requestModel.set_ForeignAddress(addressModel.__dict__)
     else:
         requestModel.set_IsForeign(False)
         addressModel.set_Address1(requestJson['address1'][0])
@@ -73,8 +74,7 @@ def create(requestJson):
         addressModel.set_City(requestJson['city'][0])
         addressModel.set_State(requestJson['state_drop_down'][0])
         addressModel.set_ZipCd(requestJson['zip_cd'][0])
-
-    requestModel.set_ForeignAddress(addressModel.__dict__)
+        requestModel.set_USAddress(addressModel.__dict__)
 
     saModel = SigningAuthority()
 
@@ -87,13 +87,10 @@ def create(requestJson):
     if 'business_member_type' in requestJson:
         saModel.set_SABusinessMemberType(requestJson['business_member_type'][0])
 
+    else:
+        saModel.set_SABusinessMemberType('ADMINISTRATOR')
+
     requestModel.set_SigningAuthority(saModel.__dict__)
-
-    jwtToken = JwtGeneration.get_jwt_token()
-
-    print(jwtToken)
-
-    access_token = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
 
     # inputData = json.dumps(CreateBusinessRequest.create(requestModel))
 
