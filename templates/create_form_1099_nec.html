@@ -7,42 +7,36 @@
 </head>
 <body>
 <div class="container">
-    <form action="/create1099nec" method="post">
+    <form action="/create1099nec" method="post" id="createForm1099NEC">
         <h2><u>Create a New Form 1099 NEC</u></h2>
 
         <h3>Form1099NEC/Create</h3>
 
         <div class="form-control">
             <label for="business_list">Businesses:</label>
-            <select id="business_list" name="business_list"></select>
+            <select id="business_list" name="business_list" ><!--onclick="loadRecipientsList"-->
+                {% for business in businesses %}
+                    <option value={{ business}}>{{ business}}</option>
+                {% endfor %}
+            </select>
+
+<!--            <select id="recipients_list" name="business_list"></select>-->
             <small>Error message</small>
         </div>
+
+        <div class="form-control">
+            <label for="rName">Recipient Name:</label>
+            <input type="text" name="rName" id="rName" placeholder="Recipient Name" maxlength="35" value="Sharmila K"/>
+            <small>Error message</small>
+        </div>
+        <div class="form-control">
+            <label for="rTIN">Recipient TIN:</label>
+            <input type="text" name="rTIN" id="rTIN" placeholder="Recipient TIN" maxlength="35" value=""/>
+            <small>Error message</small>
+        </div>
+
+        <input type="submit" value="Submit">
     </form>
 </div>
-
-<script>
-
-    (function() {
-        loadElements();
-    })();
-
-    functions loadElements()
-    {
-        $("#select_county").change(function() {
-            $.ajax({
-                type: "POST",
-                url: "{{ url_for('select_county') }}",
-                data: {
-                    county: $("#select_county").val()
-                },
-                success: function(data) {
-                    $("#select_city").html(data);
-                }
-            });
-        });
-    }
-
-
-</script>
 </body>
 </html>
