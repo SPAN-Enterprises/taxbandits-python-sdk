@@ -26,7 +26,7 @@ def get_access_token_by_jwt_token(jwtToken):
 
         Config.access_token = response.json()['AccessToken']
 
-    # return response.json()['AccessToken']
+        return response.json()['AccessToken']
 
     else:
 

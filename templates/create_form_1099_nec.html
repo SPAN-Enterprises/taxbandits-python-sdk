@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Create Form1099 NEC</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -14,14 +16,13 @@
 
         <div class="form-control">
             <label for="business_list">Businesses:</label>
-            <select id="business_list" name="business_list" ><!--onclick="loadRecipientsList"-->
+            <select id="business_list" name="business_list">
                 {% for business in businesses %}
-                    <option value={{ business}}>{{ business}}</option>
+                    <option value={{ business.BusinessId}}>{{ business.BusinessNm}}</option>
                 {% endfor %}
             </select>
 
-<!--            <select id="recipients_list" name="business_list"></select>-->
-            <small>Error message</small>
+            <select class="form-control" id="recipientsDropDown" name="recipientsDropDown"></select>
         </div>
 
         <div class="form-control">
@@ -29,14 +30,47 @@
             <input type="text" name="rName" id="rName" placeholder="Recipient Name" maxlength="35" value="Sharmila K"/>
             <small>Error message</small>
         </div>
+
         <div class="form-control">
             <label for="rTIN">Recipient TIN:</label>
             <input type="text" name="rTIN" id="rTIN" placeholder="Recipient TIN" maxlength="35" value=""/>
             <small>Error message</small>
         </div>
 
+        <div class="form-control">
+            <label for="amount">Amount:</label>
+            <input type="number" name="amount" id="amount" placeholder="Amount" value="10.25"/>
+            <small>Error message</small>
+        </div>
+
         <input type="submit" value="Submit">
     </form>
 </div>
+
+<script type=text/javascript>
+
+    $(function(){
+	$('#business_list').change(function(){
+        debugger
+		$.ajax({
+			url: '/readRecipientsList',
+			data: {BusinessId: $('#business_list').val()},
+			type: 'POST',
+			success: function(data){
+				console.log(data);
+				var s = '<option value="-1">Select Recipient</option>';
+				var jsonData = JSON.parse(data)
+                for (var i = 0; i < jsonData.length; i++) {
+                    s += '<option value="' + jsonData[i].RecipientId + '">' + jsonData[i].FirstPayeeNm + '</option>';
+                }
+               $("#recipientsDropDown").html(s);
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	});
+});
+</script>
 </body>
 </html>
