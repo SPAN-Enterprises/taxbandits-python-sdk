@@ -18,11 +18,14 @@
             <label for="business_list">Businesses:</label>
             <select id="business_list" name="business_list">
                 {% for business in businesses %}
-                <option value={{ business.BusinessId}}>{{ business.BusinessNm}}</option>
+                <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
                 {% endfor %}
             </select>
+        </div>
 
-            <select class="form-control" id="recipientsDropDown" name="recipientsDropDown">
+        <div class="form-control">
+            <label for="recipientsDropDown">Recipients:</label>
+            <select class="form-control" id="recipientsDropDown" name="recipientsDropDown" onchange="onRecipientClicked()">
                 <option value="-1">Select Recipient</option>
             </select>
         </div>
@@ -51,6 +54,7 @@
 
 <script type=text/javascript>
 
+    var recipientList = []
     $(function(){
 	$('#business_list').change(function(){
         debugger
@@ -69,7 +73,7 @@
                     if(jsonData!=null && jsonData.length>0)
                     {
                         for (var i = 0; i < jsonData.length; i++) {
-                            s += '<option value="' + jsonData[i].RecipientId + '" name="' + jsonData[i].RecipientId + '">' + jsonData[i].FirstPayeeNm + '</option>';
+                            s += '<option value="' + jsonData[i].RecipientId + '" name="' + jsonData[i].TIN + '">' + jsonData[i].FirstPayeeNm + '</option>';
                         }
                     }
                }
@@ -81,6 +85,21 @@
 		});
 	});
 });
+
+    function onRecipientClicked()
+    {
+        var e = document.getElementById("recipientsDropDown");
+        var strAtt = e.options[e.selectedIndex].getAttribute('name'); // will return the value
+        console.log(strAtt);
+        debugger
+
+        if(strAtt!=null)
+        {
+            strAtt = strAtt.replace("-","");
+            document.getElementById("rTIN").innerHTML = strAtt;
+            document.getElementById("rTIN").value = strAtt;
+        }
+    }
 
 </script>
 </body>

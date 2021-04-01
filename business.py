@@ -206,6 +206,7 @@ def readRecipientsList():
                     recipientData = RecipientModel()
                     recipientData.set_RecipientId(records['Recipient']['RecipientId'])
                     recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                    recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientNameList.append(recipientData.__dict__)
 
     return json.dumps(recipientNameList)
