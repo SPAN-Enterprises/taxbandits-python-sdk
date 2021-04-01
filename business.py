@@ -7,6 +7,7 @@ import json
 from core.BusinessList import Businesses
 from core.GetBusinssList import BusinessListRequest
 from core.CreateBusinessRequest import CreateBusinessRequest
+from core.GetNecListRequest import GetNecListRequest
 from core.RecipientModel import RecipientModel
 
 business = Flask(__name__)
@@ -113,7 +114,6 @@ def users():
 
 
 def create_business(requestJson):
-
     jwtToken = JwtGeneration.get_jwt_token()
     accessToekn = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
     print(accessToekn)
@@ -173,6 +173,74 @@ def readRecipientsList():
     print(f"\nAccessToken = {accessToken}")
 
     response = Form1099NEC.getForm1099NECList(selectedBusiness)
+
+    recipientNameList = []
+
+    if response is not None:
+
+        if 'Form1099Records' in response:
+
+            for records in response['Form1099Records']:
+                recipientData = RecipientModel()
+                recipientData.set_RecipientId(records['Recipient']['RecipientId'])
+                recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                recipientNameList.append(recipientData.__dict__)
+
+            return json.dumps(recipientNameList)
+
+    return None
+
+
+@business.route('/FormNecList', methods=['GET'])
+def get_nec_list():
+    accessToken = JwtGeneration.get_access_token_by_jwt_token(JwtGeneration.get_jwt_token())
+
+    print(accessToken)
+
+    JwtGeneration.get_jwt_token()
+
+    get_business_request = BusinessListRequest()
+
+    get_business_request.set_page(1)
+
+    get_business_request.set_page_size(20)
+
+    get_business_request.set_from_date('03/20/2021')
+
+    get_business_request.set_to_date('03/31/2021')
+
+    response = Business.get_business_list(get_business_request)
+
+    businesses = response['Businesses']
+
+    print(businesses)
+
+    return render_template('form_1099_nec_list.html', businesses=businesses)
+
+
+@business.route('/nec_list', methods=['POST'])
+def form1099NecList():
+    jwtToken = JwtGeneration.get_jwt_token()
+
+    accessToken = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+
+    print(f"\nAccessToken = {accessToken}")
+
+    get_nec_request = GetNecListRequest()
+
+    get_nec_request.set_business_id(request.form['BusinessId'])
+
+    get_nec_request.set_page(1)
+
+    get_nec_request.set_page_size(20)
+
+    get_nec_request.set_from_date('03/20/2021')
+
+    get_nec_request.set_to_date('04/31/2021')
+
+    response = Business.get_nec_list(get_nec_request)
+
+    print(response)
 
     recipientNameList = []
 

@@ -1,4 +1,4 @@
-class BusinessListRequest:
+class GetNecListRequest:
 
     def get_page_size(self):
         return self._page_size
@@ -23,4 +23,10 @@ class BusinessListRequest:
 
     def set_to_date(self, to_date):
         self._to_date = to_date
+
+    def get_business_id(self):
+            return self._business_id
+
+    def set_business_id(self, business_id):
+        self._business_id = business_id
 
