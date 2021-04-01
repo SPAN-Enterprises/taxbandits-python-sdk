@@ -146,8 +146,4 @@ def get_nec_list(get_list_request: GetNecListRequest):
                                     "BusinessId": get_list_request.get_business_id(),
                                     "ToDate": get_list_request.get_to_date()}, headers=HeaderUtils.getheaders())
 
-    print(response.url)
-
-    print(response.json())
-
     return response.json()

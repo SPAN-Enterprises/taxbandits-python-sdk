@@ -81,6 +81,8 @@ def submitCreateForm1099NEC():
 
     response = create_form1099_nec(businessId, recipientId, rName, rTIN, amount)
 
+    print(response)
+
     if response['StatusCode'] == 200:
 
         return render_template('success.html',
@@ -140,7 +142,6 @@ def create_business(requestJson):
 
 
 def create_form1099_nec(businessId, recipientId, rName, rTIN, amount):
-
     jwtToken = JwtGeneration.get_jwt_token()
 
     print(jwtToken)
@@ -149,7 +150,7 @@ def create_form1099_nec(businessId, recipientId, rName, rTIN, amount):
 
     response = Form1099NEC.create(businessId, recipientId, rName, rTIN, amount)
 
-    return response
+    return response.json()
 
 
 def get_business_detail_api(businessId, einOrSSN):
@@ -261,23 +262,11 @@ def form1099NecList():
 
     response = Business.get_nec_list(get_nec_request)
 
-    print(response)
+    data = json.dumps(response)
 
-    recipientNameList = []
+    print(data)
 
-    if response is not None:
-
-        if 'Form1099Records' in response:
-
-            for records in response['Form1099Records']:
-                recipientData = RecipientModel()
-                recipientData.set_RecipientId(records['Recipient']['RecipientId'])
-                recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
-                recipientNameList.append(recipientData.__dict__)
-
-            return json.dumps(recipientNameList)
-
-    return None
+    return data
 
 
 def Convert(lst):
