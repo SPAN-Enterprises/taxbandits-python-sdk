@@ -18,11 +18,13 @@
             <label for="business_list">Businesses:</label>
             <select id="business_list" name="business_list">
                 {% for business in businesses %}
-                    <option value={{ business.BusinessId}}>{{ business.BusinessNm}}</option>
+                <option value={{ business.BusinessId}}>{{ business.BusinessNm}}</option>
                 {% endfor %}
             </select>
 
-            <select class="form-control" id="recipientsDropDown" name="recipientsDropDown"></select>
+            <select class="form-control" id="recipientsDropDown" name="recipientsDropDown">
+                <option value="-1">Select Recipient</option>
+            </select>
         </div>
 
         <div class="form-control">
@@ -33,7 +35,7 @@
 
         <div class="form-control">
             <label for="rTIN">Recipient TIN:</label>
-            <input type="text" name="rTIN" id="rTIN" placeholder="Recipient TIN" maxlength="35" value=""/>
+            <input type="text" name="rTIN" id="rTIN" placeholder="Recipient TIN" maxlength="9" value=""/>
             <small>Error message</small>
         </div>
 
@@ -57,12 +59,20 @@
 			data: {BusinessId: $('#business_list').val()},
 			type: 'POST',
 			success: function(data){
-				console.log(data);
-				var s = '<option value="-1">Select Recipient</option>';
-				var jsonData = JSON.parse(data)
-                for (var i = 0; i < jsonData.length; i++) {
-                    s += '<option value="' + jsonData[i].RecipientId + '">' + jsonData[i].FirstPayeeNm + '</option>';
-                }
+                var s = '<option value="-1">Select Recipient</option>';
+			    if(data!=null)
+				{
+				    console.log(data);
+
+                    var jsonData = JSON.parse(data)
+
+                    if(jsonData!=null && jsonData.length>0)
+                    {
+                        for (var i = 0; i < jsonData.length; i++) {
+                            s += '<option value="' + jsonData[i].RecipientId + '" name="' + jsonData[i].RecipientId + '">' + jsonData[i].FirstPayeeNm + '</option>';
+                        }
+                    }
+               }
                $("#recipientsDropDown").html(s);
 			},
 			error: function(error){
@@ -71,6 +81,7 @@
 		});
 	});
 });
+
 </script>
 </body>
 </html>

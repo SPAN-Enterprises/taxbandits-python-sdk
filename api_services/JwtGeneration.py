@@ -26,7 +26,11 @@ def get_access_token_by_jwt_token(jwtToken):
 
         Config.access_token = response.json()['AccessToken']
 
-        return response.json()['AccessToken']
+        accessToken = response.json()['AccessToken']
+
+        print(f"Access Token = {accessToken}")
+
+        return accessToken
 
     else:
 
