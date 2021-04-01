@@ -36,14 +36,15 @@ def create(businessId, recipientId, rName, rTIN, amount):
     scheduleFiling.set_EfileDate("04/05/2021")
     submissionManifest.set_ScheduleFiling(scheduleFiling.__dict__)
     requestModel.set_SubmissionManifest(submissionManifest.__dict__)
-    print(f"Submission Manifest  = {requestModel.__dict__}")
     returnDataList = []
     returnData = ReturnDataModel()
     # returnData.set_RecordId(null)
     returnData.set_SequenceId("1")
     # set Recipient data
     recipientModel = RecipientModel()
-    recipientModel.set_RecipientId(recipientId)
+    if recipientId != '-1':
+        recipientModel.set_RecipientId(recipientId)
+
     recipientModel.set_TINType("EIN")
     recipientModel.set_TIN(rTIN)
     recipientModel.set_FirstPayeeNm(rName)
@@ -95,10 +96,7 @@ def create(businessId, recipientId, rName, rTIN, amount):
                              headers=HeaderUtils.getheaders())
 
     if response.status_code == 200:
-        json_obj = json.loads(response.text)
-        print(f"\nResponse --------------------> Form1099NEC/create \n{json_obj}")
-        return json_obj
-    else:
+
         return response
 
 

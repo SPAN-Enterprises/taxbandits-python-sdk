@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Form1099 NEC</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+        <h2><u>Form 1099 NEC LIST</u></h2>
+
+        <h3>Form1099NEC/List</h3>
+
+        <div class="form-control">
+            <label for="business_list">Businesses:</label>
+            <select id="business_list" name="business_list">
+                {% for business in businesses %}
+                    <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <input type="submit" value="Get">
+
+</div>
+
+<script type=text/javascript>
+
+    $(function(){
+	$('#business_list').change(function(){
+		$.ajax({
+			url: '/nec_list',
+			data: {BusinessId: $('#business_list').val()},
+			type: 'POST',
+			success: function(data){
+				console.log(data);
+				var s = '<option value="-1">Select Recipient</option>';
+				var jsonData = JSON.parse(data)
+                for (var i = 0; i < jsonData.length; i++) {
+                    console.log(jsonData[i]);
+                }
+               $("#recipientsDropDown").html(s);
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	});
+});
+</script>
+</body>
+</html>
