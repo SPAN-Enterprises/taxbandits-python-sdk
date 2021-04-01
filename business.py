@@ -58,15 +58,33 @@ def submitCreateForm1099NEC():
 
     print(input_request_json)
 
-    # if 'business_list' in input_request_json:
-    #     x = input_request_json['business_list'].split()
+    businessId = ''
 
-    response = create_form1099_nec()
+    if 'business_list' in input_request_json:
+        businessId = input_request_json['business_list'][0]
+
+    rName = ''
+    if 'rName' in input_request_json:
+        rName = input_request_json['rName'][0]
+
+    rTIN = ''
+    if 'rTIN' in input_request_json:
+        rTIN = input_request_json['rTIN'][0]
+
+    amount = ''
+    if 'amount' in input_request_json:
+        amount = input_request_json['amount'][0]
+
+    recipientId = None
+    if 'recipientsDropDown' in input_request_json:
+        recipientId = input_request_json['recipientsDropDown'][0]
+
+    response = create_form1099_nec(businessId, recipientId, rName, rTIN, amount)
 
     if response['StatusCode'] == 200:
 
         return render_template('success.html',
-                               response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' +
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
                                         response['SubmissionId'], ErrorMessage=' Form 1099NEC Created Successfully')
     else:
 
@@ -121,13 +139,16 @@ def create_business(requestJson):
     return response
 
 
-def create_form1099_nec():
+def create_form1099_nec(businessId, recipientId, rName, rTIN, amount):
+
     jwtToken = JwtGeneration.get_jwt_token()
 
     print(jwtToken)
 
     JwtGeneration.get_access_token_by_jwt_token(jwtToken)
-    response = Form1099NEC.create()
+
+    response = Form1099NEC.create(businessId, recipientId, rName, rTIN, amount)
+
     return response
 
 
@@ -180,15 +201,15 @@ def readRecipientsList():
 
         if 'Form1099Records' in response:
 
-            for records in response['Form1099Records']:
-                recipientData = RecipientModel()
-                recipientData.set_RecipientId(records['Recipient']['RecipientId'])
-                recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
-                recipientNameList.append(recipientData.__dict__)
+            if response['Form1099Records'] is not None:
 
-            return json.dumps(recipientNameList)
+                for records in response['Form1099Records']:
+                    recipientData = RecipientModel()
+                    recipientData.set_RecipientId(records['Recipient']['RecipientId'])
+                    recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                    recipientNameList.append(recipientData.__dict__)
 
-    return None
+    return json.dumps(recipientNameList)
 
 
 @business.route('/FormNecList', methods=['GET'])

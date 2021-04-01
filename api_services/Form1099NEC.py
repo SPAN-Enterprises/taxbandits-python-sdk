@@ -13,17 +13,18 @@ from core.CreateBusinessRequest import CreateBusinessRequest
 from core.ForeignAddress import ForeignAddress
 
 
-def create():
+def create(businessId, recipientId, rName, rTIN, amount):
     requestModel = CreateForm1099NECModel()
 
     returnHeader = ReturnHeaderModel()
     businessModel = CreateBusinessRequest()
-    businessModel.set_BusinessId("0fd6e0a3-f122-4cdc-a4da-25cb155010e1")
+    # businessModel.set_BusinessId("0fd6e0a3-f122-4cdc-a4da-25cb155010e1")
+    businessModel.set_BusinessId(businessId)
     returnHeader.set_Business(businessModel.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
     submissionManifest = SubmissionManifestModel()
-    submissionManifest.set_SubmissionId(None)
+    # submissionManifest.set_SubmissionId(null)
     submissionManifest.set_TaxYear(2020)
     submissionManifest.set_IsFederalFiling(2020)
     submissionManifest.set_IsStateFiling(True)
@@ -32,21 +33,21 @@ def create():
     submissionManifest.set_IsTinMatching(True)
     submissionManifest.set_IsScheduleFiling(True)
     scheduleFiling = SubmissionManifestModel()
-    scheduleFiling.set_EfileDate("03/31/2021")
+    scheduleFiling.set_EfileDate("04/05/2021")
     submissionManifest.set_ScheduleFiling(scheduleFiling.__dict__)
     requestModel.set_SubmissionManifest(submissionManifest.__dict__)
     print(f"Submission Manifest  = {requestModel.__dict__}")
     returnDataList = []
     returnData = ReturnDataModel()
-    returnData.set_RecordId(None)
+    # returnData.set_RecordId(null)
     returnData.set_SequenceId("1")
     # set Recipient data
     recipientModel = RecipientModel()
-    recipientModel.set_RecipientId(None)
+    recipientModel.set_RecipientId(recipientId)
     recipientModel.set_TINType("EIN")
-    recipientModel.set_TIN("393814579")
-    recipientModel.set_FirstPayeeNm("Marken")
-    recipientModel.set_SecondPayeeNm("Davis")
+    recipientModel.set_TIN(rTIN)
+    recipientModel.set_FirstPayeeNm(rName)
+    recipientModel.set_SecondPayeeNm("")
     recipientModel.set_IsForeign(False)
     usAddress = ForeignAddress()
     usAddress.set_Address1("1751 Kinsey Rd")
@@ -55,14 +56,14 @@ def create():
     usAddress.set_State("AL")
     usAddress.set_ZipCd("36303")
     recipientModel.set_USAddress(usAddress.__dict__)
-    recipientModel.set_ForeignAddress(None)
+    # recipientModel.set_ForeignAddress(null)
     recipientModel.set_Email("sharmila.k@dotnetethics.com")
     recipientModel.set_Fax("1234567890")
     recipientModel.set_Phone("1234567890")
     returnData.set_Recipient(recipientModel.__dict__)
     # set NEC data
     necFormDataModel = NECFormDataModel()
-    necFormDataModel.set_B1NEC(100)
+    necFormDataModel.set_B1NEC(amount)
     necFormDataModel.set_B4FedTaxWH(54.12)
     necFormDataModel.set_IsFATCA(True)
     necFormDataModel.set_Is2ndTINnot(True)
