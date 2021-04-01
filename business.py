@@ -5,6 +5,7 @@ from flask import Flask, render_template, request
 import json
 
 from core.BusinessList import Businesses
+from core.Form1099NecList import Form1099NecList
 from core.GetBusinssList import BusinessListRequest
 from core.CreateBusinessRequest import CreateBusinessRequest
 from core.GetNecListRequest import GetNecListRequest
@@ -225,7 +226,7 @@ def get_nec_list():
 
     get_business_request.set_page(1)
 
-    get_business_request.set_page_size(20)
+    get_business_request.set_page_size(50)
 
     get_business_request.set_from_date('03/20/2021')
 
@@ -254,7 +255,7 @@ def form1099NecList():
 
     get_nec_request.set_page(1)
 
-    get_nec_request.set_page_size(20)
+    get_nec_request.set_page_size(50)
 
     get_nec_request.set_from_date('03/20/2021')
 
@@ -262,11 +263,26 @@ def form1099NecList():
 
     response = Business.get_nec_list(get_nec_request)
 
-    data = json.dumps(response)
+    print(response)
 
-    print(data)
+    form1099NecList= []
 
-    return data
+    if response is not None:
+
+        if 'Form1099Records' in response:
+
+            if response['Form1099Records'] is not None:
+
+                for records in response['Form1099Records']:
+
+                    recipientData = Form1099NecList()
+                    recipientData.set_BusinessNm(records['BusinessNm'])
+                    recipientData.set_SubmissionId(records['SubmissionId'])
+                    form1099NecList.append(recipientData.__dict__)
+
+
+
+    return json.dumps(form1099NecList)
 
 
 def Convert(lst):
