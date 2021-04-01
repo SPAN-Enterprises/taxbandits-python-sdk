@@ -266,7 +266,7 @@ def form1099NecList():
 
     print(response)
 
-    form1099NecList= []
+    form1099NecList = []
 
     if response is not None:
 
@@ -275,13 +275,13 @@ def form1099NecList():
             if response['Form1099Records'] is not None:
 
                 for records in response['Form1099Records']:
-
                     recipientData = Form1099NecList()
-                    recipientData.set_BusinessNm(records['BusinessNm'])
+                    recipientData.set_RecipientNm(records['Recipient']['RecipientNm'])
+                    recipientData.set_TIN(records['Recipient']['TIN'])
+                    recipientData.set_RecipientId(records['Recipient']['RecordId'])
                     recipientData.set_SubmissionId(records['SubmissionId'])
+                    recipientData.set_BusinessNm(records['BusinessNm'])
                     form1099NecList.append(recipientData.__dict__)
-
-
 
     return json.dumps(form1099NecList)
 

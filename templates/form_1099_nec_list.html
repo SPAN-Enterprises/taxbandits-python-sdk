@@ -46,37 +46,41 @@
 			success: function(data){
 
                 var jsonData = JSON.parse(data);
+                debugger
+                // Make a container element for the list
+                listContainer = document.createElement('p');
+                // Make the list
+                listElement = document.createElement('ul');
+                // Set up a loop that goes through the items in listItems one at a time
+                var numberOfListItems = jsonData.length;
+                var listItem;
+                var i;
+                // Add it to the page
+                document.getElementsByTagName('body')[0].appendChild(listContainer);
+                listContainer.appendChild(listElement);
 
+                for (i = 0; i < numberOfListItems; ++i) {
+                    // create an item for each one
+                        rName = document.createElement('h3');
+                        businessName = document.createElement('p');
+                        listItem = document.createElement('p');
+                        listItem1 = document.createElement('p');
+                        brTag = document.createElement('br');
 
-                 // Make a container element for the list
-    listContainer = document.createElement('div');
-    // Make the list
-    listElement = document.createElement('ul');
-    // Set up a loop that goes through the items in listItems one at a time
-  var numberOfListItems = jsonData.length;
-   var listItem;
-    var i;
+                        // Add the item text
+                        rName.innerHTML = jsonData[i]['RecipientNm'] +' - '+jsonData[i]['TIN'];
+                        listItem.innerHTML = 'SubmissionId: '+ jsonData[i]['SubmissionId'];
+                        listItem1.innerHTML = 'RecordId: '+ jsonData[i]['RecipientId'];
+                        businessName.innerHTML = jsonData[i]['BusinessNm'];
 
-    // Add it to the page
-    document.getElementsByTagName('body')[0].appendChild(listContainer);
-    listContainer.appendChild(listElement);
-
-    for (i = 0; i < numberOfListItems; ++i) {
-        // create an item for each one
-        listItem = document.createElement('li');
-         listItem1 = document.createElement('li');
-        console.log(jsonData[i])
-        // Add the item text
-        listItem.innerHTML = 'SubmissionId: '+ jsonData[i]['SubmissionId'];
-        listItem1.innerHTML = 'BusinessNamem: '+ jsonData[i]['BusinessNm'];
-
-
-        // Add listItem to the listElement
-        listElement.appendChild(listItem);
-         listElement.appendChild(listItem1);
-    }
-
-			},
+                        // Add listItem to the listElement
+                        listElement.appendChild(rName);
+                        listElement.appendChild(listItem);
+                        listElement.appendChild(listItem1);
+                        listElement.appendChild(businessName);
+                        listElement.appendChild(brTag);
+               }
+            },
 			error: function(error){
 				console.log(error);
 			}
