@@ -10,7 +10,7 @@ pip install requests
 
 pip install time
 
-In case of any error in import statement run the following,
+In case of any error in import statement run the following command,
 
 pip install --upgrade werkzeug==0.12.2
 

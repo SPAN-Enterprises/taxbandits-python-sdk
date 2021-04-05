@@ -11,27 +11,27 @@ from core.CreateBusinessRequest import CreateBusinessRequest
 from core.GetNecListRequest import GetNecListRequest
 from core.RecipientModel import RecipientModel
 
-business = Flask(__name__)
+appInstance = Flask(__name__)
 global jwtToken
 
 
-@business.route('/')
+@appInstance.route('/')
 def index():
     return render_template('index.html')
 
 
-@business.route('/createbusiness', methods=['get'])
+@appInstance.route('/createbusiness', methods=['get'])
 def loadCreateBusiness():
     return render_template('createbusiness.html')
 
 
 # Create Form 1099 NEC
-@business.route('/createForm1099NEC', methods=['get'])
+@appInstance.route('/createForm1099NEC', methods=['get'])
 def loadCreateForm1099NEC():
     return render_template('create_form_1099_nec.html')
 
 
-@business.route('/success', methods=['POST'])
+@appInstance.route('/success', methods=['POST'])
 def submit():
     input_request_json = request.form.to_dict(flat=False)
 
@@ -53,7 +53,7 @@ def submit():
                                ErrorMessage='Message=' + json.dumps(response))
 
 
-@business.route('/create1099nec', methods=['POST'])
+@appInstance.route('/create1099nec', methods=['POST'])
 def submitCreateForm1099NEC():
     input_request_json = request.form.to_dict(flat=False)
 
@@ -95,7 +95,7 @@ def submitCreateForm1099NEC():
                                ErrorMessage='Message=' + json.dumps(response))
 
 
-@business.route('/detail', methods=['GET'])
+@appInstance.route('/detail', methods=['GET'])
 def get_business():
     business_id = request.args.get('business_id')
     ein = request.args.get('ein')
@@ -105,7 +105,7 @@ def get_business():
     return render_template('detail.html', response=response)
 
 
-@business.route('/businesslist/', methods=['GET'])
+@appInstance.route('/businesslist/', methods=['GET'])
 def users():
     jwtToken = JwtGeneration.get_jwt_token()
 
@@ -158,7 +158,7 @@ def get_business_detail_api(businessId, einOrSSN):
     return Business.get_business_detail(businessId, einOrSSN)
 
 
-@business.route('/ReadBusinessList', methods=['GET'])
+@appInstance.route('/ReadBusinessList', methods=['GET'])
 def get_businessList():
     jwtToken = JwtGeneration.get_jwt_token()
 
@@ -186,12 +186,11 @@ def get_businessList():
 
 
 # on selecting business from drop down this method gets invoked
-@business.route('/readRecipientsList', methods=['POST'])
+@appInstance.route('/readRecipientsList', methods=['POST'])
 def readRecipientsList():
     selectedBusiness = request.form['BusinessId']
-    jwtToken = JwtGeneration.get_jwt_token()
 
-    accessToken = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+    accessToken = JwtGeneration.get_access_token_by_jwt_token(JwtGeneration.get_jwt_token())
 
     print(f"\nAccessToken = {accessToken}")
 
@@ -215,7 +214,7 @@ def readRecipientsList():
     return json.dumps(recipientNameList)
 
 
-@business.route('/FormNecList', methods=['GET'])
+@appInstance.route('/FormNecList', methods=['GET'])
 def get_nec_list():
     accessToken = JwtGeneration.get_access_token_by_jwt_token(JwtGeneration.get_jwt_token())
 
@@ -242,7 +241,7 @@ def get_nec_list():
     return render_template('form_1099_nec_list.html', businesses=businesses)
 
 
-@business.route('/nec_list', methods=['POST'])
+@appInstance.route('/nec_list', methods=['POST'])
 def form1099NecList():
     jwtToken = JwtGeneration.get_jwt_token()
 
@@ -286,11 +285,7 @@ def form1099NecList():
     return json.dumps(form1099NecList)
 
 
-def Convert(lst):
-    res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 1)}
-    return res_dct
-
-
+# Entry point for application
 if __name__ == '__main__':
-    business.debug = True
-    business.run()
+    appInstance.debug = True
+    appInstance.run()
