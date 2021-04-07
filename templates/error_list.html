@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Errors List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/errors_table_css.css') }}">
+</head>
+<body>
+
+<div class="form-control">
+    <h2>Errors</h2>
+    <h3>{{status}}</h3>
+    <br>
+    <table id="errors">
+        <tr>
+            <th>Error Name</th>
+            <th>Message</th>
+        </tr>
+        {% for error in errorList %}
+        <tr>
+            <td> {{ error.Name}}</td>
+            <td> {{ error.Message}}</td>
+        </tr>
+
+        {% endfor %}
+    </table>
+
+</div>
+</body>
+</html>
