@@ -11,7 +11,4 @@ def getheaders():
 
         print(f"\nAccessToken = {Config.access_token}")
 
-    else:
-        print(f"\nAccessToken = {Config.access_token}")
-
     return {'Authorization': 'Bearer ' + Config.access_token, 'Content-Type': 'application/json'}
