@@ -29,7 +29,6 @@ input[type=submit]:hover {
 
 div.container {
   border-radius: 5px;
-  background-color: #f2f2f2;
   padding: 20px;
 }
 
@@ -46,3 +45,4 @@ div.container {
 	outline: 0;
 	border-color: #777;
 }
+

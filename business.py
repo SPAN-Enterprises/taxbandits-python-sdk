@@ -42,6 +42,10 @@ def submit():
                                response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' +
                                         response[
                                             'BusinessId'], ErrorMessage=' Business Created Successfully')
+
+    elif 'Errors' in response and response['Errors'] is not None:
+
+        return render_template('error_list.html', errorList=response['Errors'], status=str(response['StatusCode'])+" - "+str(response['StatusName'])+" - "+str(response['StatusMessage']))
     else:
 
         return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
@@ -84,6 +88,10 @@ def submitCreateForm1099NEC():
         return render_template('success.html',
                                response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
                                         response['SubmissionId'], ErrorMessage=' Form 1099NEC Created Successfully')
+
+    elif 'Errors' in response and response['Errors'] is not None:
+
+        return render_template('error_list.html', errorList=response['Errors'], status=str(response['StatusCode'])+" - "+str(response['StatusName'])+" - "+str(response['StatusMessage']))
     else:
 
         return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),

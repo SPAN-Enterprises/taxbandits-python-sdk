@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Create Form1099 NEC</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
-
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -91,7 +91,7 @@
         var e = document.getElementById("recipientsDropDown");
         var strAtt = e.options[e.selectedIndex].getAttribute('name'); // will return the value
         console.log(strAtt);
-        debugger
+
 
         if(strAtt!=null)
         {

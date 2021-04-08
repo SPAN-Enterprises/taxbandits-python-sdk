@@ -111,7 +111,7 @@ def create(requestJson):
         json_obj = json.loads(response.text)
         return json_obj
     else:
-        return response
+        return response.json()
 
 
 # Get Business Information by using BusinessId and EIN

@@ -2,11 +2,7 @@ from api_services import Business, JwtGeneration
 from core import BusinessList
 from core.GetBusinssList import BusinessListRequest
 
-jwtToken = JwtGeneration.get_jwt_token()
-
-print(jwtToken)
-
-access_token = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
+access_token = JwtGeneration.get_access_token_by_jwt_token()
 
 get_business_request = BusinessListRequest()
 

@@ -4,38 +4,49 @@
     <meta charset="UTF-8">
     <title>Create Form1099 NEC</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/card_list_design.css') }}">
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
 
-        <h2><u>Form 1099 NEC LIST</u></h2>
+    <h2><u>Form 1099 NEC LIST</u></h2>
 
-        <h3>Form1099NEC/List</h3>
+    <h3>Form1099NEC/List</h3>
 
-        <div class="form-control">
-            <label for="business_list">Businesses:</label>
-            <select id="business_list" name="business_list">
-                {% for business in businesses %}
-                    <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
-                {% endfor %}
-            </select>
+    <div class="form-control">
+        <label for="business_list">Businesses:</label>
+        <select id="business_list" name="business_list">
+            {% for business in businesses %}
+            <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-<!--            <select class="form-control" id="recipientsDropDown" name="recipientsDropDown">-->
-<!--                <option value="-1">Select Recipient</option>-->
-<!--            </select>-->
-
+    <div>
+        <h2>List:</h2><br>
+        <div id="listDiv" class="card">
 
         </div>
+    </div>
 
+    <div class="card" id="noDataDiv">
 
-
-<!--        <input type="submit" value="Get">-->
+        <div class="container1">
+            <h3>No data found</h3>
+        </div>
+    </div>
 
 </div>
 
 <script type=text/javascript>
+
+    function removeAllChildNodes(parent) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
 
     $(function(){
 	$('#business_list').change(function(){
@@ -48,37 +59,49 @@
                 var jsonData = JSON.parse(data);
                 debugger
                 // Make a container element for the list
-                listContainer = document.createElement('p');
+                listContainer = document.getElementById("listDiv");
                 // Make the list
-                listElement = document.createElement('ul');
+                listElement = document.createElement('div');
+                listElement.className = "container2";
+                removeAllChildNodes(listContainer);
                 // Set up a loop that goes through the items in listItems one at a time
                 var numberOfListItems = jsonData.length;
                 var listItem;
                 var i;
                 // Add it to the page
-                document.getElementsByTagName('body')[0].appendChild(listContainer);
-                listContainer.appendChild(listElement);
 
-                for (i = 0; i < numberOfListItems; ++i) {
-                    // create an item for each one
-                        rName = document.createElement('h3');
-                        businessName = document.createElement('p');
-                        listItem = document.createElement('p');
-                        listItem1 = document.createElement('p');
-                        brTag = document.createElement('br');
+                if(numberOfListItems>0)
+                {
 
-                        // Add the item text
-                        rName.innerHTML = jsonData[i]['RecipientNm'] +' - '+jsonData[i]['TIN'];
-                        listItem.innerHTML = 'SubmissionId: '+ jsonData[i]['SubmissionId'];
-                        listItem1.innerHTML = 'RecordId: '+ jsonData[i]['RecipientId'];
-                        businessName.innerHTML = jsonData[i]['BusinessNm'];
+                    listContainer.appendChild(listElement);
+                    document.getElementById("noDataDiv").style.display = "none";
+                    for (i = 0; i < numberOfListItems; ++i) {
+                        // create an item for each one
+                            rName = document.createElement('h3');
+                            businessName = document.createElement('p');
+                            listItem = document.createElement('p');
+                            listItem1 = document.createElement('p');
 
-                        // Add listItem to the listElement
-                        listElement.appendChild(rName);
-                        listElement.appendChild(listItem);
-                        listElement.appendChild(listItem1);
-                        listElement.appendChild(businessName);
-                        listElement.appendChild(brTag);
+                            // Add the item text
+                            rName.innerHTML = jsonData[i]['RecipientNm'] +' - '+jsonData[i]['TIN'];
+                            listItem.innerHTML = 'SubmissionId: '+ jsonData[i]['SubmissionId'];
+                            listItem1.innerHTML = 'RecordId: '+ jsonData[i]['RecipientId'];
+                            businessName.innerHTML = jsonData[i]['BusinessNm'];
+
+                            // Add listItem to the listElement
+                            listElement.appendChild(rName);
+                            listElement.appendChild(listItem);
+                            listElement.appendChild(listItem1);
+                            listElement.appendChild(businessName);
+                            listElement.appendChild(document.createElement('br'));
+
+                            if((i+1)!=numberOfListItems)
+                                listElement.appendChild(document.createElement('hr'));
+                   }
+               }
+               else
+               {
+                    document.getElementById("noDataDiv").style.display = "block";
                }
             },
 			error: function(error){
@@ -87,6 +110,11 @@
 		});
 	});
 });
+
+
+
+
+
 </script>
 </body>
 </html>
