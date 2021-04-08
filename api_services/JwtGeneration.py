@@ -27,7 +27,8 @@ def get_access_token_by_jwt_token():
 
     jwtToken = get_jwt_token()
 
-    headers = {'Authentication': jwtToken, 'Content-Type': 'application/json'}
+    headers = {'Authentication': jwtToken,  # Generated JWS
+               'Content-Type': 'application/json'}
 
     response = requests.get(Config.apiBaseUrls["O_AUTH_BASE_URL"], headers=headers)
 
