@@ -107,11 +107,6 @@ def get_business():
 
 @appInstance.route('/businesslist/', methods=['GET'])
 def users():
-    jwtToken = JwtGeneration.get_jwt_token()
-
-    print(jwtToken)
-
-    JwtGeneration.get_access_token_by_jwt_token(jwtToken)
 
     get_business_request = BusinessListRequest()
 
@@ -135,22 +130,12 @@ def users():
 
 
 def create_business(requestJson):
-    jwtToken = JwtGeneration.get_jwt_token()
-    accessToekn = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
-    print(accessToekn)
     response = Business.create(requestJson)
     return response
 
 
 def create_form1099_nec(businessId, recipientId, rName, rTIN, amount):
-    jwtToken = JwtGeneration.get_jwt_token()
-
-    print(jwtToken)
-
-    JwtGeneration.get_access_token_by_jwt_token(jwtToken)
-
     response = Form1099NEC.create(businessId, recipientId, rName, rTIN, amount)
-
     return response.json()
 
 
@@ -160,11 +145,6 @@ def get_business_detail_api(businessId, einOrSSN):
 
 @appInstance.route('/ReadBusinessList', methods=['GET'])
 def get_businessList():
-    jwtToken = JwtGeneration.get_jwt_token()
-
-    print(jwtToken)
-
-    JwtGeneration.get_access_token_by_jwt_token(jwtToken)
 
     get_business_request = BusinessListRequest()
 
@@ -190,10 +170,6 @@ def get_businessList():
 def readRecipientsList():
     selectedBusiness = request.form['BusinessId']
 
-    accessToken = JwtGeneration.get_access_token_by_jwt_token(JwtGeneration.get_jwt_token())
-
-    print(f"\nAccessToken = {accessToken}")
-
     response = Form1099NEC.getForm1099NECList(selectedBusiness)
 
     recipientNameList = []
@@ -216,11 +192,6 @@ def readRecipientsList():
 
 @appInstance.route('/FormNecList', methods=['GET'])
 def get_nec_list():
-    accessToken = JwtGeneration.get_access_token_by_jwt_token(JwtGeneration.get_jwt_token())
-
-    print(accessToken)
-
-    JwtGeneration.get_jwt_token()
 
     get_business_request = BusinessListRequest()
 
@@ -243,11 +214,6 @@ def get_nec_list():
 
 @appInstance.route('/nec_list', methods=['POST'])
 def form1099NecList():
-    jwtToken = JwtGeneration.get_jwt_token()
-
-    accessToken = JwtGeneration.get_access_token_by_jwt_token(jwtToken)
-
-    print(f"\nAccessToken = {accessToken}")
 
     get_nec_request = GetNecListRequest()
 

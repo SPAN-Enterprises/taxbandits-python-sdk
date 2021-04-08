@@ -24,9 +24,9 @@ def get_access_token_by_jwt_token(jwtToken):
 
     if response.status_code == 200:
 
-        Config.access_token = response.json()['AccessToken']
-
         accessToken = response.json()['AccessToken']
+
+        Config.access_token = accessToken
 
         print(f"Access Token = {accessToken}")
 
