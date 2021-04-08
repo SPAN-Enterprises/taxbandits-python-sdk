@@ -23,9 +23,7 @@ def get_jwt_token():
 
 
 # Returns the Access token generated using JWS
-def get_access_token_by_jwt_token():
-
-    jwtToken = get_jwt_token()
+def get_access_token_by_jwt_token(jwtToken):
 
     headers = {'Authentication': jwtToken,  # Generated JWS
                'Content-Type': 'application/json'}
@@ -34,11 +32,11 @@ def get_access_token_by_jwt_token():
 
     if response.status_code == 200:
 
-        Config.access_token = response.json()['AccessToken']
-
         accessToken = response.json()['AccessToken']
 
-        print(f"\nAccess Token = {accessToken}")
+        Config.access_token = accessToken
+
+        print(f"Access Token = {accessToken}")
 
         return accessToken
 

@@ -1,13 +1,8 @@
-import json
-
 from api_services import Business, JwtGeneration, Form1099NEC
 from flask import Flask, render_template, request
 import json
-
-from core.BusinessList import Businesses
 from core.Form1099NecList import Form1099NecList
 from core.GetBusinssList import BusinessListRequest
-from core.CreateBusinessRequest import CreateBusinessRequest
 from core.GetNecListRequest import GetNecListRequest
 from core.RecipientModel import RecipientModel
 
@@ -116,8 +111,6 @@ def get_business():
 @appInstance.route('/businesslist/', methods=['GET'])
 def users():
 
-    JwtGeneration.get_access_token_by_jwt_token()
-
     get_business_request = BusinessListRequest()
 
     get_business_request.set_page(1)
@@ -126,7 +119,7 @@ def users():
 
     get_business_request.set_from_date('03/20/2021')
 
-    get_business_request.set_to_date('03/31/2021')
+    get_business_request.set_to_date('04/31/2021')
 
     response = Business.get_business_list(get_business_request)
 
@@ -140,18 +133,12 @@ def users():
 
 
 def create_business(requestJson):
-
-    accessToken = JwtGeneration.get_access_token_by_jwt_token()
-    print(accessToken)
     response = Business.create(requestJson)
     return response
 
 
 def create_form1099_nec(businessId, recipientId, rName, rTIN, amount):
-    JwtGeneration.get_access_token_by_jwt_token()
-
     response = Form1099NEC.create(businessId, recipientId, rName, rTIN, amount)
-
     return response.json()
 
 
@@ -161,8 +148,6 @@ def get_business_detail_api(businessId, einOrSSN):
 
 @appInstance.route('/ReadBusinessList', methods=['GET'])
 def get_businessList():
-
-    JwtGeneration.get_access_token_by_jwt_token()
 
     get_business_request = BusinessListRequest()
 
@@ -188,8 +173,6 @@ def get_businessList():
 def readRecipientsList():
     selectedBusiness = request.form['BusinessId']
 
-    accessToken = JwtGeneration.get_access_token_by_jwt_token()
-
     response = Form1099NEC.getForm1099NECList(selectedBusiness)
 
     recipientNameList = []
@@ -212,7 +195,6 @@ def readRecipientsList():
 
 @appInstance.route('/FormNecList', methods=['GET'])
 def get_nec_list():
-    JwtGeneration.get_access_token_by_jwt_token()
 
     get_business_request = BusinessListRequest()
 
@@ -222,7 +204,7 @@ def get_nec_list():
 
     get_business_request.set_from_date('03/20/2021')
 
-    get_business_request.set_to_date('03/31/2021')
+    get_business_request.set_to_date('04/31/2021')
 
     response = Business.get_business_list(get_business_request)
 
@@ -235,8 +217,6 @@ def get_nec_list():
 
 @appInstance.route('/nec_list', methods=['POST'])
 def form1099NecList():
-
-    JwtGeneration.get_access_token_by_jwt_token()
 
     get_nec_request = GetNecListRequest()
 
