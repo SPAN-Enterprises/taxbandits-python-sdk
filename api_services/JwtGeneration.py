@@ -23,9 +23,7 @@ def get_jwt_token():
 
 
 # Returns the Access token generated using JWS
-def get_access_token_by_jwt_token():
-
-    jwtToken = get_jwt_token()
+def get_access_token_by_jwt_token(jwtToken):
 
     headers = {'Authentication': jwtToken, 'Content-Type': 'application/json'}
 
