@@ -4,20 +4,29 @@ import time
 import requests
 
 
-# get JWT Token by using user credential
+# Generate JWS using the Client Id, Secret Id and User Token
 def get_jwt_token():
-    epoch_time = int(time.time())
 
-    payload = {"iss": Config.userCredential["CLIENT_ID"], "sub": Config.userCredential["CLIENT_ID"],
-               "aud": Config.userCredential["USER_TOKEN"], "iat": epoch_time}
+    epoch_time = int(time.time())  # current UTC time in milliseconds
 
-    print(f"Time = {epoch_time}")
+    payload = {"iss": Config.userCredential["CLIENT_ID"],  # Issuer: Client ID retrieved from the console site
+               "sub": Config.userCredential["CLIENT_ID"],  # Subject: Client ID retrieved from the console site
+               "aud": Config.userCredential["USER_TOKEN"],  # Audience: User Token retrieved from the console site
+               "iat": epoch_time  # Issued at: Number of seconds from Jan 1 1970 00:00:00 (Unix epoch format)
+               }
 
-    return jwt.encode(payload, Config.userCredential["SECRET_ID"], algorithm="HS256")
+    jws = jwt.encode(payload, Config.userCredential["SECRET_ID"], algorithm="HS256")  # JWS generation using HS256 algorithm
+
+    print(jws)
+
+    return jws
 
 
-# get Access token by using jwt token
-def get_access_token_by_jwt_token(jwtToken):
+# Returns the Access token generated using JWS
+def get_access_token_by_jwt_token():
+
+    jwtToken = get_jwt_token()
+
     headers = {'Authentication': jwtToken, 'Content-Type': 'application/json'}
 
     response = requests.get(Config.apiBaseUrls["O_AUTH_BASE_URL"], headers=headers)
@@ -28,7 +37,7 @@ def get_access_token_by_jwt_token(jwtToken):
 
         accessToken = response.json()['AccessToken']
 
-        print(f"Access Token = {accessToken}")
+        print(f"\nAccess Token = {accessToken}")
 
         return accessToken
 
