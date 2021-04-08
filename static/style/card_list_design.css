@@ -17,3 +17,14 @@
   padding: 2px 16px;
   background-color: #f2f2f2;
 }
+
+span
+{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 80%;
+  right: 20%;
+  -ms-transform: translate(-100%, -50%);
+  transform: translate(-100%, -50%);
+}

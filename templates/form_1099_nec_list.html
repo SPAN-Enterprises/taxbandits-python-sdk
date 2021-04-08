@@ -93,6 +93,14 @@
                             listElement.appendChild(listItem);
                             listElement.appendChild(listItem1);
                             listElement.appendChild(businessName);
+
+                            if(jsonData[i])
+                            {
+                                transmitBtn = document.createElement('button');
+                                listElement.appendChild(transmitBtn);
+                                transmitBtn.innerHTML = "Transmit";
+                                transmitBtn.value = jsonData[i]['SubmissionId']
+                            }
                             listElement.appendChild(document.createElement('br'));
 
                             if((i+1)!=numberOfListItems)
