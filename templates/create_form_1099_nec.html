@@ -25,7 +25,8 @@
 
         <div class="form-control">
             <label for="recipientsDropDown">Recipients:</label>
-            <select class="form-control" id="recipientsDropDown" name="recipientsDropDown" onchange="onRecipientClicked()">
+            <select class="form-control" id="recipientsDropDown" name="recipientsDropDown"
+                    onchange="onRecipientClicked()">
                 <option value="-1">Select Recipient</option>
             </select>
         </div>
@@ -48,6 +49,9 @@
             <small>Error message</small>
         </div>
 
+
+        <span>Other values are hard coded</span>
+        <br>
         <input type="submit" value="Submit">
     </form>
 </div>
@@ -100,6 +104,7 @@
             document.getElementById("rTIN").value = strAtt;
         }
     }
+
 
 </script>
 </body>

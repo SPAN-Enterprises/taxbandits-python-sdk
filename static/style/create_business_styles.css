@@ -46,3 +46,8 @@ div.container {
 	border-color: #777;
 }
 
+span {
+    font-style: italic;
+    font-size: 15px;
+    color:blue;
+}
