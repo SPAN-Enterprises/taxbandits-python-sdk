@@ -14,19 +14,7 @@ This is a sample based on Python, Flask and JWT to show how to authenticate and 
 ## Requirements
 Ensure you have Python 3.6 and above and pip version 21.0.1 and above
 
-1. pip install pipenv
-
-2. pip install flask
-
-3. pip install pyjwt
-
-4. pip install requests
-
-5. pip install time
-
-> In case of any error in import statement run the following command
-
-> pip install --upgrade werkzeug==0.12.2
+> pip install -r requirements.txt
 
 ## Usage
 
