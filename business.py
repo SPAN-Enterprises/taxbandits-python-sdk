@@ -5,6 +5,17 @@ from core.Form1099NecList import Form1099NecList
 from core.GetBusinssList import BusinessListRequest
 from core.GetNecListRequest import GetNecListRequest
 from core.RecipientModel import RecipientModel
+import base64
+import ssl
+import threading
+import os
+import pymongo
+import json
+from flask import Flask, request
+from pyngrok import ngrok
+import hmac
+import hashlib
+from utils import Config
 
 appInstance = Flask(__name__)
 global jwtToken
@@ -45,7 +56,9 @@ def submit():
 
     elif 'Errors' in response and response['Errors'] is not None:
 
-        return render_template('error_list.html', errorList=response['Errors'], status=str(response['StatusCode'])+" - "+str(response['StatusName'])+" - "+str(response['StatusMessage']))
+        return render_template('error_list.html', errorList=response['Errors'],
+                               status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                   response['StatusMessage']))
     else:
 
         return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
@@ -91,7 +104,9 @@ def submitCreateForm1099NEC():
 
     elif 'Errors' in response and response['Errors'] is not None:
 
-        return render_template('error_list.html', errorList=response['Errors'], status=str(response['StatusCode'])+" - "+str(response['StatusName'])+" - "+str(response['StatusMessage']))
+        return render_template('error_list.html', errorList=response['Errors'],
+                               status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                   response['StatusMessage']))
     else:
 
         return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
@@ -110,7 +125,6 @@ def get_business():
 
 @appInstance.route('/businesslist/', methods=['GET'])
 def users():
-
     get_business_request = BusinessListRequest()
 
     get_business_request.set_page(1)
@@ -148,7 +162,6 @@ def get_business_detail_api(businessId, einOrSSN):
 
 @appInstance.route('/ReadBusinessList', methods=['GET'])
 def get_businessList():
-
     get_business_request = BusinessListRequest()
 
     get_business_request.set_page(1)
@@ -195,7 +208,6 @@ def readRecipientsList():
 
 @appInstance.route('/FormNecList', methods=['GET'])
 def get_nec_list():
-
     get_business_request = BusinessListRequest()
 
     get_business_request.set_page(1)
@@ -217,7 +229,6 @@ def get_nec_list():
 
 @appInstance.route('/nec_list', methods=['POST'])
 def form1099NecList():
-
     get_nec_request = GetNecListRequest()
 
     get_nec_request.set_business_id(request.form['BusinessId'])
@@ -244,7 +255,7 @@ def form1099NecList():
 
                 for records in response['Form1099Records']:
                     recipientData = Form1099NecList()
-                    recipientData.set_RecipientNm(records['Recipient']['RecipientNm'])
+                    recipientData.set_RecipientNm(records['Recipient']['RecipientName'])
                     recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientData.set_RecipientId(records['Recipient']['RecordId'])
                     recipientData.set_SubmissionId(records['SubmissionId'])
@@ -257,7 +268,6 @@ def form1099NecList():
 
 @appInstance.route('/transmitForm1099NEC', methods=['GET'])
 def transmitForm1099NEC():
-
     splittedIds = request.args.get('submissionId').split("_")
 
     recordList = [splittedIds[1]]
@@ -268,7 +278,8 @@ def transmitForm1099NEC():
 
         if response['StatusCode'] == 200:
 
-            return render_template('success.html', response='StatusMessage=' + response['StatusMessage'], ErrorMessage='Return Transmitted Successfully')
+            return render_template('success.html', response='StatusMessage=' + response['StatusMessage'],
+                                   ErrorMessage='Return Transmitted Successfully')
 
         elif 'Errors' in response and response['Errors'] is not None:
 
@@ -278,6 +289,64 @@ def transmitForm1099NEC():
         else:
             return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
                                    ErrorMessage='Message=' + json.dumps(response))
+
+
+port = 5000
+
+# Open a ngrok tunnel to the HTTP server
+public_url = ngrok.connect(port).public_url + "/getWebhook"
+print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}/getWebhook\"".format(public_url, port))
+
+
+# ... Update inbound traffic via APIs to use the public-facing ngrok URL
+
+
+def saveResponseInMongoDb(response):
+    client = pymongo.MongoClient(
+        "mongodb+srv://subbuleaf:d$$9943111606@cluster0.kaf9y.mongodb.net/pythonSDK?retryWrites=true&w=majority&authSource=admin",
+        ssl_cert_reqs=ssl.CERT_NONE)
+    mydb = client["pythonSDK"]
+    mycol = mydb["FormNEC"]
+    print(response)
+    entity = json.loads(response)
+    mycol.save(entity)
+
+
+@appInstance.route("/getWebhook", methods=['POST'])
+def getWebhook():
+    json_content = request.json
+    response = json.dumps(json_content)
+    print("response" + response)
+    Timestamp = request.headers.get('Timestamp')
+    Signature = request.headers.get('Signature')
+
+    print("Signature " + Signature + "Timestamp " + Timestamp)
+
+    isSignatureValid = validate(Timestamp, Signature)
+
+    if isSignatureValid:
+        saveResponseInMongoDb(response)
+
+
+# Start the Flask server in a new thread
+threading.Thread(target=appInstance.run, kwargs={"use_reloader": False}).start()
+
+
+def validate(Timestamp, Signature):
+    message = Config.userCredential["CLIENT_ID"] + "\n" + Timestamp
+    print(message)
+    digest = hmac.new(Config.userCredential["SECRET_ID"].encode('utf-8'),
+                      msg=message.encode('utf-8'),
+                      digestmod=hashlib.sha256
+                      ).digest()
+    signature = base64.b64encode(digest).decode()
+
+    print(signature)
+
+    if (signature == Signature):
+        return True
+    else:
+        return False
 
 
 # Entry point for application

@@ -2,20 +2,14 @@ import base64
 import ssl
 import threading
 import os
-
-import bson
 import pymongo
-import requests
 import json
-from flask import Flask, request, render_template
+from flask import Flask, request
 from pyngrok import ngrok
 import hmac
 import hashlib
-
-from core.WebHookResponse import WebHookResponse
 from utils import Config
-import pprint
-from pprint import pprint
+
 
 os.environ["FLASK_ENV"] = "development"
 
