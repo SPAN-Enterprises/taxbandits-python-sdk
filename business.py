@@ -254,6 +254,10 @@ def form1099NecList():
 
     return json.dumps(form1099NecList)
 
+@appInstance.route('/80/', methods=['GET'])
+def getPdf():
+    print()
+
 
 @appInstance.route('/transmitForm1099NEC', methods=['GET'])
 def transmitForm1099NEC():
