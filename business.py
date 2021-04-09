@@ -249,12 +249,38 @@ def form1099NecList():
                     recipientData.set_RecipientId(records['Recipient']['RecordId'])
                     recipientData.set_SubmissionId(records['SubmissionId'])
                     recipientData.set_BusinessNm(records['BusinessNm'])
+                    recipientData.set_Status(records['Recipient']['Status'])
                     form1099NecList.append(recipientData.__dict__)
 
     return json.dumps(form1099NecList)
 
 
-#Entry point for application
+@appInstance.route('/transmitForm1099NEC', methods=['GET'])
+def transmitForm1099NEC():
+
+    splittedIds = request.args.get('submissionId').split("_")
+
+    recordList = [splittedIds[1]]
+
+    response = Form1099NEC.transmitForm1099NEC(splittedIds[0], recordList)
+
+    if response is not None:
+
+        if response['StatusCode'] == 200:
+
+            return render_template('success.html', response='StatusMessage=' + response['StatusMessage'], ErrorMessage='Return Transmitted Successfully')
+
+        elif 'Errors' in response and response['Errors'] is not None:
+
+            return render_template('error_list.html', errorList=response['Errors'],
+                                   status=str(response['StatusCode']) + " - " + str(
+                                       response['StatusName']) + " - " + str(response['StatusMessage']))
+        else:
+            return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                                   ErrorMessage='Message=' + json.dumps(response))
+
+
+# Entry point for application
 if __name__ == '__main__':
     appInstance.debug = True
     appInstance.run()

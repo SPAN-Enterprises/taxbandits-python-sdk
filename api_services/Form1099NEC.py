@@ -11,6 +11,7 @@ from core.NECFormDataModel import NECFormDataModel
 from core.RecipientModel import RecipientModel
 from core.CreateBusinessRequest import CreateBusinessRequest
 from core.ForeignAddress import ForeignAddress
+from core.TransmitForm1099NECModel import TransmitForm1099NECModel
 
 
 def create(businessId, recipientId, rName, rTIN, amount):
@@ -44,6 +45,8 @@ def create(businessId, recipientId, rName, rTIN, amount):
     recipientModel = RecipientModel()
     if recipientId != '-1':
         recipientModel.set_RecipientId(recipientId)
+    else:
+        recipientModel.set_RecipientId('')
 
     recipientModel.set_TINType("EIN")
     recipientModel.set_TIN(rTIN)
@@ -96,7 +99,6 @@ def create(businessId, recipientId, rName, rTIN, amount):
                              headers=HeaderUtils.getheaders())
 
     if response.status_code == 200:
-
         return response
 
 
@@ -108,5 +110,22 @@ def getForm1099NECList(businessId):
                             params={"BusinessId": businessId}, headers=HeaderUtils.getheaders())
 
     print(response.json())
+
+    return response.json()
+
+
+def transmitForm1099NEC(submissionId, recordId):
+    requestModel = TransmitForm1099NECModel()
+
+    requestModel.set_SubmissionId(submissionId)
+    requestModel.set_RecordIds(recordId)
+
+    print(f"{Config.apiBaseUrls['TBS_API_BASE_URL']} {EndPointConfig.TRANSMIT_FORM_1099NEC} \n REQUEST--> {requestModel.__dict__}")
+
+    response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_1099NEC,
+                             data=json.dumps(requestModel.__dict__),
+                             headers=HeaderUtils.getheaders())
+
+    print(f"RESPONSE of {EndPointConfig.TRANSMIT_FORM_1099NEC} --> {response.json()}")
 
     return response.json()

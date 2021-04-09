@@ -48,6 +48,13 @@
         }
     }
 
+    function transmitClicked(submissionId)
+    {
+        debugger;
+        console.log(submissionId);
+        window.location = '/transmitForm1099NEC?submissionId=' + submissionId;
+    }
+
     $(function(){
 	$('#business_list').change(function(){
 		$.ajax({
@@ -76,7 +83,7 @@
                     listContainer.appendChild(listElement);
                     document.getElementById("noDataDiv").style.display = "none";
                     for (i = 0; i < numberOfListItems; ++i) {
-                        // create an item for each one
+                            // create an item for each one
                             rName = document.createElement('h3');
                             businessName = document.createElement('p');
                             listItem = document.createElement('p');
@@ -85,6 +92,7 @@
                             // Add the item text
                             rName.innerHTML = jsonData[i]['RecipientNm'] +' - '+jsonData[i]['TIN'];
                             listItem.innerHTML = 'SubmissionId: '+ jsonData[i]['SubmissionId'];
+                            listItem.value = jsonData[i]['SubmissionId'];
                             listItem1.innerHTML = 'RecordId: '+ jsonData[i]['RecipientId'];
                             businessName.innerHTML = jsonData[i]['BusinessNm'];
 
@@ -93,13 +101,18 @@
                             listElement.appendChild(listItem);
                             listElement.appendChild(listItem1);
                             listElement.appendChild(businessName);
-
-                            if(jsonData[i])
+                            debugger
+                            if(jsonData[i]['Status'] == "CREATED")
                             {
                                 transmitBtn = document.createElement('button');
-                                listElement.appendChild(transmitBtn);
                                 transmitBtn.innerHTML = "Transmit";
-                                transmitBtn.value = jsonData[i]['SubmissionId']
+                                transmitBtn.value = jsonData[i]['SubmissionId'];
+                                idVal = jsonData[i]['SubmissionId']+"_"+jsonData[i]['RecipientId'];
+                                transmitBtn.setAttribute("id", idVal);
+                                listElement.appendChild(transmitBtn);
+                                document.getElementById(idVal).addEventListener("click", function(e){
+                                    transmitClicked(e.target.id);
+                                });
                             }
                             listElement.appendChild(document.createElement('br'));
 
