@@ -255,6 +255,7 @@ def form1099NecList():
 
 @appInstance.route('/80/', methods=['GET'])
 def getPdf():
+    print()
 
 
 #Entry point for application
