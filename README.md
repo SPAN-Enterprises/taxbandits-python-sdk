@@ -1,4 +1,5 @@
 ![TaxBandits Logo](/static/logo.png)
+
 #TaxBandits Python Sample SDK
 ***
 This is a sample based on Python, Flask and JWT to show how to authenticate and handshake with TaxBandits API. This sample includes:
@@ -44,7 +45,6 @@ Ensure you have Python 3.6 and above and pip version 21.0.1 and above
 
 You need to signup with TaxBandits Sandbox Developer Console at https://sandbox.taxbandits.com to get the keys to run the SDK. See below for more directions:
 ### To get the sandbox keys:
-
 ​
 
 - Go to Sandbox Developer console: https://sandbox.taxbandits.com.
