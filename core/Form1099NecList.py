@@ -29,3 +29,9 @@ class Form1099NecList:
 
     def set_TIN(self, TIN):
         self.TIN = TIN
+
+    def get_Status(self):
+        return self.Status
+
+    def set_Status(self, Status):
+        self.Status = Status
