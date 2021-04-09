@@ -1,7 +1,6 @@
 ![TaxBandits Logo](/static/logo.png)
 
 # TaxBandits Python Sample SDK
-
 ***
 This is a sample based on Python, Flask and JWT to show how to authenticate and handshake with TaxBandits API. This sample includes:
 
