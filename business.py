@@ -253,10 +253,6 @@ def form1099NecList():
 
     return json.dumps(form1099NecList)
 
-@appInstance.route('/80/', methods=['GET'])
-def getPdf():
-    print()
-
 
 #Entry point for application
 if __name__ == '__main__':
