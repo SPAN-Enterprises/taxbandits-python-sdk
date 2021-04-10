@@ -159,9 +159,9 @@ def get_business_list():
 
     get_business_request.set_page(1)
 
-    get_business_request.set_page_size(20)
+    get_business_request.set_page_size(100)
 
-    get_business_request.set_from_date('03/20/2021')
+    get_business_request.set_from_date('03/01/2021')
 
     get_business_request.set_to_date('04/31/2021')
 
@@ -205,7 +205,7 @@ def get_nec_list():
 
     get_business_request.set_page(1)
 
-    get_business_request.set_page_size(50)
+    get_business_request.set_page_size(100)
 
     get_business_request.set_from_date('03/01/2021')
 
