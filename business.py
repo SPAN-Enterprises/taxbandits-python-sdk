@@ -8,7 +8,7 @@ import threading
 import json
 from flask import Flask, request
 from pyngrok import ngrok
-from repository.PdfWebHook import saveResponseInMongoDb
+from repository.PdfWebHook import  save_response_in_mongodb
 from utils.SignatureValidation import validate
 
 appInstance = Flask(__name__)
@@ -296,7 +296,9 @@ def get_web_hook():
         isSignatureValid = validate(Timestamp, Signature)
 
         if isSignatureValid:
-            saveResponseInMongoDb(response)
+            save_response_in_mongodb(response)
+
+        return
     else:
         print(request.json)
 
