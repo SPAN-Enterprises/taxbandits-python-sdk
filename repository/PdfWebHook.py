@@ -11,4 +11,4 @@ def save_response_in_mongodb(response):
     my_collection = my_database["FormNEC"]
     print(response)
     entity = json.loads(response)
-    my_collection.save(entity)
+    return my_collection.save(entity)

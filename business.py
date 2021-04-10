@@ -298,9 +298,10 @@ def get_web_hook():
         if isSignatureValid:
             save_response_in_mongodb(response)
 
-        return
-    else:
-        print(request.json)
+        else:
+            print(request.json)
+
+        return "OK"
 
 
 # Open a ngrok tunnel to the HTTP server
