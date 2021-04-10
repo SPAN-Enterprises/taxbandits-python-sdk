@@ -8,7 +8,7 @@ import threading
 import json
 from flask import Flask, request
 from pyngrok import ngrok
-from repository.PdfWebHook import  save_response_in_mongodb
+from repository.PdfWebHook import save_response_in_mongodb
 from utils.SignatureValidation import validate
 
 appInstance = Flask(__name__)
@@ -302,6 +302,7 @@ def get_web_hook():
     else:
         print(request.json)
 
+
 # Open a ngrok tunnel to the HTTP server
 port = 5000
 public_url = ngrok.connect(port).public_url + "/getWebhook"
@@ -309,6 +310,3 @@ print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}/getWebhook\"".format(publ
 
 # Start the Flask server in a new thread
 threading.Thread(target=appInstance.run, kwargs={"use_reloader": False}).start()
-
-
-
