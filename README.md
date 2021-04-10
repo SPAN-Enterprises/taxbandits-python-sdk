@@ -1,11 +1,10 @@
 ![TaxBandits Logo](/static/logo.png)
 ​
 # TaxBandits Python Sample SDK
-​
 ***
 This is a sample based on Python, Flask, ngrok, mongodb and JWT to show how to authenticate and handshake with TaxBandits API. This sample includes:
 ​
-- Create Buisness
+- Create Business
 - View Businesses
 - Create Form 1099-NEC
 - View Form 1099-NEC
@@ -57,7 +56,6 @@ apiBaseUrls = {
 }
 ```
 ## Usage
-​
 ```javascript {highlight=[1, 10]}
  > python business.py
  * Serving Flask app "business" (lazy loading)
