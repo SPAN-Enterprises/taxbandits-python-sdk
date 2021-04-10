@@ -38,6 +38,7 @@ Sandbox Application URL: https://testapp.taxbandits.com
 Ensure you have Python 3.6 and above and pip version 21.0.1 and above
 ​
 > pip install -r requirements.txt
+
 ​
 Under utils folder in Config.py add your client secret, client id, user token and auth/api endpoints. The file should look like this
 ​
