@@ -28,9 +28,11 @@ You need to signup with TaxBandits Sandbox Developer Console at https://sandbox.
 ​
 Sandbox Auth Server: https://testoauth.expressauth.net/v2/tbsauth
 ​
+
 ​
 API Server: https://testapi.taxbandits.com/v1.6.1
 ​
+
 ​
 Sandbox Application URL: https://testapp.taxbandits.com
 ​
