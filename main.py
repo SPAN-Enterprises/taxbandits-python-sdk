@@ -2,20 +2,14 @@ import base64
 import ssl
 import threading
 import os
-
-import bson
 import pymongo
-import requests
 import json
-from flask import Flask, request, render_template
+from flask import Flask, request
 from pyngrok import ngrok
 import hmac
 import hashlib
-
-from core.WebHookResponse import WebHookResponse
 from utils import Config
-import pprint
-from pprint import pprint
+
 
 os.environ["FLASK_ENV"] = "development"
 
@@ -34,14 +28,12 @@ app.config["BASE_URL"] = public_url
 
 
 def saveResponseInMongoDb(response):
-    client = pymongo.MongoClient(
-        "mongodb+srv://subbuleaf:d$$9943111606@cluster0.kaf9y.mongodb.net/pythonSDK?retryWrites=true&w=majority",
-        ssl_cert_reqs=ssl.CERT_NONE)
+    client = pymongo.MongoClient("mongodb+srv://subbuleaf:d$$9943111606@cluster0.kaf9y.mongodb.net/pythonSDK?retryWrites=true&w=majority&authSource=admin",ssl_cert_reqs=ssl.CERT_NONE)
     mydb = client["pythonSDK"]
     mycol = mydb["FormNEC"]
     print(response)
-    #mydict = {"SubmissionId": "b870040d-fded-420b-b424-28bf0dd11261", "FormType": "FORM941", "Records": [{"RecordId": "5e2433ef-0d2e-4d8d-beba-06dac739a9fc", "SequenceId": "001", "FileName": "5e2433ef-0d2e-4d8d-beba-06dac739a9fc.Zip", "FilePath": "https://expressirsforms.s3.amazonaws.com/TempPdfFiles/5e2433ef-0d2e-4d8d-beba-06dac739a9fc.zip", "Status": "SUCCESS", "StatusTime": "2021-04-09T12:41:17.2950159-04:00", "Errors": None}]}
-    x = mycol.insert(response["SubmissionId"])
+    entity = json.loads(response)
+    mycol.save(entity)
 
 
 @app.route("/getWebhook", methods=['POST'])
