@@ -248,7 +248,10 @@ def form1099NecList():
 
                 for records in response['Form1099Records']:
                     recipientData = Form1099NecList()
-                    recipientData.set_RecipientNm(records['Recipient']['RecipientName'])
+                    if 'RecipientNm' in records['Recipient']:
+                        recipientData.set_RecipientNm(records['Recipient']['RecipientNm'])
+                    else:
+                        recipientData.set_RecipientNm('')
                     recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientData.set_RecipientId(records['Recipient']['RecordId'])
                     recipientData.set_SubmissionId(records['SubmissionId'])
