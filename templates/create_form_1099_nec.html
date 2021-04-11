@@ -2,10 +2,16 @@
 
 {% block content %}
 <div class="container">
-    <form action="/create1099nec" method="post" id="createForm1099NEC">
+
         <h2><u>Create a New Form 1099 NEC</u></h2>
 
         <h3>Form1099NEC/Create</h3>
+
+
+
+
+
+    <form action="/create1099nec" method="post" id="createForm1099NEC">
 
         <div class="form-control">
             <label for="business_list">Businesses:</label>
@@ -14,12 +20,16 @@
                 <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
                 {% endfor %}
             </select>
+
+
         </div>
+
+
 
         <div class="form-control">
             <label for="recipientsDropDown">Recipients:</label>
             <select class="form-control" id="recipientsDropDown" name="recipientsDropDown"
-                onchange="onRecipientClicked()">
+                    onchange="onRecipientClicked()">
                 <option value="-1">Select Recipient</option>
             </select>
         </div>
@@ -41,19 +51,22 @@
             <input type="number" name="amount" id="amount" placeholder="Amount" value="167.25" />
             <small>Error message</small>
         </div>
+        <input type="submit" value="Submit">
+    </form>
 
+    <input  id = get type="submit" value="Recipient List" onclick = "function()"/>
 
         <span>Few fields are auto-populated with default values in this page</span>
         <br>
-        <input type="submit" value="Submit">
-    </form>
+
+
 </div>
 
 <script type=text/javascript>
 
     var recipientList = []
     $(function(){
-	$('#business_list').change(function(){
+	$('#get').click(function(){
         debugger
 		$.ajax({
 			url: '/readRecipientsList',

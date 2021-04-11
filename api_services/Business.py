@@ -147,3 +147,15 @@ def get_nec_list(get_list_request: GetNecListRequest):
                                     "ToDate": get_list_request.get_to_date()}, headers=HeaderUtils.getheaders())
 
     return response.json()
+
+
+# Get NEC List by business_id
+def get_pdf(SubmissionId,RecordIds,TINMaskType):
+    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_PDF,
+                            params={"SubmissionId": SubmissionId,
+                                    "RecordIds": RecordIds,
+                                    "TINMaskType": TINMaskType}, headers=HeaderUtils.getheaders())
+
+    print(requests.request)
+
+    return response.json()

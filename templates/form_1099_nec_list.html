@@ -49,6 +49,13 @@
         console.log(submissionId);
         window.location = '/transmitForm1099NEC?submissionId=' + submissionId;
     }
+    function getPdfClicked(submissionId)
+    {
+        debugger;
+        console.log(submissionId);
+        window.location = '/GetPDF?submissionId=' + submissionId;
+    }
+
 
     $(function(){
 	$('#get').click(function(){
@@ -110,7 +117,21 @@
                                 document.getElementById(idVal).addEventListener("click", function(e){
                                     transmitClicked(e.target.id);
                                 });
+                            }else   if(jsonData[i]['Status'] == "TRANSMITTED")
+                            {
+
+                            getPDF = document.createElement('button');
+                            getPDF.innerHTML = "Get PDF";
+                            getPDF.value = jsonData[i]['SubmissionId'];
+                            getPDF.className = "btn";
+                            idVal = jsonData[i]['SubmissionId'];
+                            getPDF.setAttribute("id", idVal);
+                            listElement.appendChild(getPDF);
+                            document.getElementById(idVal).addEventListener("click", function(e){
+                                    getPdfClicked(e.target.id);
+                                });
                             }
+
                             listElement.appendChild(document.createElement('br'));
 
                             if((i+1)!=numberOfListItems)

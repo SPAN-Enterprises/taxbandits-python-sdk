@@ -192,7 +192,7 @@ def read_recipients_list():
                 for records in response['Form1099Records']:
                     recipientData = RecipientModel()
                     recipientData.set_RecipientId(records['Recipient']['RecipientId'])
-                   # recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                    # recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
                     recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientNameList.append(recipientData.__dict__)
 
@@ -305,5 +305,15 @@ def get_web_hook():
             print(request.json)
 
         return "OK"
+
+
+@appInstance.route('/GetPDF', methods=['GET'])
+def get_pdf():
+    SubmissionId = request.args.get('SubmissionId')
+    RecordIds = request.args.get('RecordIds')
+    TINMaskType = "MASKED"
+    response = Business.get_pdf(SubmissionId, RecordIds, TINMaskType)
+    print(response)
+
 
 appInstance.run()
