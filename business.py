@@ -309,7 +309,7 @@ def get_web_hook():
 
 @appInstance.route('/GetPDF', methods=['GET'])
 def get_pdf():
-    SubmissionId = request.args.get('SubmissionId')
+    SubmissionId = request.args.get('submissionId')
     RecordIds = request.args.get('RecordIds')
     TINMaskType = "MASKED"
     response = Business.get_pdf(SubmissionId, RecordIds, TINMaskType)
