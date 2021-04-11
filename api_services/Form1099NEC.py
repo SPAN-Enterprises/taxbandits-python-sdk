@@ -101,10 +101,8 @@ def create(businessId, recipientId, rName, rTIN, amount):
 
 
 def getForm1099NECList(businessId):
-
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM1099_NEC_LIST,
                             params={"BusinessId": businessId}, headers=HeaderUtils.getheaders())
-
 
     return response.json()
 

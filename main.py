@@ -1,70 +1,309 @@
-import base64
-import ssl
+from api_services import Business, Form1099NEC
+from flask import render_template
+from core.Form1099NecList import Form1099NecList
+from core.GetBusinssList import BusinessListRequest
+from core.GetNecListRequest import GetNecListRequest
+from core.RecipientModel import RecipientModel
 import threading
-import os
-import pymongo
 import json
 from flask import Flask, request
 from pyngrok import ngrok
-import hmac
-import hashlib
-from utils import Config
+from repository.PdfWebHook import save_response_in_mongodb
+from utils.SignatureValidation import validate
+
+appInstance = Flask(__name__)
 
 
-os.environ["FLASK_ENV"] = "development"
-
-app = Flask(__name__)
-port = 5000
-
-# Open a ngrok tunnel to the HTTP server
-public_url = ngrok.connect(port).public_url + "/getWebhook"
-print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}/getWebhook\"".format(public_url, port))
-
-# Update any base URLs to use the public ngrok URL
-app.config["BASE_URL"] = public_url
+@appInstance.route('/')
+def index():
+    return render_template('index.html')
 
 
-# ... Update inbound traffic via APIs to use the public-facing ngrok URL
+@appInstance.route('/createbusiness', methods=['get'])
+def load_create_business():
+    return render_template('createbusiness.html')
 
 
-def saveResponseInMongoDb(response):
-    client = pymongo.MongoClient("mongodb+srv://subbuleaf:d$$9943111606@cluster0.kaf9y.mongodb.net/pythonSDK?retryWrites=true&w=majority&authSource=admin",ssl_cert_reqs=ssl.CERT_NONE)
-    mydb = client["pythonSDK"]
-    mycol = mydb["FormNEC"]
-    entity = json.loads(response)
-    mycol.save(entity)
+# Create Form 1099 NEC
+@appInstance.route('/createForm1099NEC', methods=['get'])
+def load_create_form1099_nec():
+    return render_template('create_form_1099_nec.html')
 
 
-@app.route("/getWebhook", methods=['POST'])
-def getWebhook():
-    json_content = request.json
-    response = json.dumps(json_content)
-    Timestamp = request.headers.get('Timestamp')
-    Signature = request.headers.get('Signature')
+@appInstance.route('/success', methods=['POST'])
+def submit():
+    input_request_json = request.form.to_dict(flat=False)
 
+    response = create_business(input_request_json)
 
-    isSignatureValid = validate(Timestamp, Signature)
+    if response['StatusCode'] == 200:
 
-    if isSignatureValid:
-        saveResponseInMongoDb(response)
+        return render_template('success.html',
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' +
+                                        response[
+                                            'BusinessId'], ErrorMessage=' Business Created Successfully')
 
+    elif 'Errors' in response and response['Errors'] is not None:
 
-# Start the Flask server in a new thread
-threading.Thread(target=app.run, kwargs={"use_reloader": False}).start()
-
-
-def validate(Timestamp, Signature):
-    message = Config.userCredential["CLIENT_ID"] + "\n" + Timestamp
-
-    digest = hmac.new(Config.userCredential["SECRET_ID"].encode('utf-8'),
-                      msg=message.encode('utf-8'),
-                      digestmod=hashlib.sha256
-                      ).digest()
-    signature = base64.b64encode(digest).decode()
-
-
-
-    if (signature == Signature):
-        return True
+        return render_template('error_list.html', errorList=response['Errors'],
+                               status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                   response['StatusMessage']))
     else:
-        return False
+
+        return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                               ErrorMessage='Message=' + json.dumps(response))
+
+
+@appInstance.route('/create1099nec', methods=['POST'])
+def submit_create_form1099_nec():
+    input_request_json = request.form.to_dict(flat=False)
+
+    businessId = ''
+
+    if 'business_list' in input_request_json:
+        businessId = input_request_json['business_list'][0]
+
+    rName = ''
+    if 'rName' in input_request_json:
+        rName = input_request_json['rName'][0]
+
+    rTIN = ''
+    if 'rTIN' in input_request_json:
+        rTIN = input_request_json['rTIN'][0]
+
+    amount = ''
+    if 'amount' in input_request_json:
+        amount = input_request_json['amount'][0]
+
+    recipientId = None
+    if 'recipientsDropDown' in input_request_json:
+        recipientId = input_request_json['recipientsDropDown'][0]
+
+    response = create_form1099_nec(businessId, recipientId, rName, rTIN, amount)
+
+    if response['StatusCode'] == 200:
+
+        return render_template('success.html',
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
+                                        response['SubmissionId'], ErrorMessage=' Form 1099NEC Created Successfully')
+
+    elif 'Errors' in response and response['Errors'] is not None:
+
+        return render_template('error_list.html', errorList=response['Errors'],
+                               status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                   response['StatusMessage']))
+    else:
+
+        return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                               ErrorMessage='Message=' + json.dumps(response))
+
+
+@appInstance.route('/detail', methods=['GET'])
+def get_business():
+    business_id = request.args.get('business_id')
+    ein = request.args.get('ein')
+    response = get_business_detail_api(business_id, ein)
+    return render_template('detail.html', response=response)
+
+
+@appInstance.route('/businesslist/', methods=['GET'])
+def business_list():
+    get_business_request = BusinessListRequest()
+
+    get_business_request.set_page(1)
+
+    get_business_request.set_page_size(20)
+
+    get_business_request.set_from_date('03/20/2021')
+
+    get_business_request.set_to_date('04/31/2021')
+
+    response = Business.get_business_list(get_business_request)
+
+    businesses = response['Businesses']
+
+    return render_template('business_list.html', businesses=businesses)
+
+
+def create_business(requestJson):
+    response = Business.create(requestJson)
+    return response
+
+
+def create_form1099_nec(businessId, recipientId, rName, rTIN, amount):
+    response = Form1099NEC.create(businessId, recipientId, rName, rTIN, amount)
+    return response.json()
+
+
+def get_business_detail_api(businessId, einOrSSN):
+    return Business.get_business_detail(businessId, einOrSSN)
+
+
+@appInstance.route('/ReadBusinessList', methods=['GET'])
+def get_business_list():
+    get_business_request = BusinessListRequest()
+
+    get_business_request.set_page(1)
+
+    get_business_request.set_page_size(100)
+
+    get_business_request.set_from_date('03/01/2021')
+
+    get_business_request.set_to_date('04/31/2021')
+
+    response = Business.get_business_list(get_business_request)
+
+    businesses = response['Businesses']
+
+    return render_template('create_form_1099_nec.html', businesses=businesses)
+
+
+# on selecting business from drop down this method gets invoked
+@appInstance.route('/readRecipientsList', methods=['POST'])
+def read_recipients_list():
+    selectedBusiness = request.form['BusinessId']
+
+    response = Form1099NEC.getForm1099NECList(selectedBusiness)
+
+    recipientNameList = []
+
+    if response is not None:
+
+        if 'Form1099Records' in response:
+
+            if response['Form1099Records'] is not None:
+
+                for records in response['Form1099Records']:
+                    recipientData = RecipientModel()
+                    recipientData.set_RecipientId(records['Recipient']['RecipientId'])
+                    # recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                    if 'RecipientNm' in records['Recipient']:
+                        recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                    elif 'RecipientName' in records['Recipient']:
+                        recipientData.set_FirstPayeeNm(records['Recipient']['RecipientName'])
+                    recipientData.set_TIN(records['Recipient']['TIN'])
+                    recipientNameList.append(recipientData.__dict__)
+
+    return json.dumps(recipientNameList)
+
+
+@appInstance.route('/FormNecList', methods=['GET'])
+def get_nec_list():
+    get_business_request = BusinessListRequest()
+
+    get_business_request.set_page(1)
+
+    get_business_request.set_page_size(100)
+
+    get_business_request.set_from_date('03/01/2021')
+
+    get_business_request.set_to_date('04/31/2021')
+
+    response = Business.get_business_list(get_business_request)
+
+    businesses = response['Businesses']
+
+    return render_template('form_1099_nec_list.html', businesses=businesses)
+
+
+@appInstance.route('/nec_list', methods=['POST'])
+def form1099NecList():
+    get_nec_request = GetNecListRequest()
+
+    get_nec_request.set_business_id(request.form['BusinessId'])
+
+    get_nec_request.set_page(1)
+
+    get_nec_request.set_page_size(50)
+
+    get_nec_request.set_from_date('03/01/2021')
+
+    get_nec_request.set_to_date('04/31/2021')
+
+    response = Business.get_nec_list(get_nec_request)
+
+    form1099NecList = []
+
+    if response is not None:
+
+        if 'Form1099Records' in response:
+
+            if response['Form1099Records'] is not None:
+
+                for records in response['Form1099Records']:
+                    recipientData = Form1099NecList()
+                    if 'RecipientNm' in records['Recipient']:
+                        recipientData.set_RecipientNm(records['Recipient']['RecipientNm'])
+                    elif 'RecipientName' in records['Recipient']:
+                        recipientData.set_RecipientNm(records['Recipient']['RecipientName'])
+
+                    recipientData.set_TIN(records['Recipient']['TIN'])
+                    recipientData.set_RecipientId(records['Recipient']['RecordId'])
+                    recipientData.set_SubmissionId(records['SubmissionId'])
+                    recipientData.set_BusinessNm(records['BusinessNm'])
+                    recipientData.set_Status(records['Recipient']['Status'])
+                    form1099NecList.append(recipientData.__dict__)
+
+    return json.dumps(form1099NecList)
+
+
+@appInstance.route('/transmitForm1099NEC', methods=['GET'])
+def transmit_form1099_nec():
+    splitted_Ids = request.args.get('submissionId').split("_")
+
+    recordList = [splitted_Ids[1]]
+
+    response = Form1099NEC.transmitForm1099NEC(splitted_Ids[0], recordList)
+
+    if response is not None:
+
+        if response['StatusCode'] == 200:
+
+            return render_template('success.html', response='StatusMessage=' + response['StatusMessage'],
+                                   ErrorMessage='Return Transmitted Successfully')
+
+        elif 'Errors' in response and response['Errors'] is not None:
+
+            return render_template('error_list.html', errorList=response['Errors'],
+                                   status=str(response['StatusCode']) + " - " + str(
+                                       response['StatusName']) + " - " + str(response['StatusMessage']))
+        else:
+            return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                                   ErrorMessage='Message=' + json.dumps(response))
+
+
+@appInstance.route("/", methods=['GET', 'POST'])
+def get_web_hook():
+    if request.method == 'POST':
+        json_content = request.json
+        response = json.dumps(json_content)
+
+        Timestamp = request.headers.get('Timestamp')
+        Signature = request.headers.get('Signature')
+
+        isSignatureValid = validate(Timestamp, Signature)
+
+        if isSignatureValid:
+            save_response_in_mongodb(response)
+
+        return "OK"
+
+
+@appInstance.route('/GetPDF', methods=['GET'])
+def get_pdf():
+    SubmissionId = request.args.get('submissionId')
+    RecordIds = request.args.get('RecordIds')
+    TINMaskType = "MASKED"
+    response = Business.get_pdf(SubmissionId, RecordIds, TINMaskType)
+
+    if 'Form1099NecRecords' in response:
+        if 'Message' in response['Form1099NecRecords'][0]:
+            return response['Form1099NecRecords'][0]['Message']
+        else:
+            return "OK"
+    else:
+
+        return "OK"
+
+
+appInstance.run()
