@@ -34,11 +34,7 @@ def load_create_form1099_nec():
 def submit():
     input_request_json = request.form.to_dict(flat=False)
 
-    print(input_request_json)
-
     response = create_business(input_request_json)
-
-    print(response)
 
     if response['StatusCode'] == 200:
 
@@ -61,8 +57,6 @@ def submit():
 @appInstance.route('/create1099nec', methods=['POST'])
 def submit_create_form1099_nec():
     input_request_json = request.form.to_dict(flat=False)
-
-    print(input_request_json)
 
     businessId = ''
 
@@ -87,8 +81,6 @@ def submit_create_form1099_nec():
 
     response = create_form1099_nec(businessId, recipientId, rName, rTIN, amount)
 
-    print(response)
-
     if response['StatusCode'] == 200:
 
         return render_template('success.html',
@@ -110,8 +102,6 @@ def submit_create_form1099_nec():
 def get_business():
     business_id = request.args.get('business_id')
     ein = request.args.get('ein')
-    print(business_id)
-    print(ein)
     response = get_business_detail_api(business_id, ein)
     return render_template('detail.html', response=response)
 
@@ -131,10 +121,6 @@ def business_list():
     response = Business.get_business_list(get_business_request)
 
     businesses = response['Businesses']
-
-    print(businesses)
-
-    print(businesses[0]['BusinessId'])
 
     return render_template('business_list.html', businesses=businesses)
 
@@ -169,8 +155,6 @@ def get_business_list():
 
     businesses = response['Businesses']
 
-    print(businesses)
-
     return render_template('create_form_1099_nec.html', businesses=businesses)
 
 
@@ -197,6 +181,8 @@ def read_recipients_list():
                         recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
                     elif 'RecipientName' in records['Recipient']:
                         recipientData.set_FirstPayeeNm(records['Recipient']['RecipientName'])
+                    else:
+                        recipientData.set_FirstPayeeNm("")
                     recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientNameList.append(recipientData.__dict__)
 
@@ -219,8 +205,6 @@ def get_nec_list():
 
     businesses = response['Businesses']
 
-    print(businesses)
-
     return render_template('form_1099_nec_list.html', businesses=businesses)
 
 
@@ -240,8 +224,6 @@ def form1099NecList():
 
     response = Business.get_nec_list(get_nec_request)
 
-    print(response)
-
     form1099NecList = []
 
     if response is not None:
@@ -256,6 +238,9 @@ def form1099NecList():
                         recipientData.set_RecipientNm(records['Recipient']['RecipientNm'])
                     elif 'RecipientName' in records['Recipient']:
                         recipientData.set_RecipientNm(records['Recipient']['RecipientName'])
+                    else:
+                        recipientData.set_RecipientNm("")
+
                     recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientData.set_RecipientId(records['Recipient']['RecordId'])
                     recipientData.set_SubmissionId(records['SubmissionId'])
@@ -296,17 +281,14 @@ def get_web_hook():
     if request.method == 'POST':
         json_content = request.json
         response = json.dumps(json_content)
-        print("response" + response)
+
         Timestamp = request.headers.get('Timestamp')
         Signature = request.headers.get('Signature')
-        print("Signature " + Signature + "Timestamp " + Timestamp)
+
         isSignatureValid = validate(Timestamp, Signature)
 
         if isSignatureValid:
             save_response_in_mongodb(response)
-
-        else:
-            print(request.json)
 
         return "OK"
 
@@ -317,7 +299,14 @@ def get_pdf():
     RecordIds = request.args.get('RecordIds')
     TINMaskType = "MASKED"
     response = Business.get_pdf(SubmissionId, RecordIds, TINMaskType)
-    print(response)
+
+    if 'Form1099NecRecords' in response:
+        if 'Message' in response['Form1099NecRecords'][0]:
+            return response['Form1099NecRecords'][0]['Message']
+        else:
+            return "OK"
+    else:
+        return "OK"
 
 
 appInstance.run()

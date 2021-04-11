@@ -31,7 +31,6 @@ def saveResponseInMongoDb(response):
     client = pymongo.MongoClient("mongodb+srv://subbuleaf:d$$9943111606@cluster0.kaf9y.mongodb.net/pythonSDK?retryWrites=true&w=majority&authSource=admin",ssl_cert_reqs=ssl.CERT_NONE)
     mydb = client["pythonSDK"]
     mycol = mydb["FormNEC"]
-    print(response)
     entity = json.loads(response)
     mycol.save(entity)
 
@@ -40,11 +39,9 @@ def saveResponseInMongoDb(response):
 def getWebhook():
     json_content = request.json
     response = json.dumps(json_content)
-    print("response" + response)
     Timestamp = request.headers.get('Timestamp')
     Signature = request.headers.get('Signature')
 
-    print("Signature " + Signature + "Timestamp " + Timestamp)
 
     isSignatureValid = validate(Timestamp, Signature)
 
@@ -58,14 +55,14 @@ threading.Thread(target=app.run, kwargs={"use_reloader": False}).start()
 
 def validate(Timestamp, Signature):
     message = Config.userCredential["CLIENT_ID"] + "\n" + Timestamp
-    print(message)
+
     digest = hmac.new(Config.userCredential["SECRET_ID"].encode('utf-8'),
                       msg=message.encode('utf-8'),
                       digestmod=hashlib.sha256
                       ).digest()
     signature = base64.b64encode(digest).decode()
 
-    print(signature)
+
 
     if (signature == Signature):
         return True

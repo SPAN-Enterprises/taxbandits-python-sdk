@@ -92,8 +92,6 @@ def create(businessId, recipientId, rName, rTIN, amount):
 
     requestModel.set_ReturnData(returnDataList)
 
-    print(f"Create Form 1099 NEC request{requestModel.__dict__}")
-
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM1099_NEC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
@@ -103,13 +101,10 @@ def create(businessId, recipientId, rName, rTIN, amount):
 
 
 def getForm1099NECList(businessId):
-    print(Config.apiBaseUrls[
-              'TBS_API_BASE_URL'] + EndPointConfig.GET_FORM1099_NEC_LIST + " PARAMS = BusinessId:" + businessId)
 
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM1099_NEC_LIST,
                             params={"BusinessId": businessId}, headers=HeaderUtils.getheaders())
 
-    print(response.json())
 
     return response.json()
 
@@ -120,12 +115,8 @@ def transmitForm1099NEC(submissionId, recordId):
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)
 
-    print(f"{Config.apiBaseUrls['TBS_API_BASE_URL']} {EndPointConfig.TRANSMIT_FORM_1099NEC} \n REQUEST--> {requestModel.__dict__}")
-
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_1099NEC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
-
-    print(f"RESPONSE of {EndPointConfig.TRANSMIT_FORM_1099NEC} --> {response.json()}")
 
     return response.json()

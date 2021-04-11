@@ -17,8 +17,6 @@ def get_jwt_token():
 
     jws = jwt.encode(payload, Config.userCredential["SECRET_ID"], algorithm="HS256")  # JWS generation using HS256 algorithm
 
-    print(jws)
-
     return jws
 
 
@@ -35,8 +33,6 @@ def get_access_token_by_jwt_token(jwtToken):
         accessToken = response.json()['AccessToken']
 
         Config.access_token = accessToken
-
-        print(f"Access Token = {accessToken}")
 
         return accessToken
 

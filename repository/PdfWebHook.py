@@ -9,6 +9,5 @@ def save_response_in_mongodb(response):
         ssl_cert_reqs=ssl.CERT_NONE)
     my_database = client["pythonSDK"]
     my_collection = my_database["FormNEC"]
-    print(response)
     entity = json.loads(response)
     return my_collection.save(entity)

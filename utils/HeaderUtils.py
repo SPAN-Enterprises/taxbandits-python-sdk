@@ -8,6 +8,4 @@ def getheaders():
 
         JwtGeneration.get_access_token_by_jwt_token(jwtToken)
 
-        print(f"\nAccessToken = {Config.access_token}")
-
     return {'Authorization': 'Bearer ' + Config.access_token, 'Content-Type': 'application/json'}

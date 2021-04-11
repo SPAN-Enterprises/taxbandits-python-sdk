@@ -98,14 +98,12 @@ def create(requestJson):
 
     convertedModel = json.dumps(requestModel.__dict__)
 
-    print(f"Request Model = {convertedModel}")
-    # print(json.dumps(requestModel))
+
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_BUSINESS,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
 
-    print(f'statuscode = {response.status_code}')
-    print(f'response header = {response}')
+
 
     if response.status_code == 200:
         json_obj = json.loads(response.text)
@@ -119,7 +117,6 @@ def get_business_detail(BusinessId, EIN):
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_BUSINESS,
                             params={"BusinessId": BusinessId, "EIN": EIN}, headers=HeaderUtils.getheaders())
 
-    print(response.json())
 
     return response.json()
 
@@ -131,8 +128,6 @@ def get_business_list(get_business_request: BusinessListRequest):
                                     "PageSize": get_business_request.get_page_size(),
                                     "FromDate": get_business_request.get_from_date(),
                                     "ToDate": get_business_request.get_to_date()}, headers=HeaderUtils.getheaders())
-
-    print(response.json())
 
     return response.json()
 
@@ -155,7 +150,5 @@ def get_pdf(SubmissionId,RecordIds,TINMaskType):
                             params={"SubmissionId": SubmissionId,
                                     "RecordIds": RecordIds,
                                     "TINMaskType": TINMaskType}, headers=HeaderUtils.getheaders())
-
-    print(requests.request)
 
     return response.json()
