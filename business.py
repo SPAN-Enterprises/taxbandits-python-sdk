@@ -287,7 +287,7 @@ def transmit_form1099_nec():
                                    ErrorMessage='Message=' + json.dumps(response))
 
 
-@appInstance.route("/getWebhook", methods=['GET', 'POST'])
+@appInstance.route("/", methods=['GET', 'POST'])
 def get_web_hook():
     if request.method == 'POST':
         json_content = request.json
