@@ -192,7 +192,7 @@ def read_recipients_list():
                 for records in response['Form1099Records']:
                     recipientData = RecipientModel()
                     recipientData.set_RecipientId(records['Recipient']['RecipientId'])
-                    recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                   # recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
                     recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientNameList.append(recipientData.__dict__)
 
