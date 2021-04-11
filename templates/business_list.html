@@ -1,43 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Businesses</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
-</head>
+{% extends 'base.html' %}
 
-<body>
-<img src="../static/logo.png" alt="Lexus">
-<form id="myForm" >
+{% block content %}
+<form id="myForm">
 
 
 
-<ul>
-    <!-- Iterate over object_list -->
+    <ul>
+        <!-- Iterate over object_list -->
 
-    {% for business in businesses %}
+        {% for business in businesses %}
 
-    <!-- Display Objects -->
-    <li class="form-select-div"  onclick="getdata('{{business.BusinessId}}','{{business.EINorSSN}}');" >
+        <div class="form-list">
+            <li onclick="getdata('{{business.BusinessId}}','{{business.EINorSSN}}');">
 
-        <div><span style="color:#585858; margin-right:5px">Business Id:</span><span>{{ business.BusinessId }}</span></div>
-        <div><span style="color:#585858; margin-right:5px">Business Name:</span><span>{{ business.BusinessNm }}</span></div>
-        <div><span style="color:#585858; margin-right:5px">Email:</span><span>{{ business.Email }}</span></div>
-        <div><span style="color:#585858; margin-right:5px">EIN or SSN:</span><span>{{ business.EINorSSN }}</span></div>
+                <div>
+                    Business Id: {{ business.BusinessId }}
+                </div>
+                <div>Business Name: {{ business.BusinessNm}}</div>
+                <div>Email: {{ business.Email }}</div>
+                <div>EIN or SSN: {{ business.EINorSSN }}
+                </div>
 
-    </li>
+            </li>
+        </div>
 
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
 </form>
-</body>
-</html>
+
 <script>
 
-function getdata(business_id,ein)
-{
-window.location = '/detail?business_id='+business_id+'&ein='+ein;
-}
+    function getdata(business_id, ein) {
+        window.location = '/detail?business_id=' + business_id + '&ein=' + ein;
+    }
 
 
 </script>
+{% endblock %}

@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Form1099 NEC</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/card_list_design.css') }}">
+{% extends 'base.html' %}
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-</head>
-<body>
+{% block content %}
 <div class="container">
 
     <h2><u>Form 1099 NEC LIST</u></h2>
@@ -22,6 +14,9 @@
             <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
             {% endfor %}
         </select>
+
+            <input  id = get type="submit" value="Recipient List" onclick = "function()"/>
+
     </div>
 
     <div>
@@ -56,7 +51,7 @@
     }
 
     $(function(){
-	$('#business_list').change(function(){
+	$('#get').click(function(){
 		$.ajax({
 			url: '/nec_list',
 			data: {BusinessId: $('#business_list').val()},
@@ -101,15 +96,17 @@
                             listElement.appendChild(listItem);
                             listElement.appendChild(listItem1);
                             listElement.appendChild(businessName);
-                            debugger
+
                             if(jsonData[i]['Status'] == "CREATED")
                             {
                                 transmitBtn = document.createElement('button');
                                 transmitBtn.innerHTML = "Transmit";
                                 transmitBtn.value = jsonData[i]['SubmissionId'];
+                                transmitBtn.className = "btn";
                                 idVal = jsonData[i]['SubmissionId']+"_"+jsonData[i]['RecipientId'];
                                 transmitBtn.setAttribute("id", idVal);
                                 listElement.appendChild(transmitBtn);
+
                                 document.getElementById(idVal).addEventListener("click", function(e){
                                     transmitClicked(e.target.id);
                                 });
@@ -137,5 +134,4 @@
 
 
 </script>
-</body>
-</html>
+{% endblock %}

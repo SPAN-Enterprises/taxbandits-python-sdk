@@ -1,1 +1,160 @@
-.form-select-div { border-radius: 5px; list-style-type:none !important; border: 1px solid #ddd; background: #FAFBFD; position:relative; padding:10px; margin-bottom:15px }
+body {
+	font-family: Arial;
+	box-sizing: border-box;
+}
+.container {
+	max-width: 1100px;
+	margin: 0 auto;
+	overflow: auto;
+	padding: 0 40px;
+}
+a {
+	text-decoration: none;
+	color: #333;
+}
+a:hover {
+	border-bottom: orange;
+	color: #e7760d;
+}
+.navbar {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+}
+.navbar ul {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.navbar li {
+	list-style-type: none;
+}
+.navbar a {
+	padding: 10px;
+	margin: 0 5px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='number'],
+input[type='tel'],
+select {
+	width: 50%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+button,
+input[type='submit'] {
+	width: 50%;
+	background-color: #4caf50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 1.2rem;
+}
+
+.btn {
+	font-size: 0.8rem;
+	width: auto;
+}
+
+input[type='submit']:hover {
+	background-color: #45a049;
+}
+
+div.container {
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.form-control small {
+	color: #e74c3c;
+	display: none;
+}
+
+.form-control.error small {
+	display: block;
+}
+
+.form-control input:focus {
+	outline: 0;
+	border-color: #777;
+}
+
+span {
+	font-style: italic;
+	font-size: 15px;
+	color: blue;
+}
+
+/* card list */
+span {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 80%;
+	right: 20%;
+	-ms-transform: translate(-100%, -50%);
+	transform: translate(-100%, -50%);
+}
+
+#errors {
+	font-family: Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#errors td,
+#errors th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+#errors tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#errors tr:hover {
+	background-color: #ddd;
+}
+
+#errors th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #3bc6c4;
+	color: white;
+}
+
+.form-list {
+	border-radius: 5px;
+	list-style-type: none !important;
+	border: 1px solid #ddd;
+	background: #fafbfd;
+	position: relative;
+	padding: 10px;
+	margin-bottom: 15px;
+}
+
+.form-list:hover {
+	cursor: pointer;
+}
+
+.json {
+	display: block;
+	padding: 10px 30px;
+	line-height: 1.5rem;
+
+	margin: 2px;
+	overflow: scroll;
+	background-color: #1f4662;
+	color: #fff;
+	font-size: 1.1rem;
+}

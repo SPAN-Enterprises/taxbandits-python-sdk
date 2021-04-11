@@ -1,45 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Tax Bandits Public SDK</title>
-</head>
-<body>
-<div>
+{% extends 'base.html' %}
+{% block content %}
+{% if message %}
+<p> {{message | safe }}</p>
+{% endif %}
 
-    <img src="../static/logo.png" alt="Lexus">
-    {% if message %}
-    <p> {{message | safe }}</p>
-    {% endif %}
+<h3>Business</h3>
 
-    <h3>Business</h3>
+<form action="/createbusiness" method="get">
+    <input type="submit" value="Create Business" />
+</form>
 
-    <form action="/createbusiness" method="get">
-        <input type="submit" value="Create Business"/>
-    </form>
+<p></p>
+<p></p>
 
-    <p></p>
-    <p></p>
+<form action="/businesslist" method="get">
+    <input type="submit" value="Get Business List" />
+</form>
 
-    <form action="/businesslist" method="get">
-        <input type="submit" value="Get Business List"/>
-    </form>
+<h3>Form 1099-NEC</h3>
 
-    <h3>Form 1099-NEC</h3>
+<form action="/ReadBusinessList" method="get">
+    <input type="submit" value="Create Form 1099-NEC" />
+</form>
 
-    <form action="/ReadBusinessList" method="get">
-        <input type="submit" value="Create Form 1099-NEC"/>
-    </form>
+<p></p>
+<p></p>
 
-    <p></p>
-    <p></p>
-
-    <form action="/FormNecList" method="get">
-        <input type="submit" value="Form 1099-NEC List"/>
-    </form>
+<form action="/FormNecList" method="get">
+    <input type="submit" value="Form 1099-NEC List" />
+</form>
 
 
 
 </div>
-</body>
-</html>
+{% endblock %}

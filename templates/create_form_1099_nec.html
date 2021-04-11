@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Form1099 NEC</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style/create_business_styles.css') }}">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{% extends 'base.html' %}
 
-</head>
-<body>
+{% block content %}
 <div class="container">
     <form action="/create1099nec" method="post" id="createForm1099NEC">
         <h2><u>Create a New Form 1099 NEC</u></h2>
@@ -26,26 +19,26 @@
         <div class="form-control">
             <label for="recipientsDropDown">Recipients:</label>
             <select class="form-control" id="recipientsDropDown" name="recipientsDropDown"
-                    onchange="onRecipientClicked()">
+                onchange="onRecipientClicked()">
                 <option value="-1">Select Recipient</option>
             </select>
         </div>
 
         <div class="form-control">
             <label for="rName">Recipient Name:</label>
-            <input type="text" name="rName" id="rName" placeholder="Recipient Name" maxlength="35"/>
+            <input type="text" name="rName" id="rName" placeholder="Recipient Name" maxlength="35" />
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="rTIN">Recipient TIN:</label>
-            <input type="text" name="rTIN" id="rTIN" placeholder="Recipient TIN" maxlength="9" value=""/>
+            <input type="text" name="rTIN" id="rTIN" placeholder="Recipient TIN" maxlength="9" value="" />
             <small>Error message</small>
         </div>
 
         <div class="form-control">
             <label for="amount">Amount:</label>
-            <input type="number" name="amount" id="amount" placeholder="Amount" value="167.25"/>
+            <input type="number" name="amount" id="amount" placeholder="Amount" value="167.25" />
             <small>Error message</small>
         </div>
 
@@ -107,5 +100,4 @@
 
 
 </script>
-</body>
-</html>
+{% endblock %}

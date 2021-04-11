@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Tax Bandits Public SDK</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
 <div>
 
-    <img src="../static/logo.png" alt="Lexus">
+
     {% if ErrorMessage %}
     <h3>{{ErrorMessage | safe}}</h3>
     {% endif %}
 
 
     {% if response %}
-    <p>{{response | safe}}</p>
+
+
+    <div class="json">{{response | safe}}</div>
+
+
     {% endif %}
 
 </div>
-</body>
-</html>
+{% endblock %}

@@ -306,11 +306,4 @@ def get_web_hook():
 
         return "OK"
 
-
-# Open a ngrok tunnel to the HTTP server
-port = 5000
-public_url = ngrok.connect(port).public_url + "/getWebhook"
-print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}/getWebhook\"".format(public_url, port))
-
-# Start the Flask server in a new thread
-threading.Thread(target=appInstance.run, kwargs={"use_reloader": False}).start()
+appInstance.run()
