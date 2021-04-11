@@ -158,3 +158,19 @@ span {
 	color: #fff;
 	font-size: 1.1rem;
 }
+.grid {
+  display: grid;
+  grid-gap: 12px;
+  grid-template-columns: 1fr max-content;
+}
+
+@media screen and (min-width: 768px) {
+  .grid {
+    grid-gap: 24px;
+    grid-template-columns: minmax(200px, 1fr) minmax(max-content, 1fr);
+  }
+}
+
+.input {
+  width: 100%;
+}

@@ -193,6 +193,10 @@ def read_recipients_list():
                     recipientData = RecipientModel()
                     recipientData.set_RecipientId(records['Recipient']['RecipientId'])
                     # recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                    if 'RecipientNm' in records['Recipient']:
+                        recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                    elif 'RecipientName' in records['Recipient']:
+                        recipientData.set_FirstPayeeNm(records['Recipient']['RecipientName'])
                     recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientNameList.append(recipientData.__dict__)
 
@@ -250,8 +254,8 @@ def form1099NecList():
                     recipientData = Form1099NecList()
                     if 'RecipientNm' in records['Recipient']:
                         recipientData.set_RecipientNm(records['Recipient']['RecipientNm'])
-                    else:
-                        recipientData.set_RecipientNm('')
+                    elif 'RecipientName' in records['Recipient']:
+                        recipientData.set_RecipientNm(records['Recipient']['RecipientName'])
                     recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientData.set_RecipientId(records['Recipient']['RecordId'])
                     recipientData.set_SubmissionId(records['SubmissionId'])

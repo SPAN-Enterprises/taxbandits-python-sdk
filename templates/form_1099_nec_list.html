@@ -15,7 +15,7 @@
             {% endfor %}
         </select>
 
-            <input  id = get type="submit" value="Recipient List" onclick = "function()"/>
+            <input  id = get type="submit" value="Get Nec List" onclick = "function()"/>
 
     </div>
 
@@ -66,6 +66,7 @@
 			success: function(data){
 
                 var jsonData = JSON.parse(data);
+
                 debugger
                 // Make a container element for the list
                 listContainer = document.getElementById("listDiv");
@@ -90,8 +91,6 @@
                             businessName = document.createElement('p');
                             listItem = document.createElement('p');
                             listItem1 = document.createElement('p');
-
-                            // Add the item text
                             rName.innerHTML = jsonData[i]['RecipientNm'] +' - '+jsonData[i]['TIN'];
                             listItem.innerHTML = 'SubmissionId: '+ jsonData[i]['SubmissionId'];
                             listItem.value = jsonData[i]['SubmissionId'];
