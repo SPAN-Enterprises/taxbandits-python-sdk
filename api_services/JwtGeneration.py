@@ -5,7 +5,7 @@ import requests
 
 
 # Generate JWS using the Client Id, Secret Id and User Token
-def get_jwt_token():
+def get_jws():
 
     epoch_time = int(time.time())  # current UTC time in milliseconds
 
@@ -21,9 +21,9 @@ def get_jwt_token():
 
 
 # Returns the Access token generated using JWS
-def get_access_token_by_jwt_token(jwtToken):
+def get_access_token_by_jws(jws):
 
-    headers = {'Authentication': jwtToken,  # Generated JWS
+    headers = {'Authentication': jws,  # Generated JWS
                'Content-Type': 'application/json'}
 
     response = requests.get(Config.apiBaseUrls["O_AUTH_BASE_URL"], headers=headers)

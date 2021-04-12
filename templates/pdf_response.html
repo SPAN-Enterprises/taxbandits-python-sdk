@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="form-control">
+    <h2>Response</h2>
+    <h3>{{status}}</h3>
+    <br>
+    <table id="errors">
+        <tr>
+            <th>FormType</th>
+            <th>Message</th>
+        </tr>
+        {% for error in errorList %}
+        <tr>
+            <td>Form 1099-NEC</td>
+            <td> {{ error.Message}}</td>
+        </tr>
+
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}

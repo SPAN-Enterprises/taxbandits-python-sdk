@@ -295,10 +295,11 @@ def get_pdf():
     RecordIds = request.args.get('RecordIds')
     TINMaskType = "MASKED"
     response = Business.get_pdf(SubmissionId, RecordIds, TINMaskType)
+    print(response)
 
     if 'Form1099NecRecords' in response:
         if 'Message' in response['Form1099NecRecords'][0]:
-            return response['Form1099NecRecords'][0]['Message']
+            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'])
         else:
             return "OK"
     else:
