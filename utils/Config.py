@@ -6,9 +6,9 @@ userCredential = {
 
 apiBaseUrls = {
 
-     "O_AUTH_BASE_URL": "https://testoauth.expressauth.net/v1/tbsauth",
-    #
-     "TBS_API_BASE_URL": "https://testapi.taxbandits.com/v1.6.0/"
+     "O_AUTH_BASE_URL": "https://testoauth.expressauth.net/v2/tbsauth",
+
+     "TBS_API_BASE_URL": "https://testapi.taxbandits.com/v1.6.1/"
 
     #"O_AUTH_BASE_URL": "http://oauth.taxforall.com/v2/tbsauth",
 
