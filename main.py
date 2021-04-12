@@ -87,9 +87,9 @@ def submit_create_form1099_nec():
                                response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
                                         response['SubmissionId'], ErrorMessage=' Form 1099NEC Created Successfully')
 
-    elif 'Errors' in response and response['Errors'] is not None:
+    elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response['Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0]['Errors'] is not None:
 
-        return render_template('error_list.html', errorList=response['Errors'],
+        return render_template('error_list.html', errorList=response['Form1099Records']['ErrorRecords'][0]['Errors'],
                                status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
                                    response['StatusMessage']))
     else:
