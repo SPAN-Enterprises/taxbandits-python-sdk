@@ -259,8 +259,8 @@ def transmit_form1099_nec():
 
         if response['StatusCode'] == 200:
 
-            return render_template('success.html', response='StatusMessage=' + response['StatusMessage'],
-                                   ErrorMessage='Return Transmitted Successfully')
+            return render_template('success.html', response='Status Timestamp=' + response['Form1099Records']['SuccessRecords'][0]['StatusTs'],
+                                   ErrorMessage='Status= ' +response['Form1099Records']['SuccessRecords'][0]['Status'])
 
         elif 'Errors' in response and response['Errors'] is not None:
 

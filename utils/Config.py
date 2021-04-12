@@ -1,7 +1,7 @@
 userCredential = {
-    "CLIENT_ID": "8bc9b6549e499c6c",
-    "SECRET_ID": "DWNgjSEvpmQxxHdJ2lcSEw",
-    "USER_TOKEN": "96ea30befcc74d4eb965e14c6ecb4b2d"
+    "CLIENT_ID": "9757c9c24be51be5",
+    "SECRET_ID": "u6v1CPFsL1GuNNz4ipnRw",
+    "USER_TOKEN": "3519b7e697384a0391d93485e07d60ee"
 }
 
 apiBaseUrls = {
