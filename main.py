@@ -79,7 +79,8 @@ def submit_create_form1099_nec():
     if 'recipientsDropDown' in input_request_json:
         recipientId = input_request_json['recipientsDropDown'][0]
 
-    response = create_form1099_nec(businessId, recipientId, rName, rTIN, amount)
+    response = create_form1099_nec(
+        businessId, recipientId, rName, rTIN, amount)
 
     if response['StatusCode'] == 200:
 
@@ -181,12 +182,15 @@ def read_recipients_list():
 
                 for records in response['Form1099Records']:
                     recipientData = RecipientModel()
-                    recipientData.set_RecipientId(records['Recipient']['RecipientId'])
+                    recipientData.set_RecipientId(
+                        records['Recipient']['RecipientId'])
                     # recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
                     if 'RecipientNm' in records['Recipient']:
-                        recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
+                        recipientData.set_FirstPayeeNm(
+                            records['Recipient']['RecipientNm'])
                     elif 'RecipientName' in records['Recipient']:
-                        recipientData.set_FirstPayeeNm(records['Recipient']['RecipientName'])
+                        recipientData.set_FirstPayeeNm(
+                            records['Recipient']['RecipientName'])
                     recipientData.set_TIN(records['Recipient']['TIN'])
                     recipientNameList.append(recipientData.__dict__)
 
@@ -239,12 +243,15 @@ def form_1099_nec_list():
                 for records in response['Form1099Records']:
                     recipientData = Form1099NecList()
                     if 'RecipientNm' in records['Recipient']:
-                        recipientData.set_RecipientNm(records['Recipient']['RecipientNm'])
+                        recipientData.set_RecipientNm(
+                            records['Recipient']['RecipientNm'])
                     elif 'RecipientName' in records['Recipient']:
-                        recipientData.set_RecipientNm(records['Recipient']['RecipientName'])
+                        recipientData.set_RecipientNm(
+                            records['Recipient']['RecipientName'])
 
                     recipientData.set_TIN(records['Recipient']['TIN'])
-                    recipientData.set_RecipientId(records['Recipient']['RecordId'])
+                    recipientData.set_RecipientId(
+                        records['Recipient']['RecordId'])
                     recipientData.set_SubmissionId(records['SubmissionId'])
                     recipientData.set_BusinessNm(records['BusinessNm'])
                     recipientData.set_Status(records['Recipient']['Status'])
@@ -280,7 +287,7 @@ def transmit_form1099_nec():
                                    ErrorMessage='Message=' + json.dumps(response))
 
 
-@appInstance.route("/", methods=['GET', 'POST'])
+@appInstance.route("/webhook", methods=['GET', 'POST'])
 def get_web_hook():
     if request.method == 'POST':
         json_content = request.json
@@ -291,8 +298,8 @@ def get_web_hook():
 
         isSignatureValid = validate(Timestamp, Signature)
 
-        if isSignatureValid:
-            save_response_in_mongodb(response)
+        # if isSignatureValid:
+        # save_response_in_mongodb(response)
 
         return "OK"
 
