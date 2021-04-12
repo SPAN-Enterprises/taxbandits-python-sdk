@@ -259,8 +259,10 @@ def transmit_form1099_nec():
 
         if response['StatusCode'] == 200:
 
-            return render_template('success.html', response='Status Timestamp=' + response['Form1099Records']['SuccessRecords'][0]['StatusTs'],
-                                   ErrorMessage='Status= ' +response['Form1099Records']['SuccessRecords'][0]['Status'])
+            return render_template('success.html',
+                                   response='Status Timestamp=' + response['Form1099Records']['SuccessRecords'][0][
+                                       'StatusTs'],
+                                   ErrorMessage='Status= ' + response['Form1099Records']['SuccessRecords'][0]['Status'])
 
         elif 'Errors' in response and response['Errors'] is not None:
 
@@ -307,4 +309,5 @@ def get_pdf():
         return "OK"
 
 
-appInstance.run()
+if __name__ == '__main__':
+    appInstance.run()

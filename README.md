@@ -55,6 +55,20 @@ apiBaseUrls = {
  "TBS_API_BASE_URL": "https://testapi.taxbandits.com/v1.6.0/"
 }
 ```
+## To view form transmitted to IRS
+1. Configure ngrok
+2. Add webhook URL to your Sandbox account
+### Configure ngrok 
+setup ngrok for webhook url and routing callback to localhost
+Follow procedure in ngrok site to Install and [setup ngrok](https://ngrok.com/download)
+### Add webhook URL to Sandbox account
+1. Sign-in to your [TaxBandits Sandbox](https://sandbox.taxbandits.com/) account 
+2. After successful sign-in go to settings 
+3. Select Webhook option
+4. Click Add Webhook
+5. In Add Webhook dialog Select Event Type as __"PDF Complete"__
+6. In Callback URL enter URL obtained via running ngrok utility
+
 ## Usage
 ```javascript {highlight=[1, 7]}
  > python main.py
