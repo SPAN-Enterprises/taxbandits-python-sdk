@@ -17,9 +17,7 @@
                     {% endfor %}
                 </select>
             <button type="button" id="loadRecipientsBtn" onclick="loadRecipientsList()">Recipient List</button>
-
         </div>
-
 
         <div class="form-control">
             <label for="recipientsDropDown">Recipients:</label>
@@ -88,7 +86,6 @@
 		});
     }
 
-
     function onRecipientClicked()
     {
         var e = document.getElementById("recipientsDropDown");
@@ -103,9 +100,5 @@
             document.getElementById("rTIN").value = strAtt;
         }
     }
-
-
-
-
 </script>
 {% endblock %}
