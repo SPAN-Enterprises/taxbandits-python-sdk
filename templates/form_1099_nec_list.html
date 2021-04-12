@@ -7,16 +7,14 @@
 
     <h3>Form1099NEC/List</h3>
 
-    <div class="form-control">
+    <div class="horizontalContainer">
         <label for="business_list">Businesses:</label>
         <select id="business_list" name="business_list">
             {% for business in businesses %}
             <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
             {% endfor %}
         </select>
-
-            <input  id = get type="submit" value="Get NEC List" onclick = "function()"/>
-
+        <button type="button" onclick="loadNECList()">Get NEC List</button>
     </div>
 
     <div>
@@ -49,6 +47,7 @@
         console.log(submissionId);
         window.location = '/transmitForm1099NEC?submissionId=' + submissionId;
     }
+
     function getPdfClicked(submissionId)
     {
         debugger;
@@ -56,10 +55,9 @@
         window.location = '/GetPDF?submissionId=' + submissionId;
     }
 
-
-    $(function(){
-	$('#get').click(function(){
-		$.ajax({
+    function loadNECList()
+    {
+        $.ajax({
 			url: '/nec_list',
 			data: {BusinessId: $('#business_list').val()},
 			type: 'POST',
@@ -146,8 +144,8 @@
 				console.log(error);
 			}
 		});
-	});
-});
+    }
+
 
 
 
