@@ -5,11 +5,11 @@ userCredential = {
 }
 
 apiBaseUrls = {
-
-    "O_AUTH_BASE_URL": "https://testoauth.expressauth.net/v1/tbsauth",
-    "TBS_API_BASE_URL": "https://testapi.taxbandits.com/v1.6.0/"
-
-
+    # API URL for Authentication
+    "O_AUTH_BASE_URL": "https://testoauth.expressauth.net/v2/tbsauth",
+    # API Base URL
+    "TBS_API_BASE_URL": "https://testapi.taxbandits.com/v1.6.1/"
 }
 
+# Global variable to store the Access Token
 access_token = ''
