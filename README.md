@@ -56,15 +56,12 @@ apiBaseUrls = {
 }
 ```
 ## Usage
-```javascript {highlight=[1, 10]}
- > python business.py
- * Serving Flask app "business" (lazy loading)
+```javascript {highlight=[1, 7]}
+ > python main.py
+ * Serving Flask app "main" (lazy loading)
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
- * Debug mode: on
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 291-359-924
+ * Debug mode: off
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 ```

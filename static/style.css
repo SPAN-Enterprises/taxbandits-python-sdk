@@ -174,3 +174,19 @@ span {
 .input {
   width: 100%;
 }
+
+.horizontalContainer label
+{
+    display: block;
+}
+.horizontalContainer select
+{
+    float: left;
+}
+.horizontalContainer button
+{
+    display: inline-block;
+    margin-left: 10px;
+    width: 30%;
+    padding: 12px 20px;
+}
