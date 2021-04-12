@@ -207,7 +207,7 @@ def get_nec_list():
 
 
 @appInstance.route('/nec_list', methods=['POST'])
-def form1099NecList():
+def form_1099_nec_list():
     get_nec_request = GetNecListRequest()
 
     get_nec_request.set_business_id(request.form['BusinessId'])
