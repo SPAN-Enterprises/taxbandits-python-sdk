@@ -2,6 +2,7 @@ userCredential = {
     "CLIENT_ID": "9757c9c24be51be5",
     "SECRET_ID": "u6v1CPFsL1GuNNz4ipnRw",
     "USER_TOKEN": "3519b7e697384a0391d93485e07d60ee"
+
 }
 
 apiBaseUrls = {
