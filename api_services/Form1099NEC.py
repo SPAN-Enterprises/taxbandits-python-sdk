@@ -96,8 +96,7 @@ def create(businessId, recipientId, rName, rTIN, amount):
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
 
-    if response.status_code == 200:
-        return response
+    return response
 
 
 def getForm1099NECList(businessId):
