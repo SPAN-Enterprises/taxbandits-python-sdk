@@ -1,17 +1,18 @@
-import requests
 import json
-from utils import HeaderUtils, Config, EndPointConfig
-from api_services import JwtGeneration
-from core.CreateForm1099NECModel import CreateForm1099NECModel
-from core.SubmissionManifestModel import SubmissionManifestModel
-from core.StatesModel import StatesModel
-from core.ReturnHeaderModel import ReturnHeaderModel
-from core.ReturnDataModel import ReturnDataModel
-from core.NECFormDataModel import NECFormDataModel
-from core.RecipientModel import RecipientModel
+
+import requests
+
 from core.CreateBusinessRequest import CreateBusinessRequest
+from core.CreateForm1099NECModel import CreateForm1099NECModel
 from core.ForeignAddress import ForeignAddress
+from core.MISCFormDataModel import MISCFormDataModel
+from core.RecipientModel import RecipientModel
+from core.ReturnDataModel import ReturnDataModel
+from core.ReturnHeaderModel import ReturnHeaderModel
+from core.StatesModel import StatesModel
+from core.SubmissionManifestModel import SubmissionManifestModel
 from core.TransmitForm1099NECModel import TransmitForm1099NECModel
+from utils import HeaderUtils, Config, EndPointConfig
 
 
 def create(businessId, rName, rTIN, amount, recipientId):
@@ -19,13 +20,11 @@ def create(businessId, rName, rTIN, amount, recipientId):
 
     returnHeader = ReturnHeaderModel()
     businessModel = CreateBusinessRequest()
-    # businessModel.set_BusinessId("0fd6e0a3-f122-4cdc-a4da-25cb155010e1")
     businessModel.set_BusinessId(businessId)
     returnHeader.set_Business(businessModel.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
     submissionManifest = SubmissionManifestModel()
-    # submissionManifest.set_SubmissionId(null)
     submissionManifest.set_TaxYear(2020)
     submissionManifest.set_IsFederalFiling(2020)
     submissionManifest.set_IsStateFiling(True)
@@ -60,18 +59,28 @@ def create(businessId, rName, rTIN, amount, recipientId):
     usAddress.set_State("AL")
     usAddress.set_ZipCd("36303")
     recipientModel.set_USAddress(usAddress.__dict__)
-    # recipientModel.set_ForeignAddress(null)
     recipientModel.set_Email("sharmila.k@dotnetethics.com")
     recipientModel.set_Fax("1234567890")
     recipientModel.set_Phone("1234567890")
     returnData.set_Recipient(recipientModel.__dict__)
     # set NEC data
-    necFormDataModel = NECFormDataModel()
-    necFormDataModel.set_B1NEC(amount)
-    necFormDataModel.set_B4FedTaxWH(54.12)
-    necFormDataModel.set_IsFATCA(True)
-    necFormDataModel.set_Is2ndTINnot(True)
-    necFormDataModel.set_AccountNum("20123130000009000001")
+    miscFormDataModel = MISCFormDataModel()
+    miscFormDataModel.set_B1Rents(amount)
+    miscFormDataModel.set_B2Royalties(0)
+    miscFormDataModel.set_B3OtherIncome(0)
+    miscFormDataModel.set_B4FedIncomeTaxWH(0)
+    miscFormDataModel.set_B5FishingBoatProceeds(0)
+    miscFormDataModel.set_B6MedHealthcarePymts(0)
+    miscFormDataModel.set_B7IsDirectSale(0)
+    miscFormDataModel.set_B8SubstitutePymts(0)
+    miscFormDataModel.set_B9CropInsurance(0)
+    miscFormDataModel.set_B10GrossProceeds(0)
+    miscFormDataModel.set_B12Sec409ADeferrals(0)
+    miscFormDataModel.set_B13EPP(0)
+    miscFormDataModel.set_B14NonQualDefComp(0)
+    miscFormDataModel.set_IsFATCA(True)
+    miscFormDataModel.set_Is2ndTINnot(True)
+    miscFormDataModel.set_AccountNum("587879879879")
     statesList = []
     stateModel = StatesModel()
     stateModel.set_StateCd("PA")
@@ -85,35 +94,29 @@ def create(businessId, rName, rTIN, amount, recipientId):
     stateModel.set_StateIdNum("99-999999")
     stateModel.set_StateIncome(18)
     statesList.append(stateModel.__dict__)  # State 2
-    necFormDataModel.set_States(statesList)
+    miscFormDataModel.set_States(statesList)
 
-    returnData.set_NECFormData(necFormDataModel.__dict__)
-    returnData.set_MISCFormData(None)
+    returnData.set_NECFormData(None)
+    returnData.set_MISCFormData(miscFormDataModel.__dict__)
     returnDataList.append(returnData.__dict__)
 
     requestModel.set_ReturnData(returnDataList)
 
-    response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM1099_NEC,
+    response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM1099_MISC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
 
     return response
 
 
-def getForm1099NECList(businessId):
-    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM1099_NEC_LIST,
-                            params={"BusinessId": businessId}, headers=HeaderUtils.getheaders())
+def transmitForm1099MISC(submissionId, recordId):
 
-    return response.json()
-
-
-def transmitForm1099NEC(submissionId, recordId):
     requestModel = TransmitForm1099NECModel()
 
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)
 
-    response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_1099NEC,
+    response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_1099MISC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
 
