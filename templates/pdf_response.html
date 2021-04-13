@@ -3,17 +3,17 @@
 {% block content %}
 
 <div class="form-control">
-    <h2>Errors</h2>
+    <h2>Response</h2>
     <h3>{{status}}</h3>
     <br>
     <table id="errors">
         <tr>
-            <th>Error Name</th>
+            <th>Form Type</th>
             <th>Message</th>
         </tr>
         {% for error in errorList %}
         <tr>
-            <td> {{ error.Name}}</td>
+            <td>Form 1099-NEC</td>
             <td> {{ error.Message}}</td>
         </tr>
 
@@ -21,5 +21,4 @@
     </table>
 
 </div>
-
 {% endblock %}
