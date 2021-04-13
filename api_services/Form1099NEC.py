@@ -96,7 +96,6 @@ def create(businessId, recipientId, rName, rTIN, amount):
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
 
-
     return response
 
 

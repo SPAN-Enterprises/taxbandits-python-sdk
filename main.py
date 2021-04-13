@@ -317,9 +317,10 @@ def get_pdf():
             return render_template('pdf_response.html', errorList=response['Form1099NecRecords'])
         else:
             return "OK"
-    else:
+    elif 'Errors' in response and response['Errors'] is not None:
+        return render_template('pdf_response.html', errorList=response['Errors'])
 
-        return "OK"
+    return "OK"
 
 
 if __name__ == '__main__':
