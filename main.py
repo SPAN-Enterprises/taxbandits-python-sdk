@@ -88,7 +88,10 @@ def submit_create_form1099_nec():
                                response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
                                         response['SubmissionId'], ErrorMessage=' Form 1099-NEC Created Successfully')
 
-    elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response['Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0]['Errors'] is not None:
+    elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
+        'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
+            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
+        'Errors'] is not None:
 
         errorRecords = []
 
@@ -97,7 +100,8 @@ def submit_create_form1099_nec():
                 for err in errorList['Errors']:
                     errorRecords.append(err)
 
-        return render_template('error_list.html', errorList=errorRecords, status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+        return render_template('error_list.html', errorList=errorRecords,
+                               status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
                                    response['StatusMessage']))
     else:
 
@@ -287,13 +291,28 @@ def transmit_form1099_nec():
                                    ErrorMessage='Message=' + json.dumps(response))
 
 
-@appInstance.route("/webhook", methods=['GET', 'POST'])
+@appInstance.route("/pdf_webhook", methods=['POST'])
 def get_web_hook():
     if request.method == 'POST':
-        json_content = request.json
-        response = json.dumps(json_content)
 
         Timestamp = request.headers.get('Timestamp')
+
+        Signature = request.headers.get('Signature')
+
+        isSignatureValid = validate(Timestamp, Signature)
+
+        # if isSignatureValid:
+        # save_response_in_mongodb(response)
+
+        return "OK"
+
+
+@appInstance.route("/status_webhook", methods=['POST'])
+def get_status_web_hook():
+    if request.method == 'POST':
+
+        Timestamp = request.headers.get('Timestamp')
+
         Signature = request.headers.get('Signature')
 
         isSignatureValid = validate(Timestamp, Signature)
