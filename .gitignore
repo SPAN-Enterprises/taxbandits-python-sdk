@@ -1,4 +1,4 @@
 # Project exclude paths
 /venv/
 settings.json
-/utils/Config.py
+utils/Config.py
