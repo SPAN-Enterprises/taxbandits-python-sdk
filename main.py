@@ -297,12 +297,10 @@ def get_pdf():
     response = Business.get_pdf(SubmissionId, RecordIds, TINMaskType)
 
     if 'Form1099NecRecords' in response:
-
-        return render_template('get_pdf_result.html')
-        # if 'Message' in response['Form1099NecRecords'][0]:
-        #     return response['Form1099NecRecords'][0]['Message']
-        # else:
-        #     return "OK"
+        if 'Message' in response['Form1099NecRecords'][0]:
+            return response['Form1099NecRecords'][0]['Message']
+        else:
+            return "OK"
     else:
 
         return "OK"
