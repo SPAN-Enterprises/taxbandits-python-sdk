@@ -1,11 +1,7 @@
 userCredential = {
-    "CLIENT_ID": "Your Client ID",
-    "SECRET_ID": "Your Secret ID",
-    "USER_TOKEN": "Your User Token"
-
-    #   CLIENT_ID": "YOUR CLIENT ID",
-    # "SECRET_ID": "YOUR CLIENT SECRET",
-    # "USER_TOKEN": "YOUR USER TOKEN"
+    "CLIENT_ID": "YOUR CLIENT ID",
+    "SECRET_ID": "YOUR CLIENT SECRET",
+    "USER_TOKEN": "YOUR USER TOKEN"
 }
 
 apiBaseUrls = {
