@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from core import GetNecListRequest
+from core import GetFormListRequest
 from core.Business import Business
 from core.CreateForm1099NEC import CreateForm1099NEC
 from core.USAddress import USAddress
@@ -150,7 +150,7 @@ def transmitForm1099MISC(submissionId, recordId):
 
 
 # Get MISC List by business_id
-def get_misc_list(get_list_request: GetNecListRequest):
+def get_misc_list(get_list_request: GetFormListRequest):
 
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM_1099MISC_LIST,
                             params={"Page": get_list_request.get_page(),

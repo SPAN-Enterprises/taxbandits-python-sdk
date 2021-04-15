@@ -1,7 +1,7 @@
 import requests
 import json
 
-from core import GetNecListRequest
+from core import GetFormListRequest
 from core.ScheduleFiling import ScheduleFiling
 from utils import HeaderUtils, Config, EndPointConfig
 from api_services import JwtGeneration
@@ -126,7 +126,7 @@ def transmitForm1099NEC(submissionId, recordId):
 
 
 # Get NEC List by business_id
-def get_nec_list(get_list_request: GetNecListRequest):
+def get_nec_list(get_list_request: GetFormListRequest):
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM_1099NEC_LIST,
                             params={"Page": get_list_request.get_page(),
                                     "PageSize": get_list_request.get_page_size(),

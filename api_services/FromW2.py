@@ -7,12 +7,12 @@ from core.USAddress import USAddress
 from core.SubmissionManifest import SubmissionManifest
 from core.W2FormData import FormDetails
 from core.ReturnHeader import ReturnHeader
+from  core.GetFormListRequest import GetFormListRequest
 from core.ReturnDataFormW2 import ReturnDataFormW2
 from utils import HeaderUtils, Config, EndPointConfig
 
 
 def generate_form_w2_request(requestJson):
-
     createFormW2Request = CreateFormW2Request()
 
     submissionManifest = SubmissionManifest()
@@ -97,4 +97,18 @@ def generate_form_w2_request(requestJson):
     print(response.status_code)
 
     print(response.json())
+    return response.json()
+
+
+# Get W2 List by business_id
+def get_w2_list(get_request: GetFormListRequest):
+    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.LIST_FORM_W2,
+                            params={"Page": get_request.get_page(),
+                                    "PageSize": get_request.get_page_size(),
+                                    "FromDate": get_request.get_from_date(),
+                                    "BusinessId": get_request.get_business_id(),
+                                    "ToDate": get_request.get_to_date()}, headers=HeaderUtils.getheaders())
+
+    print(response.json())
+
     return response.json()

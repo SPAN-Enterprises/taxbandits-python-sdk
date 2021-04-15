@@ -2,8 +2,6 @@ import requests
 from core.ForeignAddress import ForeignAddress
 from core.GetBusinssList import BusinessListRequest
 import json
-
-from core.GetNecListRequest import GetNecListRequest
 from utils import HeaderUtils, Config, EndPointConfig
 from core.Business import Business
 from core.SigningAuthority import SigningAuthority

@@ -451,5 +451,44 @@ def submit_form_w2():
                                ErrorMessage='Message=' + json.dumps(response))
 
 
+@appInstance.route('/FormW2List', methods=['GET'])
+def get_w2_list():
+    businesses = get_all_business_list()
+
+    return render_template('form_w2_list.html', businesses=businesses)
+
+
+@appInstance.route('/form_w2_list', methods=['POST'])
+def form_w2_list():
+    response = get_form_list_request("W2")
+
+    form1099NecList = []
+
+    if response is not None:
+
+        if 'Form1099Records' in response:
+
+            if response['Form1099Records'] is not None:
+
+                for records in response['Form1099Records']:
+                    recipientData = Form1099NecList()
+                    if 'RecipientNm' in records['Recipient']:
+                        recipientData.set_RecipientNm(
+                            records['Recipient']['RecipientNm'])
+                    elif 'RecipientName' in records['Recipient']:
+                        recipientData.set_RecipientNm(
+                            records['Recipient']['RecipientName'])
+
+                    recipientData.set_TIN(records['Recipient']['TIN'])
+                    recipientData.set_RecipientId(
+                        records['Recipient']['RecordId'])
+                    recipientData.set_SubmissionId(records['SubmissionId'])
+                    recipientData.set_BusinessNm(records['BusinessNm'])
+                    recipientData.set_Status(records['Recipient']['Status'])
+                    form1099NecList.append(recipientData.__dict__)
+
+    return json.dumps(form1099NecList)
+
+
 if __name__ == '__main__':
     appInstance.run()
