@@ -15,12 +15,14 @@ from core.TransmitForm1099NECModel import TransmitForm1099NECModel
 from utils import HeaderUtils, Config, EndPointConfig
 
 
-def create(businessId, rName, rTIN, amount, recipientId):
+def create(formRequest: json):
     requestModel = CreateForm1099NECModel()
 
     returnHeader = ReturnHeaderModel()
     businessModel = CreateBusinessRequest()
-    businessModel.set_BusinessId(businessId)
+
+    if 'business_list' in formRequest:
+        businessModel.set_BusinessId(formRequest['business_list'][0])
     returnHeader.set_Business(businessModel.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
@@ -42,14 +44,24 @@ def create(businessId, rName, rTIN, amount, recipientId):
     returnData.set_SequenceId("1")
     # set Recipient data
     recipientModel = RecipientModel()
+    recipientId = -1
+
+    if 'recipientsDropDown' in formRequest:
+        recipientId = formRequest['recipientsDropDown']
+
     if recipientId != '-1':
         recipientModel.set_RecipientId(recipientId)
     else:
         recipientModel.set_RecipientId('')
 
     recipientModel.set_TINType("EIN")
-    recipientModel.set_TIN(rTIN)
-    recipientModel.set_FirstPayeeNm(rName)
+
+    if 'rTIN' in formRequest and formRequest['rTIN']:
+        recipientModel.set_TIN(formRequest['rTIN'][0])
+
+    if 'rName' in formRequest:
+        recipientModel.set_FirstPayeeNm(formRequest['rName'][0])
+
     recipientModel.set_SecondPayeeNm("")
     recipientModel.set_IsForeign(False)
     usAddress = ForeignAddress()
@@ -65,10 +77,19 @@ def create(businessId, rName, rTIN, amount, recipientId):
     returnData.set_Recipient(recipientModel.__dict__)
     # set NEC data
     miscFormDataModel = MISCFormDataModel()
-    miscFormDataModel.set_B1Rents(amount)
-    miscFormDataModel.set_B2Royalties(0)
-    miscFormDataModel.set_B3OtherIncome(0)
-    miscFormDataModel.set_B4FedIncomeTaxWH(0)
+
+    if 'rentsAmt' in formRequest:
+        miscFormDataModel.set_B1Rents(formRequest['rentsAmt'][0])
+
+    if 'royaltiesAmt' in formRequest:
+        miscFormDataModel.set_B2Royalties(formRequest['royaltiesAmt'][0])
+
+    if 'otherIncomeAmt' in formRequest:
+        miscFormDataModel.set_B3OtherIncome(formRequest['otherIncomeAmt'])
+
+    if 'incomeAmt' in formRequest:
+        miscFormDataModel.set_B4FedIncomeTaxWH(formRequest['incomeAmt'])
+
     miscFormDataModel.set_B5FishingBoatProceeds(0)
     miscFormDataModel.set_B6MedHealthcarePymts(0)
     miscFormDataModel.set_B7IsDirectSale(0)
@@ -110,7 +131,6 @@ def create(businessId, rName, rTIN, amount, recipientId):
 
 
 def transmitForm1099MISC(submissionId, recordId):
-
     requestModel = TransmitForm1099NECModel()
 
     requestModel.set_SubmissionId(submissionId)

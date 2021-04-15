@@ -105,54 +105,35 @@ def submit_form_1099_NEC():
 def submit_form_1099MISC():
     input_request_json = request.form.to_dict(flat=False)
 
-    businessId = ''
-    if 'business_list' in input_request_json:
-        businessId = input_request_json['business_list'][0]
+    response = create_form1099_misc(input_request_json)
 
-    rName = ''
-    if 'rName' in input_request_json:
-        rName = input_request_json['rName'][0]
+    if response is not None:
+        if response['StatusCode'] == 200:
 
-    rTIN = ''
-    if 'rTIN' in input_request_json:
-        rTIN = input_request_json['rTIN'][0]
+            return render_template('success.html',
+                                   response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
+                                            response['SubmissionId'], ErrorMessage='Form 1099-MISC Created Successfully')
 
-    amount = ''
-    if 'amount' in input_request_json:
-        amount = input_request_json['amount'][0]
+        elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
+            'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
+                response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0]['Errors'] is not None:
 
-    recipientId = None
+            errorRecords = []
 
-    if 'recipientsDropDown' in input_request_json:
-        recipientId = input_request_json['recipientsDropDown'][0]
+            for errorList in response['Form1099Records']['ErrorRecords']:
+                if 'Errors' in errorList and errorList['Errors'] is not None:
+                    for err in errorList['Errors']:
+                        errorRecords.append(err)
 
-    response = create_form1099_misc(businessId, rName, rTIN, amount, recipientId)
+            return render_template('error_list.html', errorList=errorRecords,
+                                   status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                       response['StatusMessage']))
+        else:
 
-    if response['StatusCode'] == 200:
-
-        return render_template('success.html',
-                               response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
-                                        response['SubmissionId'], ErrorMessage='Form 1099-MISC Created Successfully')
-
-    elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
-        'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
-            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
-        'Errors'] is not None:
-
-        errorRecords = []
-
-        for errorList in response['Form1099Records']['ErrorRecords']:
-            if 'Errors' in errorList and errorList['Errors'] is not None:
-                for err in errorList['Errors']:
-                    errorRecords.append(err)
-
-        return render_template('error_list.html', errorList=errorRecords,
-                               status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
-                                   response['StatusMessage']))
+            return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                                   ErrorMessage='Message=' + json.dumps(response))
     else:
-
-        return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
-                               ErrorMessage='Message=' + json.dumps(response))
+        get
 
 
 @appInstance.route('/detail', methods=['GET'])
@@ -192,8 +173,8 @@ def create_form1099_nec(businessId, rName, rTIN, amount, recipientId):
     return response.json()
 
 
-def create_form1099_misc(businessId, rName, rTIN, amount, recipientId):
-    response = Form1099MISC.create(businessId, rName, rTIN, amount, recipientId)
+def create_form1099_misc(formRequest):
+    response = Form1099MISC.create(formRequest)
     return response.json()
 
 
