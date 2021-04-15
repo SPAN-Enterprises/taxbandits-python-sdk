@@ -102,41 +102,6 @@ def submit_form_1099_nec():
                                ErrorMessage='Message=' + json.dumps(response))
 
 
-@appInstance.route('/createForm1099MISC', methods=['POST'])
-def submit_form_1099_misc():
-    input_request_json = request.form.to_dict(flat=False)
-
-    response = create_form1099_misc(input_request_json)
-
-    if response is not None:
-        if response['StatusCode'] == 200:
-
-            return render_template('success.html',
-                                   response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
-                                            response['SubmissionId'], ErrorMessage='Form 1099-MISC Created Successfully')
-
-        elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
-            'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
-                response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0]['Errors'] is not None:
-
-            errorRecords = []
-
-            for errorList in response['Form1099Records']['ErrorRecords']:
-                if 'Errors' in errorList and errorList['Errors'] is not None:
-                    for err in errorList['Errors']:
-                        errorRecords.append(err)
-
-            return render_template('error_list.html', errorList=errorRecords,
-                                   status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
-                                       response['StatusMessage']))
-        else:
-
-            return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
-                                   ErrorMessage='Message=' + json.dumps(response))
-    else:
-        get
-
-
 @appInstance.route('/detail', methods=['GET'])
 def get_business():
     business_id = request.args.get('business_id')
@@ -229,48 +194,9 @@ def get_nec_list():
     return render_template('form_1099_nec_list.html', businesses=businesses)
 
 
-@appInstance.route('/Form1099MISCList', methods=['GET'])
-def get_misc_list():
-    businesses = get_all_business_list()
-
-    return render_template('form_1099_misc_list.html', businesses=businesses)
-
-
 @appInstance.route('/nec_list', methods=['POST'])
 def form_1099_nec_list():
     response = get_form_list_request("NEC")
-
-    form1099NecList = []
-
-    if response is not None:
-
-        if 'Form1099Records' in response:
-
-            if response['Form1099Records'] is not None:
-
-                for records in response['Form1099Records']:
-                    recipientData = Form1099NecList()
-                    if 'RecipientNm' in records['Recipient']:
-                        recipientData.set_RecipientNm(
-                            records['Recipient']['RecipientNm'])
-                    elif 'RecipientName' in records['Recipient']:
-                        recipientData.set_RecipientNm(
-                            records['Recipient']['RecipientName'])
-
-                    recipientData.set_TIN(records['Recipient']['TIN'])
-                    recipientData.set_RecipientId(
-                        records['Recipient']['RecordId'])
-                    recipientData.set_SubmissionId(records['SubmissionId'])
-                    recipientData.set_BusinessNm(records['BusinessNm'])
-                    recipientData.set_Status(records['Recipient']['Status'])
-                    form1099NecList.append(recipientData.__dict__)
-
-    return json.dumps(form1099NecList)
-
-
-@appInstance.route('/misc_list', methods=['POST'])
-def form_1099_misc_list():
-    response = get_form_list_request("MISC")
 
     form1099NecList = []
 
@@ -322,9 +248,84 @@ def transmit_form1099_nec():
             return render_template('error_list.html', errorList=response['Errors'],
                                    status=str(response['StatusCode']) + " - " + str(
                                        response['StatusName']) + " - " + str(response['StatusMessage']))
+
         else:
             return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
                                    ErrorMessage='Message=' + json.dumps(response))
+
+
+@appInstance.route('/createForm1099MISC', methods=['POST'])
+def submit_form_1099_misc():
+    input_request_json = request.form.to_dict(flat=False)
+
+    response = create_form1099_misc(input_request_json)
+
+    print(f"Response = \n{response}")
+
+    if response is not None:
+        if response['StatusCode'] == 200:
+
+            return render_template('success.html',
+                                   response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
+                                            response['SubmissionId'], ErrorMessage='Form 1099-MISC Created Successfully')
+
+        elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
+            'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
+                response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0]['Errors'] is not None:
+
+            errorRecords = []
+
+            for errorList in response['Form1099Records']['ErrorRecords']:
+                if 'Errors' in errorList and errorList['Errors'] is not None:
+                    for err in errorList['Errors']:
+                        errorRecords.append(err)
+
+            return render_template('error_list.html', errorList=errorRecords,
+                                   status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                       response['StatusMessage']))
+        else:
+
+            return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                                   ErrorMessage='Message=' + json.dumps(response))
+
+
+@appInstance.route('/Form1099MISCList', methods=['GET'])
+def get_misc_list():
+    businesses = get_all_business_list()
+
+    return render_template('form_1099_misc_list.html', businesses=businesses)
+
+
+@appInstance.route('/misc_list', methods=['POST'])
+def form_1099_misc_list():
+    response = get_form_list_request("MISC")
+
+    form1099NecList = []
+
+    if response is not None:
+
+        if 'Form1099Records' in response:
+
+            if response['Form1099Records'] is not None:
+
+                for records in response['Form1099Records']:
+                    recipientData = Form1099NecList()
+                    if 'RecipientNm' in records['Recipient']:
+                        recipientData.set_RecipientNm(
+                            records['Recipient']['RecipientNm'])
+                    elif 'RecipientName' in records['Recipient']:
+                        recipientData.set_RecipientNm(
+                            records['Recipient']['RecipientName'])
+
+                    recipientData.set_TIN(records['Recipient']['TIN'])
+                    recipientData.set_RecipientId(
+                        records['Recipient']['RecordId'])
+                    recipientData.set_SubmissionId(records['SubmissionId'])
+                    recipientData.set_BusinessNm(records['BusinessNm'])
+                    recipientData.set_Status(records['Recipient']['Status'])
+                    form1099NecList.append(recipientData.__dict__)
+
+    return json.dumps(form1099NecList)
 
 
 @appInstance.route('/transmitForm1099MISC', methods=['GET'])
@@ -354,6 +355,25 @@ def transmit_form1099_misc():
         else:
             return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
                                    ErrorMessage='Message=' + json.dumps(response))
+
+
+@appInstance.route('/Form1099MISC/GetPDF', methods=['GET'])
+def get_misc_pdf():
+    SubmissionId = request.args.get('submissionId')
+    RecordIds = request.args.get('RecordIds')
+    TINMaskType = "MASKED"
+    response = Business.get_misc_pdf(SubmissionId, RecordIds, TINMaskType)
+    print(response)
+
+    if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:
+        if 'Message' in response['Form1099NecRecords'][0]:
+            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'])
+        else:
+            return "OK"
+    elif 'Errors' in response and response['Errors'] is not None:
+        return render_template('pdf_response.html', errorList=response['Errors'])
+
+    return "OK"
 
 
 @appInstance.route("/pdf_webhook", methods=['POST'])
@@ -387,7 +407,7 @@ def get_status_web_hook():
         return "OK"
 
 
-@appInstance.route('/GetPDF', methods=['GET'])
+@appInstance.route('/Form1099NEC/GetPDF', methods=['GET'])
 def get_pdf():
     SubmissionId = request.args.get('submissionId')
     RecordIds = request.args.get('RecordIds')

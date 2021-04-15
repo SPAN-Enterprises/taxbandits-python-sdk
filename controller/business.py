@@ -14,8 +14,8 @@ def create_form1099_nec(businessId, rName, rTIN, amount, recipientId):
     return response.json()
 
 
-def create_form1099_misc(businessId, rName, rTIN, amount, recipientId):
-    response = Form1099MISC.create(businessId, rName, rTIN, amount, recipientId)
+def create_form1099_misc(formRequest):
+    response = Form1099MISC.create(formRequest)
     return response.json()
 
 
@@ -47,15 +47,15 @@ def get_form_list_request(formType: str):
 
     get_nec_request.set_page(1)
 
-    get_nec_request.set_page_size(50)
+    get_nec_request.set_page_size(100)
 
     get_nec_request.set_from_date('03/01/2021')
 
     get_nec_request.set_to_date('04/31/2021')
 
     if formType == "NEC":
-        response = Business.get_nec_list(get_nec_request)
+        response = Form1099NEC.get_nec_list(get_nec_request)
     else:
-        response = Business.get_misc_list(get_nec_request)
+        response = Form1099MISC.get_misc_list(get_nec_request)
 
     return response
