@@ -440,9 +440,8 @@ def submit_form_w2():
     if response['StatusCode'] == 200:
 
         return render_template('success.html',
-                               response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' +
-                                        response[
-                                            'BusinessId'], ErrorMessage=' Business Created Successfully')
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>RecordId =' +
+                                        response['FormW2Records']['SuccessRecords'][0]['RecordId'] +  '<br>EmployeeId =' +response['FormW2Records']['SuccessRecords'][0]['EmployeeId'] , ErrorMessage=' Form W2 Created Successfully')
 
     elif 'Errors' in response and response['Errors'] is not None:
 

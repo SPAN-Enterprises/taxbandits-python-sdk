@@ -3,14 +3,14 @@ import json
 import requests
 
 from core import GetNecListRequest
-from core.CreateBusinessRequest import CreateBusinessRequest
 from core.CreateForm1099NECModel import CreateForm1099NECModel
-from core.ForeignAddress import ForeignAddress
 from core.MISCFormDataModel import MISCFormDataModel
 from core.RecipientModel import RecipientModel
 from core.ReturnDataModel import ReturnDataModel
 from core.ReturnHeaderModel import ReturnHeaderModel
 from core.StatesModel import StatesModel
+from core.Business import Business
+from core.USAddress import USAddress
 from core.SubmissionManifestModel import SubmissionManifestModel
 from core.TransmitForm1099NECModel import TransmitForm1099NECModel
 from utils import HeaderUtils, Config, EndPointConfig
@@ -24,11 +24,11 @@ def create(formRequest: json):
     requestModel = CreateForm1099NECModel()
 
     returnHeader = ReturnHeaderModel()
-    businessModel = CreateBusinessRequest()
+    business = Business()
 
     if 'business_list' in formRequest:
-        businessModel.set_BusinessId(formRequest['business_list'][0])
-    returnHeader.set_Business(businessModel.__dict__)
+        business.set_BusinessId(formRequest['business_list'][0])
+    returnHeader.set_Business(business.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
     submissionManifest = SubmissionManifestModel()
@@ -69,7 +69,7 @@ def create(formRequest: json):
 
     recipientModel.set_SecondPayeeNm("")
     recipientModel.set_IsForeign(False)
-    usAddress = ForeignAddress()
+    usAddress = USAddress()
     usAddress.set_Address1("1751 Kinsey Rd")
     usAddress.set_Address2("Main St")
     usAddress.set_City("Dothan")

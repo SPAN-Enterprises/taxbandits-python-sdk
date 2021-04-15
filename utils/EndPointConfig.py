@@ -1,4 +1,3 @@
-
 CREATE_BUSINESS = "Business/Create"
 
 GET_BUSINESS = "Business/Get"
@@ -25,10 +24,4 @@ TRANSMIT_FORM_1099MISC = "Form1099MISC/Transmit"
 
 GET_MISC_PDF = "Form1099MISC/GetPDF"
 
-
-
 CREATE_FORM_W2 = "FormW2/Create"
-
-
-
-

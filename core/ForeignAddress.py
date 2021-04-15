@@ -28,11 +28,13 @@ class ForeignAddress:
 
     def get_ProvinceOrStateNm(self):
         return self.ProvinceOrStateNm
+
     def set_ProvinceOrStateNm(self,provinceOrStateNm):
         self.ProvinceOrStateNm = provinceOrStateNm
 
     def get_Country(self):
         return self.Country
+
     def set_Country(self,country):
         self.Country = country
 
