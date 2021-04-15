@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+
+    <h2><u>Create a New Form W2</u></h2>
+
+    <h3>FormW2/Create</h3>
+
+
+    <p><font size="5" color="blue">Business Information</font></p>
+
+    <table>
+        <tbody>
+
+        <tr>
+            <td class="labelName">
+                Employer Name:
+            </td>
+            <td class="apifieldname vaT">
+                <input id="W2Forms_0__Business_BusinessNm" maxlength="150" name="W2Forms[0].Business.BusinessNm" type="text" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <td class="labelName">
+                EIN:
+            </td>
+            <td class="apifieldname vaT">
+                <input id="W2Forms_0__Business_EINorSSN" maxlength="9" name="W2Forms[0].Business.EINorSSN" type="text" value="">
+            </td>
+        </tr>
+
+
+        <tr>
+            <td class="labelName">
+                Contact Name:
+            </td>
+            <td class="apifieldname vaT">
+                <input id="W2Forms_0__Business_ContactNm" maxlength="27" name="W2Forms[0].Business.ContactNm" type="text" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <td class="labelName">
+                Phone Number:
+            </td>
+            <td class="apifieldname vaT" colspan="1">
+                <input id="W2Forms_0__Business_Phone" maxlength="10" name="W2Forms[0].Business.Phone" placeholder="Phone Number" type="text" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <td class="labelName">
+                Email Address:
+            </td>
+            <td class="apifieldname vaT">
+                <input id="W2Forms_0__Business_Email" maxlength="50" name="W2Forms[0].Business.Email" type="text" value="">
+            </td>
+
+        </tr>
+
+        <tr>
+            <td class="labelName">
+                Kind of Payer:
+            </td>
+            <td class="apifieldname vaT">
+
+                <select id="W2Forms_0__Business_KindOfPayer" name="W2Forms[0].Business.KindOfPayer" placeholder="Select Kind of Payer"><option value="">--Please Select--</option>
+                    <option value="REGULAR941">REGULAR941</option>
+                    <option value="REGULAR944">REGULAR944</option>
+                    <option value="AGRICULTURAL943">AGRICULTURAL943</option>
+                    <option value="HOUSEHOLD">HOUSEHOLD</option>
+                    <option value="MILITARY">MILITARY</option>
+                    <option value="MEDICAREQUALGOVEM">MEDICAREQUALGOVEM</option>
+                    <option value="RAILROADFORMCT1">RAILROADFORMCT1</option>
+                </select>
+            </td>
+
+            <td class="labelName">
+                Kind of Employer:
+            </td>
+            <td class="apifieldname vaT">
+
+                <select id="W2Forms_0__Business_KindOfEmployer" name="W2Forms[0].Business.KindOfEmployer" placeholder="Select Kind Of Employer"><option value="">--Please Select--</option>
+                    <option value="NONEAPPLY">NONEAPPLY</option>
+                    <option value="NONGOVT501C">NONGOVT501C</option>
+                    <option value="STATEORLOCALNON501C">STATEORLOCALNON501C</option>
+                    <option value="STATEORLOCAL501C">STATEORLOCAL501C</option>
+                    <option value="FEDERALGOVT">FEDERALGOVT</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="labelName">
+                Name (W-2):
+            </td>
+            <td class="apifieldname vaT" colspan="1">
+                <input id="W2Forms_0__Employee_FirstNm" maxlength="15" name="W2Forms[0].Employee.FirstNm" placeholder="First Name" type="text" value="">
+                <input id="W2Forms_0__Employee_MiddleNm" maxlength="15" name="W2Forms[0].Employee.MiddleNm" placeholder="Middle Name" type="text" value="">
+                <input id="W2Forms_0__Employee_LastNm" maxlength="20" name="W2Forms[0].Employee.LastNm" placeholder="Last Name" type="text" value="">
+                <select id="W2Forms_0__Employee_Suffix" maxlength="4" name="W2Forms[0].Employee.Suffix" placeholder="Suffix" style="width:8% !important;"><option value="">Suffix</option>
+                    <option value="Jr">Jr</option>
+                    <option value="Sr">Sr</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                    <option value="V">V</option>
+                    <option value="VI">VI</option>
+                    <option value="VII">VII</option>
+                </select>
+            </td>
+        <tr>
+
+        <tr>
+            <td class="labelName">
+                Employee's SSN:
+            </td>
+            <td class="apifieldname vaT">
+                <input id="W2Forms_0__Employee_SSN" maxlength="9" name="W2Forms[0].Employee.SSN" type="text" value="">
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <td class="labelName">
+                Phone Number:
+            </td>
+            <td class="apifieldname vaT">
+                <input id="W2Forms_0__Employee_Phone" maxlength="10" name="W2Forms[0].Employee.Phone" type="text" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <td class="labelName">
+                Email Address:
+            </td>
+            <td class="apifieldname vaT">
+                <input id="W2Forms_0__Employee_Email" maxlength="50" name="W2Forms[0].Employee.Email" type="text" value="">
+            </td>
+
+        </tr>
+
+        </tbody>
+    </table>
+
+
+
+
+</div>
+
+
+{% endblock %}

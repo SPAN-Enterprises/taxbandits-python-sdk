@@ -4,11 +4,8 @@ from core.Form1099NecList import Form1099NecList
 from core.GetBusinssList import BusinessListRequest
 from core.GetNecListRequest import GetNecListRequest
 from core.RecipientModel import RecipientModel
-import threading
 import json
 from flask import Flask, request
-from pyngrok import ngrok
-from repository.PdfWebHook import save_response_in_mongodb
 from utils.SignatureValidation import validate
 
 appInstance = Flask(__name__)
@@ -85,8 +82,8 @@ def submit_create_form1099_nec():
     if response['StatusCode'] == 200:
 
         return render_template('success.html',
-                               response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
-                                        response['SubmissionId'], ErrorMessage=' Form 1099-NEC Created Successfully')
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' + response[
+                                   'SubmissionId'], ErrorMessage=' Form 1099-NEC Created Successfully')
 
     elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
         'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
@@ -96,7 +93,9 @@ def submit_create_form1099_nec():
         errorRecords = []
 
         for errorList in response['Form1099Records']['ErrorRecords']:
+
             if 'Errors' in errorList and errorList['Errors'] is not None:
+
                 for err in errorList['Errors']:
                     errorRecords.append(err)
 
@@ -266,11 +265,11 @@ def form_1099_nec_list():
 
 @appInstance.route('/transmitForm1099NEC', methods=['GET'])
 def transmit_form1099_nec():
-    splitted_Ids = request.args.get('submissionId').split("_")
+    split_Ids = request.args.get('submissionId').split("_")
 
-    recordList = [splitted_Ids[1]]
+    recordList = [split_Ids[1]]
 
-    response = Form1099NEC.transmitForm1099NEC(splitted_Ids[0], recordList)
+    response = Form1099NEC.transmitForm1099NEC(split_Ids[0], recordList)
 
     if response is not None:
 
@@ -294,7 +293,6 @@ def transmit_form1099_nec():
 @appInstance.route("/pdf_webhook", methods=['POST'])
 def get_web_hook():
     if request.method == 'POST':
-
         Timestamp = request.headers.get('Timestamp')
 
         Signature = request.headers.get('Signature')
@@ -310,7 +308,6 @@ def get_web_hook():
 @appInstance.route("/status_webhook", methods=['POST'])
 def get_status_web_hook():
     if request.method == 'POST':
-
         Timestamp = request.headers.get('Timestamp')
 
         Signature = request.headers.get('Signature')
@@ -340,6 +337,11 @@ def get_pdf():
         return render_template('pdf_response.html', errorList=response['Errors'])
 
     return "OK"
+
+
+@appInstance.route('/create_form_w2', methods=['GET'])
+def create_form_w2():
+    return render_template('create_form_w2.html')
 
 
 if __name__ == '__main__':
