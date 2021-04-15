@@ -17,3 +17,5 @@ apiBaseUrls = {
 
 # Global variable to store the Access Token
 access_token = ''
+
+log = True
