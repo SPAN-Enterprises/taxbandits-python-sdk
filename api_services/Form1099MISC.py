@@ -12,7 +12,7 @@ from core.ReturnData import ReturnData
 from core.ReturnHeader import ReturnHeader
 from core.States import States
 from core.SubmissionManifest import SubmissionManifest
-from core.TransmitForm1099NEC import TransmitForm1099NEC
+from core.TransmitFormRequest import TransmitFormRequest
 from utils import HeaderUtils, Config, EndPointConfig
 from core.ScheduleFiling import ScheduleFiling
 
@@ -137,7 +137,7 @@ def create(formRequest: json):
 
 
 def transmitForm1099MISC(submissionId, recordId):
-    requestModel = TransmitForm1099NEC()
+    requestModel = TransmitFormRequest()
 
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)

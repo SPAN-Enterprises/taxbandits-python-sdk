@@ -13,7 +13,7 @@ from core.ReturnData import ReturnData
 from core.NECFormData import NECFormData
 from core.Recipient import Recipient
 from core.ForeignAddress import ForeignAddress
-from core.TransmitForm1099NEC import TransmitForm1099NEC
+from core.TransmitFormRequest import TransmitFormRequest
 from core.Business import Business
 from core.USAddress import USAddress
 
@@ -113,7 +113,7 @@ def getForm1099NECList(businessId):
 
 
 def transmitForm1099NEC(submissionId, recordId):
-    requestModel = TransmitForm1099NEC()
+    requestModel = TransmitFormRequest()
 
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)

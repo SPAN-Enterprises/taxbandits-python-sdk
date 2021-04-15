@@ -1,11 +1,12 @@
 from flask import render_template
 
-from api_services import Business, Form1099NEC, Form1099MISC
+from api_services import Business, Form1099NEC, Form1099MISC, FormW2
 from controller.business import create_business, create_form1099_nec, create_form1099_misc, get_business_detail_api, \
     get_all_business_list, get_form_list_request, create_form_w2
 from core.Form1099NecList import Form1099NecList
 from core.GetBusinssList import BusinessListRequest
 from core.Recipient import Recipient
+from api_services.FormW2 import transmit_formw2
 import json
 from flask import Flask, request
 from utils.SignatureValidation import validate
@@ -82,7 +83,8 @@ def submit_form_1099_nec():
 
     elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
         'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
-            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0]['Errors'] is not None:
+            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
+        'Errors'] is not None:
 
         errorRecords = []
 
@@ -265,11 +267,13 @@ def submit_form_1099_misc():
 
             return render_template('success.html',
                                    response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
-                                            response['SubmissionId'], ErrorMessage='Form 1099-MISC Created Successfully')
+                                            response['SubmissionId'],
+                                   ErrorMessage='Form 1099-MISC Created Successfully')
 
         elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
             'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
-                response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0]['Errors'] is not None:
+                response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
+            'Errors'] is not None:
 
             errorRecords = []
 
@@ -279,7 +283,8 @@ def submit_form_1099_misc():
                         errorRecords.append(err)
 
             return render_template('error_list.html', errorList=errorRecords,
-                                   status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                   status=str(response['StatusCode']) + " - " + str(
+                                       response['StatusName']) + " - " + str(
                                        response['StatusMessage']))
         else:
 
@@ -364,7 +369,8 @@ def get_misc_pdf():
 
     if 'Form1099MiscRecords' in response and response['Form1099MiscRecords'] is not None:
         if 'Message' in response['Form1099MiscRecords'][0]:
-            return render_template('pdf_response.html', errorList=response['Form1099MiscRecords'], FormType="Form 1099-MISC")
+            return render_template('pdf_response.html', errorList=response['Form1099MiscRecords'],
+                                   FormType="Form 1099-MISC")
         else:
             return "OK"
     elif 'Errors' in response and response['Errors'] is not None:
@@ -382,7 +388,7 @@ def get_web_hook():
 
         isSignatureValid = validate(Timestamp, Signature)
 
-        print("Signature Valid = "+isSignatureValid)
+        print("Signature Valid = " + isSignatureValid)
 
         return "OK"
 
@@ -396,7 +402,7 @@ def get_status_web_hook():
 
         isSignatureValid = validate(Timestamp, Signature)
 
-        print("Signature Valid = "+isSignatureValid)
+        print("Signature Valid = " + isSignatureValid)
 
         # if isSignatureValid:
         # save_response_in_mongodb(response)
@@ -414,7 +420,8 @@ def get_pdf():
 
     if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:
         if 'Message' in response['Form1099NecRecords'][0]:
-            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'], FormType="Form 1099-NEC")
+            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'],
+                                   FormType="Form 1099-NEC")
         else:
             return "OK"
     elif 'Errors' in response and response['Errors'] is not None:
@@ -438,7 +445,10 @@ def submit_form_w2():
 
         return render_template('success.html',
                                response='StatusMessage=' + response['StatusMessage'] + '<br>RecordId =' +
-                                        response['FormW2Records']['SuccessRecords'][0]['RecordId'] +  '<br>EmployeeId =' +response['FormW2Records']['SuccessRecords'][0]['EmployeeId'] , ErrorMessage=' Form W2 Created Successfully')
+                                        response['FormW2Records']['SuccessRecords'][0][
+                                            'RecordId'] + '<br>EmployeeId =' +
+                                        response['FormW2Records']['SuccessRecords'][0]['EmployeeId'],
+                               ErrorMessage=' Form W2 Created Successfully')
 
     elif 'Errors' in response and response['Errors'] is not None:
 
@@ -485,6 +495,51 @@ def form_w2_list():
                     formW2List.append(recipientData.__dict__)
 
     return json.dumps(formW2List)
+
+
+@appInstance.route('/transmit_form_w2', methods=['GET'])
+def transmit_form_w2():
+    splitted_Ids = request.args.get('submissionId').split("_")
+
+    response = transmit_formw2(splitted_Ids[0])
+
+    print(response)
+
+    if response is not None:
+
+        if response['StatusCode'] == 200:
+
+            return render_template('success.html',
+                                   response='Status Timestamp=' + response['FormW2Records']['SuccessRecords'][0][
+                                       'StatusTs'],
+                                   ErrorMessage='Status= ' + response['FormW2Records']['SuccessRecords'][0]['Status'])
+
+        elif 'Errors' in response and response['Errors'] is not None:
+
+            return render_template('error_list.html', errorList=response['Errors'],
+                                   status=str(response['StatusCode']) + " - " + str(
+                                       response['StatusName']) + " - " + str(response['StatusMessage']))
+        else:
+            return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                                   ErrorMessage='Message=' + json.dumps(response))
+
+@appInstance.route('/FormW2/GetPDF', methods=['GET'])
+def get_w2_pdf():
+    SubmissionId = request.args.get('submissionId')
+    RecordIds = request.args.get('RecordIds')
+    TINMaskType = "MASKED"
+    response = FormW2.get_w2_pdf(SubmissionId, RecordIds, TINMaskType)
+
+    if 'FormW2Records' in response and response['FormW2Records'] is not None:
+        if 'Message' in response['FormW2Records'][0]:
+            return render_template('pdf_response.html', errorList=response['FormW2Records'],
+                                   FormType="Form W2")
+        else:
+            return "OK"
+    elif 'Errors' in response and response['Errors'] is not None:
+        return render_template('pdf_response.html', errorList=response['Errors'])
+
+    return "OK"
 
 
 if __name__ == '__main__':

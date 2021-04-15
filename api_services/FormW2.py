@@ -7,8 +7,9 @@ from core.USAddress import USAddress
 from core.SubmissionManifest import SubmissionManifest
 from core.W2FormData import FormDetails
 from core.ReturnHeader import ReturnHeader
-from  core.GetFormListRequest import GetFormListRequest
+from core.GetFormListRequest import GetFormListRequest
 from core.ReturnDataFormW2 import ReturnDataFormW2
+from core.TransmitFormRequest import TransmitFormRequest
 from utils import HeaderUtils, Config, EndPointConfig
 
 
@@ -23,7 +24,7 @@ def generate_form_w2_request(requestJson):
     submissionManifest.set_IsOnlineAccess(False)
     submissionManifest.set_IsTinMatching(False)
     submissionManifest.set_IsScheduleFiling(False)
-    scheduleFiling = SubmissionManifestModel()
+    scheduleFiling = SubmissionManifest()
     scheduleFiling.set_EfileDate("05/21/2021")
     submissionManifest.set_ScheduleFiling(None)
 
@@ -110,5 +111,25 @@ def get_w2_list(get_request: GetFormListRequest):
                                     "ToDate": get_request.get_to_date()}, headers=HeaderUtils.getheaders())
 
     print(response.json())
+
+    return response.json()
+
+
+def transmit_formw2(submissionId):
+    requestModel = TransmitFormRequest()
+    requestModel.set_SubmissionId(submissionId)
+
+    response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_W2,
+                             data=json.dumps(requestModel.__dict__),
+                             headers=HeaderUtils.getheaders())
+
+    return response.json()
+
+
+def get_w2_pdf(SubmissionId, RecordIds, TINMaskType):
+    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.FORM_W2_GET_PDF,
+                            params={"SubmissionId": SubmissionId,
+                                    "RecordIds": RecordIds,
+                                    "TINMaskType": TINMaskType}, headers=HeaderUtils.getheaders())
 
     return response.json()

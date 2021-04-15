@@ -62,3 +62,10 @@ class SubmissionManifest:
 
     def set_ScheduleFiling(self, ScheduleFiling):
         self.ScheduleFiling = ScheduleFiling
+
+    def get_EfileDate(self):
+        return self.EfileDate
+
+    def set_EfileDate(self, EfileDate):
+        self.EfileDate = EfileDate
+

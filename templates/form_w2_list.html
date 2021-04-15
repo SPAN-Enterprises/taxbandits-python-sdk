@@ -14,7 +14,7 @@
             <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
             {% endfor %}
         </select>
-        <button type="button" onclick="loadMISCList()">Get W2 List</button>
+        <button type="button" onclick="loadw2List()">Get W2 List</button>
     </div>
 
     <div>
@@ -44,7 +44,7 @@
     function transmitClicked(submissionId)
     {
         console.log(submissionId);
-        window.location = '/transmitW2?submissionId=' + submissionId;
+        window.location = '/transmit_form_w2?submissionId=' + submissionId;
     }
 
     function getPdfClicked(submissionId)
@@ -53,7 +53,7 @@
         window.location = '/FormW2/GetPDF?submissionId=' + submissionId;
     }
 
-    function loadMISCList()
+    function loadw2List()
     {
         $.ajax({
 			url: '/form_w2_list',

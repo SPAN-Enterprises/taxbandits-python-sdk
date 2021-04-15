@@ -1,6 +1,6 @@
 from flask import request
-from api_services import Business, Form1099NEC, Form1099MISC
-from api_services.FromW2 import  generate_form_w2_request,get_w2_list
+from api_services import Business, Form1099NEC, Form1099MISC, FormW2
+from api_services.FormW2 import  generate_form_w2_request,get_w2_list
 from core.GetBusinssList import BusinessListRequest
 from core.GetFormListRequest import GetFormListRequest
 
