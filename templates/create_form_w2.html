@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<form action="/form_w2_success" method="post" name="create">
 <div class="container">
 
     <h2><u>Create a New Form W2</u></h2>
@@ -184,5 +186,7 @@
 
 </div>
 
+<input type="submit" value="Save Form W2" />
+</form>
 
 {% endblock %}

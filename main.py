@@ -1,12 +1,10 @@
-import json
-
-from flask import Flask, request
 from flask import render_template
 
 from api_services import Business, Form1099NEC, Form1099MISC
+from controller.business import create_business, create_form1099_nec, create_form1099_misc, get_business_detail_api, \
+    get_all_business_list, get_form_list_request
 from core.Form1099NecList import Form1099NecList
 from core.GetBusinssList import BusinessListRequest
-from core.GetNecListRequest import GetNecListRequest
 from core.RecipientModel import RecipientModel
 import json
 from flask import Flask, request
@@ -50,7 +48,7 @@ def submit():
 
 
 @appInstance.route('/createForm1099NEC', methods=['POST'])
-def submit_form_1099_NEC():
+def submit_form_1099_nec():
     input_request_json = request.form.to_dict(flat=False)
 
     businessId = ''
@@ -84,8 +82,7 @@ def submit_form_1099_NEC():
 
     elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
         'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
-            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
-        'Errors'] is not None:
+            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0]['Errors'] is not None:
 
         errorRecords = []
 
@@ -106,7 +103,7 @@ def submit_form_1099_NEC():
 
 
 @appInstance.route('/createForm1099MISC', methods=['POST'])
-def submit_form_1099MISC():
+def submit_form_1099_misc():
     input_request_json = request.form.to_dict(flat=False)
 
     businessId = ''
@@ -140,8 +137,7 @@ def submit_form_1099MISC():
 
     elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
         'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
-            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
-        'Errors'] is not None:
+            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0]['Errors'] is not None:
 
         errorRecords = []
 
@@ -186,25 +182,6 @@ def business_list():
     return render_template('business_list.html', businesses=businesses)
 
 
-def create_business(requestJson):
-    response = Business.create(requestJson)
-    return response
-
-
-def create_form1099_nec(businessId, rName, rTIN, amount, recipientId):
-    response = Form1099NEC.create(businessId, rName, rTIN, amount, recipientId)
-    return response.json()
-
-
-def create_form1099_misc(businessId, rName, rTIN, amount, recipientId):
-    response = Form1099MISC.create(businessId, rName, rTIN, amount, recipientId)
-    return response.json()
-
-
-def get_business_detail_api(businessId, einOrSSN):
-    return Business.get_business_detail(businessId, einOrSSN)
-
-
 @appInstance.route('/ReadBusinessList', methods=['GET'])
 def get_business_list():
     businesses = get_all_business_list()
@@ -213,27 +190,10 @@ def get_business_list():
 
 
 @appInstance.route('/ReadFormBusinessList', methods=['GET'])
-def get_Form_business_list():
+def get_form_business_list():
     businesses = get_all_business_list()
 
     return render_template('create_form_1099_misc.html', businesses=businesses)
-
-
-def get_all_business_list():
-    get_business_request = BusinessListRequest()
-
-    get_business_request.set_page(1)
-
-    get_business_request.set_page_size(100)
-
-    get_business_request.set_from_date('03/01/2021')
-
-    get_business_request.set_to_date('04/31/2021')
-
-    response = Business.get_business_list(get_business_request)
-
-    if response is not None and 'Businesses' in response and response['Businesses'] is not None:
-        return response['Businesses']
 
 
 # on selecting business from drop down this method gets invoked
@@ -296,7 +256,7 @@ def get_misc_list():
 
 @appInstance.route('/nec_list', methods=['POST'])
 def form_1099_nec_list():
-    response = getFormListRequest("NEC")
+    response = get_form_list_request("NEC")
 
     form1099NecList = []
 
@@ -326,30 +286,9 @@ def form_1099_nec_list():
     return json.dumps(form1099NecList)
 
 
-def getFormListRequest(formType: str):
-    get_nec_request = GetNecListRequest()
-
-    get_nec_request.set_business_id(request.form['BusinessId'])
-
-    get_nec_request.set_page(1)
-
-    get_nec_request.set_page_size(50)
-
-    get_nec_request.set_from_date('03/01/2021')
-
-    get_nec_request.set_to_date('04/31/2021')
-
-    if formType == "NEC":
-        response = Business.get_nec_list(get_nec_request)
-    else:
-        response = Business.get_misc_list(get_nec_request)
-
-    return response
-
-
 @appInstance.route('/misc_list', methods=['POST'])
 def form_1099_misc_list():
-    response = getFormListRequest("MISC")
+    response = get_form_list_request("MISC")
 
     form1099NecList = []
 
@@ -444,8 +383,7 @@ def get_web_hook():
 
         isSignatureValid = validate(Timestamp, Signature)
 
-        # if isSignatureValid:
-        # save_response_in_mongodb(response)
+        print("Signature Valid = "+isSignatureValid)
 
         return "OK"
 
@@ -458,6 +396,8 @@ def get_status_web_hook():
         Signature = request.headers.get('Signature')
 
         isSignatureValid = validate(Timestamp, Signature)
+
+        print("Signature Valid = "+isSignatureValid)
 
         # if isSignatureValid:
         # save_response_in_mongodb(response)
@@ -487,6 +427,30 @@ def get_pdf():
 @appInstance.route('/create_form_w2', methods=['GET'])
 def create_form_w2():
     return render_template('create_form_w2.html')
+
+
+@appInstance.route('/form_w2_success', methods=['POST'])
+def submit_form_w2():
+    input_request_json = request.form.to_dict(flat=False)
+
+    response = create_business(input_request_json)
+
+    if response['StatusCode'] == 200:
+
+        return render_template('success.html',
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' +
+                                        response[
+                                            'BusinessId'], ErrorMessage=' Business Created Successfully')
+
+    elif 'Errors' in response and response['Errors'] is not None:
+
+        return render_template('error_list.html', errorList=response['Errors'],
+                               status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                   response['StatusMessage']))
+    else:
+
+        return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                               ErrorMessage='Message=' + json.dumps(response))
 
 
 if __name__ == '__main__':
