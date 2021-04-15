@@ -2,6 +2,7 @@ import json
 
 import requests
 
+from core import GetNecListRequest
 from core.CreateBusinessRequest import CreateBusinessRequest
 from core.CreateForm1099NECModel import CreateForm1099NECModel
 from core.ForeignAddress import ForeignAddress
@@ -15,12 +16,18 @@ from core.TransmitForm1099NECModel import TransmitForm1099NECModel
 from utils import HeaderUtils, Config, EndPointConfig
 
 
-def create(businessId, rName, rTIN, amount, recipientId):
+def isValidString(param):
+    return param is not None and len(param) > 0
+
+
+def create(formRequest: json):
     requestModel = CreateForm1099NECModel()
 
     returnHeader = ReturnHeaderModel()
     businessModel = CreateBusinessRequest()
-    businessModel.set_BusinessId(businessId)
+
+    if 'business_list' in formRequest:
+        businessModel.set_BusinessId(formRequest['business_list'][0])
     returnHeader.set_Business(businessModel.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
@@ -42,14 +49,24 @@ def create(businessId, rName, rTIN, amount, recipientId):
     returnData.set_SequenceId("1")
     # set Recipient data
     recipientModel = RecipientModel()
+    recipientId = -1
+
+    if 'recipientsDropDown' in formRequest:
+        recipientId = formRequest['recipientsDropDown'][0]
+
     if recipientId != '-1':
         recipientModel.set_RecipientId(recipientId)
     else:
         recipientModel.set_RecipientId('')
 
     recipientModel.set_TINType("EIN")
-    recipientModel.set_TIN(rTIN)
-    recipientModel.set_FirstPayeeNm(rName)
+
+    if 'rTIN' in formRequest and formRequest['rTIN']:
+        recipientModel.set_TIN(formRequest['rTIN'][0])
+
+    if 'rName' in formRequest:
+        recipientModel.set_FirstPayeeNm(formRequest['rName'][0])
+
     recipientModel.set_SecondPayeeNm("")
     recipientModel.set_IsForeign(False)
     usAddress = ForeignAddress()
@@ -65,10 +82,19 @@ def create(businessId, rName, rTIN, amount, recipientId):
     returnData.set_Recipient(recipientModel.__dict__)
     # set NEC data
     miscFormDataModel = MISCFormDataModel()
-    miscFormDataModel.set_B1Rents(amount)
-    miscFormDataModel.set_B2Royalties(0)
-    miscFormDataModel.set_B3OtherIncome(0)
-    miscFormDataModel.set_B4FedIncomeTaxWH(0)
+
+    if 'rentsAmt' in formRequest and formRequest['rentsAmt'] is not None and isValidString(formRequest['rentsAmt'][0]):
+        miscFormDataModel.set_B1Rents(float(formRequest['rentsAmt'][0]))
+
+    if 'royaltiesAmt' in formRequest and formRequest['royaltiesAmt'] is not None and isValidString(formRequest['royaltiesAmt'][0]):
+        miscFormDataModel.set_B2Royalties(float(formRequest['royaltiesAmt'][0]))
+
+    if 'otherIncomeAmt' in formRequest and formRequest['otherIncomeAmt'] is not None and isValidString(formRequest['otherIncomeAmt'][0]):
+        miscFormDataModel.set_B3OtherIncome(float(formRequest['otherIncomeAmt'][0]))
+
+    if 'incomeAmt' in formRequest and formRequest['incomeAmt'] is not None and isValidString(formRequest['incomeAmt'][0]):
+        miscFormDataModel.set_B4FedIncomeTaxWH(float(formRequest['incomeAmt'][0]))
+
     miscFormDataModel.set_B5FishingBoatProceeds(0)
     miscFormDataModel.set_B6MedHealthcarePymts(0)
     miscFormDataModel.set_B7IsDirectSale(0)
@@ -102,6 +128,8 @@ def create(businessId, rName, rTIN, amount, recipientId):
 
     requestModel.set_ReturnData(returnDataList)
 
+    print(f"Request = \n{requestModel.__dict__}")
+
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM1099_MISC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
@@ -110,7 +138,6 @@ def create(businessId, rName, rTIN, amount, recipientId):
 
 
 def transmitForm1099MISC(submissionId, recordId):
-
     requestModel = TransmitForm1099NECModel()
 
     requestModel.set_SubmissionId(submissionId)
@@ -119,5 +146,29 @@ def transmitForm1099MISC(submissionId, recordId):
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_1099MISC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
+
+    return response.json()
+
+
+# Get MISC List by business_id
+def get_misc_list(get_list_request: GetNecListRequest):
+
+    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM_1099MISC_LIST,
+                            params={"Page": get_list_request.get_page(),
+                                    "PageSize": get_list_request.get_page_size(),
+                                    "FromDate": get_list_request.get_from_date(),
+                                    "BusinessId": get_list_request.get_business_id(),
+                                    "ToDate": get_list_request.get_to_date()}, headers=HeaderUtils.getheaders())
+
+    print(f"response = \n{response.json()}")
+    return response.json()
+
+
+# Get MISC List by business_id
+def get_misc_pdf(SubmissionId, RecordIds, TINMaskType):
+    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_MISC_PDF,
+                            params={"SubmissionId": SubmissionId,
+                                    "RecordIds": RecordIds,
+                                    "TINMaskType": TINMaskType}, headers=HeaderUtils.getheaders())
 
     return response.json()

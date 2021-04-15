@@ -1,5 +1,7 @@
 import requests
 import json
+
+from core import GetNecListRequest
 from utils import HeaderUtils, Config, EndPointConfig
 from api_services import JwtGeneration
 from core.CreateForm1099NECModel import CreateForm1099NECModel
@@ -116,5 +118,26 @@ def transmitForm1099NEC(submissionId, recordId):
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_1099NEC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
+
+    return response.json()
+
+
+# Get NEC List by business_id
+def get_nec_list(get_list_request: GetNecListRequest):
+    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM_1099NEC_LIST,
+                            params={"Page": get_list_request.get_page(),
+                                    "PageSize": get_list_request.get_page_size(),
+                                    "FromDate": get_list_request.get_from_date(),
+                                    "BusinessId": get_list_request.get_business_id(),
+                                    "ToDate": get_list_request.get_to_date()}, headers=HeaderUtils.getheaders())
+    return response.json()
+
+
+# Get NEC List by business_id
+def get_pdf(SubmissionId, RecordIds, TINMaskType):
+    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_PDF,
+                            params={"SubmissionId": SubmissionId,
+                                    "RecordIds": RecordIds,
+                                    "TINMaskType": TINMaskType}, headers=HeaderUtils.getheaders())
 
     return response.json()
