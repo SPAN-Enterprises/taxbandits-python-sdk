@@ -462,32 +462,29 @@ def get_w2_list():
 def form_w2_list():
     response = get_form_list_request("W2")
 
-    form1099NecList = []
+    formW2List = []
 
     if response is not None:
 
-        if 'Form1099Records' in response:
+        if 'FormW2Records' in response:
 
-            if response['Form1099Records'] is not None:
+            if response['FormW2Records'] is not None:
 
-                for records in response['Form1099Records']:
+                for records in response['FormW2Records']:
                     recipientData = Form1099NecList()
-                    if 'RecipientNm' in records['Recipient']:
+                    if 'EmloyeeName' in records['Employee']:
                         recipientData.set_RecipientNm(
-                            records['Recipient']['RecipientNm'])
-                    elif 'RecipientName' in records['Recipient']:
-                        recipientData.set_RecipientNm(
-                            records['Recipient']['RecipientName'])
+                            records['Employee']['EmloyeeName'])
 
-                    recipientData.set_TIN(records['Recipient']['TIN'])
+                    recipientData.set_TIN(records['Employee']['SSN'])
                     recipientData.set_RecipientId(
-                        records['Recipient']['RecordId'])
+                        records['Employee']['EmployeeId'])
                     recipientData.set_SubmissionId(records['SubmissionId'])
                     recipientData.set_BusinessNm(records['BusinessNm'])
-                    recipientData.set_Status(records['Recipient']['Status'])
-                    form1099NecList.append(recipientData.__dict__)
+                    recipientData.set_Status(records['Employee']['Status'])
+                    formW2List.append(recipientData.__dict__)
 
-    return json.dumps(form1099NecList)
+    return json.dumps(formW2List)
 
 
 if __name__ == '__main__':

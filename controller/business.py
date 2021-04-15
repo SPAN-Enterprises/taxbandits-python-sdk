@@ -53,7 +53,7 @@ def get_form_list_request(formType: str):
 
     get_request.set_from_date('03/01/2021')
 
-    get_request.set_to_date('05/31/2021')
+    get_request.set_to_date('04/15/2021')
 
     if formType == "NEC":
         response = Form1099NEC.get_nec_list(get_request)
