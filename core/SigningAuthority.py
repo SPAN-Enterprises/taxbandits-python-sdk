@@ -1,10 +1,3 @@
-# signingAuthority = {
-#     "Name": "John",
-#     "Phone": "1234567890",
-#     "BusinessMemberType": "ADMINISTRATOR"
-#
-#  }
-
 class SigningAuthority:
     def get_SAName(self):
         return self.Name

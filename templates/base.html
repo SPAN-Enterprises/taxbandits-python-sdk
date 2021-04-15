@@ -3,35 +3,34 @@
 <html lang="en">
 
 <head>
-  <title>{% block title %}{% endblock %} </title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <title>{% block title %}{% endblock %} </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 
 <body>
-  <div class="container">
+<div class="container">
     <div class="navbar">
 
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="TBS Logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="TBS Logo">
 
-      <ul>
+        <ul>
 
-        <li><a href="/">Home</a></li>
-        <li><a href="/businesslist">Businesses</a></li>
-        <li><a href="/FormNecList">List 1099s</a></li>
-        <li><a href="/ReadBusinessList">Create 1099-nec </a></li>
-        <li><a href="/ReadBusinessList">Create 1099-MISC </a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/businesslist">Businesses</a></li>
+            <li><a href="/FormNecList">List 1099s</a></li>
+            <li><a href="/ReadBusinessList">Create 1099-NEC </a></li>
+            <li><a href="/ReadFormBusinessList">Create 1099-MISC </a></li>
 
-      </ul>
-
+        </ul>
 
     </div>
 
     <section class="content">
 
-      {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
     </section>
-  </div>
+</div>
 </body>
 
 </html>

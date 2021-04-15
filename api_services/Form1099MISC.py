@@ -3,17 +3,18 @@ import json
 import requests
 
 from core import GetNecListRequest
-from core.CreateForm1099NECModel import CreateForm1099NECModel
-from core.MISCFormDataModel import MISCFormDataModel
-from core.RecipientModel import RecipientModel
-from core.ReturnDataModel import ReturnDataModel
-from core.ReturnHeaderModel import ReturnHeaderModel
-from core.StatesModel import StatesModel
 from core.Business import Business
-from core.USAddress import USAddress
-from core.SubmissionManifestModel import SubmissionManifestModel
-from core.TransmitForm1099NECModel import TransmitForm1099NECModel
+from core.CreateForm1099NEC import CreateForm1099NEC
+from core.ForeignAddress import ForeignAddress
+from core.MISCFormData import MISCFormData
+from core.Recipient import Recipient
+from core.ReturnData import ReturnData
+from core.ReturnHeader import ReturnHeader
+from core.States import States
+from core.SubmissionManifest import SubmissionManifest
+from core.TransmitForm1099NEC import TransmitForm1099NEC
 from utils import HeaderUtils, Config, EndPointConfig
+from core.ScheduleFiling import ScheduleFiling
 
 
 def isValidString(param):
@@ -21,17 +22,17 @@ def isValidString(param):
 
 
 def create(formRequest: json):
-    requestModel = CreateForm1099NECModel()
+    requestModel = CreateForm1099NEC()
 
-    returnHeader = ReturnHeaderModel()
+    returnHeader = ReturnHeader()
     business = Business()
 
-    if 'business_list' in formRequest:
-        business.set_BusinessId(formRequest['business_list'][0])
+    if 'MISCForms_Business_BusinessId' in formRequest:
+        business.set_BusinessId(formRequest['MISCForms_Business_BusinessId'][0])
     returnHeader.set_Business(business.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
-    submissionManifest = SubmissionManifestModel()
+    submissionManifest = SubmissionManifest()
     submissionManifest.set_TaxYear(2020)
     submissionManifest.set_IsFederalFiling(2020)
     submissionManifest.set_IsStateFiling(True)
@@ -39,20 +40,20 @@ def create(formRequest: json):
     submissionManifest.set_IsOnlineAccess(True)
     submissionManifest.set_IsTinMatching(True)
     submissionManifest.set_IsScheduleFiling(True)
-    scheduleFiling = SubmissionManifestModel()
+    scheduleFiling = ScheduleFiling()
     scheduleFiling.set_EfileDate("04/21/2021")
     submissionManifest.set_ScheduleFiling(scheduleFiling.__dict__)
     requestModel.set_SubmissionManifest(submissionManifest.__dict__)
     returnDataList = []
-    returnData = ReturnDataModel()
+    returnData = ReturnData()
     # returnData.set_RecordId(null)
     returnData.set_SequenceId("1")
     # set Recipient data
-    recipientModel = RecipientModel()
+    recipientModel = Recipient()
     recipientId = -1
 
-    if 'recipientsDropDown' in formRequest:
-        recipientId = formRequest['recipientsDropDown'][0]
+    if 'MISCForms_Recipient_RecipientId' in formRequest:
+        recipientId = formRequest['MISCForms_Recipient_RecipientId'][0]
 
     if recipientId != '-1':
         recipientModel.set_RecipientId(recipientId)
@@ -61,11 +62,11 @@ def create(formRequest: json):
 
     recipientModel.set_TINType("EIN")
 
-    if 'rTIN' in formRequest and formRequest['rTIN']:
-        recipientModel.set_TIN(formRequest['rTIN'][0])
+    if 'MISCForms_Recipient_TIN' in formRequest and formRequest['MISCForms_Recipient_TIN']:
+        recipientModel.set_TIN(formRequest['MISCForms_Recipient_TIN'][0])
 
-    if 'rName' in formRequest:
-        recipientModel.set_FirstPayeeNm(formRequest['rName'][0])
+    if 'MISCForms_Recipient_RecipientNm' in formRequest:
+        recipientModel.set_FirstPayeeNm(formRequest['MISCForms_Recipient_RecipientNm'][0])
 
     recipientModel.set_SecondPayeeNm("")
     recipientModel.set_IsForeign(False)
@@ -81,19 +82,19 @@ def create(formRequest: json):
     recipientModel.set_Phone("1234567890")
     returnData.set_Recipient(recipientModel.__dict__)
     # set NEC data
-    miscFormDataModel = MISCFormDataModel()
+    miscFormDataModel = MISCFormData()
 
-    if 'rentsAmt' in formRequest and formRequest['rentsAmt'] is not None and isValidString(formRequest['rentsAmt'][0]):
-        miscFormDataModel.set_B1Rents(float(formRequest['rentsAmt'][0]))
+    if 'rentsAMISCForms_MISCFormDetails_Box1' in formRequest and formRequest['MISCForms_MISCFormDetails_Box1'] is not None and isValidString(formRequest['MISCForms_MISCFormDetails_Box1'][0]):
+        miscFormDataModel.set_B1Rents(float(formRequest['MISCForms_MISCFormDetails_Box1'][0]))
 
-    if 'royaltiesAmt' in formRequest and formRequest['royaltiesAmt'] is not None and isValidString(formRequest['royaltiesAmt'][0]):
-        miscFormDataModel.set_B2Royalties(float(formRequest['royaltiesAmt'][0]))
+    if 'MISCForms_MISCFormDetails_Box2' in formRequest and formRequest['MISCForms_MISCFormDetails_Box2'] is not None and isValidString(formRequest['MISCForms_MISCFormDetails_Box2'][0]):
+        miscFormDataModel.set_B2Royalties(float(formRequest['MISCForms_MISCFormDetails_Box2'][0]))
 
-    if 'otherIncomeAmt' in formRequest and formRequest['otherIncomeAmt'] is not None and isValidString(formRequest['otherIncomeAmt'][0]):
-        miscFormDataModel.set_B3OtherIncome(float(formRequest['otherIncomeAmt'][0]))
+    if 'MISCForms_MISCFormDetails_Box3' in formRequest and formRequest['MISCForms_MISCFormDetails_Box3'] is not None and isValidString(formRequest['MISCForms_MISCFormDetails_Box3'][0]):
+        miscFormDataModel.set_B3OtherIncome(float(formRequest['MISCForms_MISCFormDetails_Box3'][0]))
 
-    if 'incomeAmt' in formRequest and formRequest['incomeAmt'] is not None and isValidString(formRequest['incomeAmt'][0]):
-        miscFormDataModel.set_B4FedIncomeTaxWH(float(formRequest['incomeAmt'][0]))
+    if 'MISCForms_MISCFormDetails_Box4' in formRequest and formRequest['MISCForms_MISCFormDetails_Box4'] is not None and isValidString(formRequest['MISCForms_MISCFormDetails_Box4'][0]):
+        miscFormDataModel.set_B4FedIncomeTaxWH(float(formRequest['MISCForms_MISCFormDetails_Box4'][0]))
 
     miscFormDataModel.set_B5FishingBoatProceeds(0)
     miscFormDataModel.set_B6MedHealthcarePymts(0)
@@ -108,13 +109,13 @@ def create(formRequest: json):
     miscFormDataModel.set_Is2ndTINnot(True)
     miscFormDataModel.set_AccountNum("587879879879")
     statesList = []
-    stateModel = StatesModel()
+    stateModel = States()
     stateModel.set_StateCd("PA")
     stateModel.set_StateWH(15)
     stateModel.set_StateIdNum("99999999")
     stateModel.set_StateIncome(16)
     statesList.append(stateModel.__dict__)  # State 1
-    stateModel = StatesModel()
+    stateModel = States()
     stateModel.set_StateCd("AZ")
     stateModel.set_StateWH(17)
     stateModel.set_StateIdNum("99-999999")
@@ -128,8 +129,6 @@ def create(formRequest: json):
 
     requestModel.set_ReturnData(returnDataList)
 
-    print(f"Request = \n{requestModel.__dict__}")
-
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM1099_MISC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
@@ -138,7 +137,7 @@ def create(formRequest: json):
 
 
 def transmitForm1099MISC(submissionId, recordId):
-    requestModel = TransmitForm1099NECModel()
+    requestModel = TransmitForm1099NEC()
 
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)
@@ -160,7 +159,6 @@ def get_misc_list(get_list_request: GetNecListRequest):
                                     "BusinessId": get_list_request.get_business_id(),
                                     "ToDate": get_list_request.get_to_date()}, headers=HeaderUtils.getheaders())
 
-    print(f"response = \n{response.json()}")
     return response.json()
 
 

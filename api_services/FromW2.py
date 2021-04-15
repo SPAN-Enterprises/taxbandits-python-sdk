@@ -15,7 +15,7 @@ def generate_form_w2_request(requestJson):
 
     createFormW2Request = CreateFormW2Request()
 
-    submissionManifest = SubmissionManifestModel()
+    submissionManifest = SubmissionManifest()
     submissionManifest.set_TaxYear(2020)
     submissionManifest.set_IsFederalFiling(True)
     submissionManifest.set_IsStateFiling(False)

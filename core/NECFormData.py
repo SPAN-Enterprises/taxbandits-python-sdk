@@ -1,4 +1,4 @@
-class NECFormDataModel:
+class NECFormData:
 
     def get_B1NEC(self):
         return self.B1NEC

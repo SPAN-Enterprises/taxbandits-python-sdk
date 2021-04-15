@@ -1,4 +1,4 @@
-class TransmitForm1099NECModel:
+class TransmitForm1099NEC:
 
     def get_SubmissionId(self):
         return self.SubmissionId
