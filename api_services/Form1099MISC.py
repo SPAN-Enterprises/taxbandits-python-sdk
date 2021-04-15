@@ -28,6 +28,7 @@ def create(formRequest: json):
 
     if 'business_list' in formRequest:
         businessModel.set_BusinessId(formRequest['business_list'][0])
+
     returnHeader.set_Business(businessModel.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
