@@ -24,5 +24,4 @@ class ReturnHeader:
 
     def set_ForeignAddress(self, ForeignAddress):
         self.ForeignAddress = ForeignAddress
-=======
->>>>>>> 814e834a75a9fd8dbbcf489e352d6bd62059d636
+

@@ -4,7 +4,7 @@ from core.CreateFormW2Request import CreateFormW2Request
 from core.Business import Business
 from core.Employee import Employee
 from core.USAddress import USAddress
-from core.SubmissionManifestModel import SubmissionManifestModel
+from core.SubmissionManifest import SubmissionManifest
 from core.W2FormData import FormDetails
 from core.ReturnHeader import ReturnHeader
 from core.ReturnDataFormW2 import ReturnDataFormW2

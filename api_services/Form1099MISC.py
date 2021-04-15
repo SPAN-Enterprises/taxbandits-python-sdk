@@ -5,7 +5,7 @@ import requests
 from core import GetNecListRequest
 from core.Business import Business
 from core.CreateForm1099NEC import CreateForm1099NEC
-from core.ForeignAddress import ForeignAddress
+from core.USAddress import USAddress
 from core.MISCFormData import MISCFormData
 from core.Recipient import Recipient
 from core.ReturnData import ReturnData
