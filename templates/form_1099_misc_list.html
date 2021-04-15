@@ -8,8 +8,8 @@
     <h3>Form1099MISC/List</h3>
 
     <div class="horizontalContainer">
-        <label for="business_list">Businesses:</label>
-        <select id="business_list" name="business_list">
+        <label for="MISCForms_Business_BusinessNm">Businesses:</label>
+        <select id="MISCForms_Business_BusinessNm" name="MISCForms_Business_BusinessNm">
             {% for business in businesses %}
             <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
             {% endfor %}
@@ -57,7 +57,7 @@
     {
         $.ajax({
 			url: '/misc_list',
-			data: {BusinessId: $('#business_list').val()},
+			data: {BusinessId: $('#MISCForms_Business_BusinessNm').val()},
 			type: 'POST',
 			success: function(data){
 
@@ -142,5 +142,6 @@
 			}
 		});
     }
+
 </script>
 {% endblock %}

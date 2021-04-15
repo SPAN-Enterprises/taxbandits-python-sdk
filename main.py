@@ -5,7 +5,7 @@ from controller.business import create_business, create_form1099_nec, create_for
     get_all_business_list, get_form_list_request, create_form_w2
 from core.Form1099NecList import Form1099NecList
 from core.GetBusinssList import BusinessListRequest
-from core.RecipientModel import RecipientModel
+from core.Recipient import Recipient
 import json
 from flask import Flask, request
 from utils.SignatureValidation import validate
@@ -159,7 +159,7 @@ def read_recipients_list():
             if response['Form1099Records'] is not None:
 
                 for records in response['Form1099Records']:
-                    recipientData = RecipientModel()
+                    recipientData = Recipient()
                     recipientData.set_RecipientId(
                         records['Recipient']['RecipientId'])
                     # recipientData.set_FirstPayeeNm(records['Recipient']['RecipientNm'])
@@ -259,8 +259,6 @@ def submit_form_1099_misc():
     input_request_json = request.form.to_dict(flat=False)
 
     response = create_form1099_misc(input_request_json)
-
-    print(f"Response = \n{response}")
 
     if response is not None:
         if response['StatusCode'] == 200:
@@ -363,7 +361,6 @@ def get_misc_pdf():
     RecordIds = request.args.get('RecordIds')
     TINMaskType = "MASKED"
     response = Form1099MISC.get_misc_pdf(SubmissionId, RecordIds, TINMaskType)
-    print(f"response = \n{response}")
 
     if 'Form1099MiscRecords' in response and response['Form1099MiscRecords'] is not None:
         if 'Message' in response['Form1099MiscRecords'][0]:

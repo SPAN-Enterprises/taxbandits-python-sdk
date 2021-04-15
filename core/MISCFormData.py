@@ -1,4 +1,4 @@
-class MISCFormDataModel:
+class MISCFormData:
 
     def get_B1Rents(self):
         return self.B1Rents

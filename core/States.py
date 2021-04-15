@@ -1,4 +1,4 @@
-class StatesModel:
+class States:
 
     def get_StateCd(self):
         return self.StateCd

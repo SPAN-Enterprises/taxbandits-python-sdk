@@ -1,4 +1,4 @@
-class RecipientModel:
+class Recipient:
 
     def get_RecipientId(self):
         return self.RecipientId

@@ -1,4 +1,4 @@
-class ReturnHeaderModel:
+class ReturnHeader:
 
     def __init__(self):
         self.Business = None

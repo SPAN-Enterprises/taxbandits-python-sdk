@@ -2,31 +2,32 @@ import requests
 import json
 
 from core import GetNecListRequest
+from core.ScheduleFiling import ScheduleFiling
 from utils import HeaderUtils, Config, EndPointConfig
 from api_services import JwtGeneration
-from core.CreateForm1099NECModel import CreateForm1099NECModel
-from core.SubmissionManifestModel import SubmissionManifestModel
-from core.StatesModel import StatesModel
-from core.ReturnHeaderModel import ReturnHeaderModel
-from core.ReturnDataModel import ReturnDataModel
-from core.NECFormDataModel import NECFormDataModel
-from core.RecipientModel import RecipientModel
+from core.CreateForm1099NEC import CreateForm1099NEC
+from core.SubmissionManifest import SubmissionManifest
+from core.States import States
+from core.ReturnHeader import ReturnHeader
+from core.ReturnData import ReturnData
+from core.NECFormData import NECFormData
+from core.Recipient import Recipient
 from core.CreateBusinessRequest import CreateBusinessRequest
 from core.ForeignAddress import ForeignAddress
-from core.TransmitForm1099NECModel import TransmitForm1099NECModel
+from core.TransmitForm1099NEC import TransmitForm1099NEC
 
 
 def create(businessId, rName, rTIN, amount, recipientId):
-    requestModel = CreateForm1099NECModel()
+    requestModel = CreateForm1099NEC()
 
-    returnHeader = ReturnHeaderModel()
+    returnHeader = ReturnHeader()
     businessModel = CreateBusinessRequest()
     # businessModel.set_BusinessId("0fd6e0a3-f122-4cdc-a4da-25cb155010e1")
     businessModel.set_BusinessId(businessId)
     returnHeader.set_Business(businessModel.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
-    submissionManifest = SubmissionManifestModel()
+    submissionManifest = SubmissionManifest()
     # submissionManifest.set_SubmissionId(null)
     submissionManifest.set_TaxYear(2020)
     submissionManifest.set_IsFederalFiling(2020)
@@ -35,16 +36,16 @@ def create(businessId, rName, rTIN, amount, recipientId):
     submissionManifest.set_IsOnlineAccess(True)
     submissionManifest.set_IsTinMatching(True)
     submissionManifest.set_IsScheduleFiling(True)
-    scheduleFiling = SubmissionManifestModel()
+    scheduleFiling = ScheduleFiling()
     scheduleFiling.set_EfileDate("04/21/2021")
     submissionManifest.set_ScheduleFiling(scheduleFiling.__dict__)
     requestModel.set_SubmissionManifest(submissionManifest.__dict__)
     returnDataList = []
-    returnData = ReturnDataModel()
+    returnData = ReturnData()
     # returnData.set_RecordId(null)
     returnData.set_SequenceId("1")
     # set Recipient data
-    recipientModel = RecipientModel()
+    recipientModel = Recipient()
     if recipientId != '-1':
         recipientModel.set_RecipientId(recipientId)
     else:
@@ -68,20 +69,20 @@ def create(businessId, rName, rTIN, amount, recipientId):
     recipientModel.set_Phone("1234567890")
     returnData.set_Recipient(recipientModel.__dict__)
     # set NEC data
-    necFormDataModel = NECFormDataModel()
+    necFormDataModel = NECFormData()
     necFormDataModel.set_B1NEC(amount)
     necFormDataModel.set_B4FedTaxWH(54.12)
     necFormDataModel.set_IsFATCA(True)
     necFormDataModel.set_Is2ndTINnot(True)
     necFormDataModel.set_AccountNum("20123130000009000001")
     statesList = []
-    stateModel = StatesModel()
+    stateModel = States()
     stateModel.set_StateCd("PA")
     stateModel.set_StateWH(15)
     stateModel.set_StateIdNum("99999999")
     stateModel.set_StateIncome(16)
     statesList.append(stateModel.__dict__)  # State 1
-    stateModel = StatesModel()
+    stateModel = States()
     stateModel.set_StateCd("AZ")
     stateModel.set_StateWH(17)
     stateModel.set_StateIdNum("99-999999")
@@ -110,7 +111,7 @@ def getForm1099NECList(businessId):
 
 
 def transmitForm1099NEC(submissionId, recordId):
-    requestModel = TransmitForm1099NECModel()
+    requestModel = TransmitForm1099NEC()
 
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)

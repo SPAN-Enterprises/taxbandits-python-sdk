@@ -1,5 +1,5 @@
 import json
-class ReturnDataModel:
+class ReturnData:
 
     def get_RecordId(self):
         return self.RecordId

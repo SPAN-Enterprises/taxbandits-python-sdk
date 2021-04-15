@@ -3,7 +3,8 @@ import requests
 from core.CreateFormW2Request import CreateFormW2Request
 from core.Business import Business
 from core.Employee import Employee
-from core.SubmissionManifestModel import SubmissionManifestModel
+from core.ScheduleFiling import ScheduleFiling
+from core.SubmissionManifest import SubmissionManifest
 from core.FormDetails import FormDetails
 from utils import HeaderUtils, Config, EndPointConfig
 
@@ -12,7 +13,7 @@ def generate_form_w2_request(requestJson):
 
     createFormW2Request = CreateFormW2Request()
 
-    submissionManifest = SubmissionManifestModel()
+    submissionManifest = SubmissionManifest()
     submissionManifest.set_TaxYear(2020)
     submissionManifest.set_IsFederalFiling(2020)
     submissionManifest.set_IsStateFiling(True)
@@ -20,14 +21,10 @@ def generate_form_w2_request(requestJson):
     submissionManifest.set_IsOnlineAccess(True)
     submissionManifest.set_IsTinMatching(True)
     submissionManifest.set_IsScheduleFiling(True)
-    scheduleFiling = SubmissionManifestModel()
+    scheduleFiling = ScheduleFiling()
     scheduleFiling.set_EfileDate("04/21/2021")
     submissionManifest.set_ScheduleFiling(scheduleFiling.__dict__)
-    requestModel.set_SubmissionManifest(submissionManifest.__dict__)
-
-
-
-
+    createFormW2Request.set_SubmissionManifest(submissionManifest.__dict__)
     createFormW2Request.set_TaxYear(2020)
 
     business = Business()
