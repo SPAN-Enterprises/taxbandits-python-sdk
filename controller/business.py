@@ -1,5 +1,6 @@
 from flask import request
 from api_services import Business, Form1099NEC, Form1099MISC
+from api_services.FromW2 import  generate_form_w2_request
 from core.GetBusinssList import BusinessListRequest
 from core.GetNecListRequest import GetNecListRequest
 
@@ -58,4 +59,9 @@ def get_form_list_request(formType: str):
     else:
         response = Business.get_misc_list(get_nec_request)
 
+    return response
+
+
+def create_form_w2(requestJson):
+    response = generate_form_w2_request(requestJson)
     return response
