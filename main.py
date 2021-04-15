@@ -2,7 +2,7 @@ from flask import render_template
 
 from api_services import Business, Form1099NEC, Form1099MISC
 from controller.business import create_business, create_form1099_nec, create_form1099_misc, get_business_detail_api, \
-    get_all_business_list, get_form_list_request
+    get_all_business_list, get_form_list_request, create_form_w2
 from core.Form1099NecList import Form1099NecList
 from core.GetBusinssList import BusinessListRequest
 from core.RecipientModel import RecipientModel
@@ -427,7 +427,7 @@ def get_pdf():
 
 
 @appInstance.route('/create_form_w2', methods=['GET'])
-def create_form_w2():
+def form_w2():
     return render_template('create_form_w2.html')
 
 
@@ -435,7 +435,7 @@ def create_form_w2():
 def submit_form_w2():
     input_request_json = request.form.to_dict(flat=False)
 
-    response = create_business(input_request_json)
+    response = create_form_w2(input_request_json)
 
     if response['StatusCode'] == 200:
 

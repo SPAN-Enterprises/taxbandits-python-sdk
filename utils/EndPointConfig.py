@@ -27,3 +27,8 @@ GET_MISC_PDF = "Form1099MISC/GetPDF"
 
 
 
+CREATE_FORM_W2 = "FormW2/Create"
+
+
+
+
