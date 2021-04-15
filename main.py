@@ -362,12 +362,12 @@ def get_misc_pdf():
     SubmissionId = request.args.get('submissionId')
     RecordIds = request.args.get('RecordIds')
     TINMaskType = "MASKED"
-    response = Business.get_misc_pdf(SubmissionId, RecordIds, TINMaskType)
-    print(response)
+    response = Form1099MISC.get_misc_pdf(SubmissionId, RecordIds, TINMaskType)
+    print(f"response = \n{response}")
 
-    if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:
-        if 'Message' in response['Form1099NecRecords'][0]:
-            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'])
+    if 'Form1099MiscRecords' in response and response['Form1099MiscRecords'] is not None:
+        if 'Message' in response['Form1099MiscRecords'][0]:
+            return render_template('pdf_response.html', errorList=response['Form1099MiscRecords'], FormType="Form 1099-MISC")
         else:
             return "OK"
     elif 'Errors' in response and response['Errors'] is not None:
@@ -412,12 +412,12 @@ def get_pdf():
     SubmissionId = request.args.get('submissionId')
     RecordIds = request.args.get('RecordIds')
     TINMaskType = "MASKED"
-    response = Business.get_pdf(SubmissionId, RecordIds, TINMaskType)
+    response = Form1099NEC.get_pdf(SubmissionId, RecordIds, TINMaskType)
     print(response)
 
     if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:
         if 'Message' in response['Form1099NecRecords'][0]:
-            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'])
+            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'], FormType="Form 1099-NEC")
         else:
             return "OK"
     elif 'Errors' in response and response['Errors'] is not None:
