@@ -3,36 +3,26 @@ import json
 
 class CreateFormW2Request:
 
-    def get_TaxYear(self):
-        return self.TaxYear
+    def get_SubmissionManifest(self):
+        return self.SubmissionManifest
 
-    def set_TaxYear(self, TaxYear):
-        self.TaxYear = TaxYear
+    def set_SubmissionManifest(self, SubmissionManifest):
+        self.SubmissionManifest = SubmissionManifest
 
-    def get_IsPostal(self):
-        return self.IsPostal
+    def get_ReturnHeader(self):
+        return self.ReturnHeader
 
-    def set_IsPostal(self, IsPostal):
-        self.IsPostal = IsPostal
+    def set_ReturnHeader(self, ReturnHeader):
+        self.ReturnHeader = ReturnHeader
 
 
-    def get_Business(self):
-        return self.Business
+    def get_ReturnData(self):
+        return self.ReturnData
 
-    def set_Business(self, Business):
-        self.Business = Business
+    def set_ReturnData(self, ReturnData):
+        self.ReturnData = ReturnData
 
-    def get_Employee(self):
-        return self.Employee
 
-    def set_Employee(self, Employee):
-        self.Employee = Employee
-
-    def get_FormDetails(self):
-        return self.FormDetails
-
-    def set_FormDetails(self, FormDetails):
-        self.FormDetails = FormDetails
 
 
 

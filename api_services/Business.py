@@ -2,16 +2,14 @@ import requests
 from core.ForeignAddress import ForeignAddress
 from core.GetBusinssList import BusinessListRequest
 import json
-
-from core.GetNecListRequest import GetNecListRequest
 from utils import HeaderUtils, Config, EndPointConfig
-from core.CreateBusinessRequest import CreateBusinessRequest
+from core.Business import Business
 from core.SigningAuthority import SigningAuthority
 from api_services import JwtGeneration
 
 
 def create(requestJson):
-    requestModel = CreateBusinessRequest()
+    requestModel = Business()
     requestModel.set_BusinessNm(requestJson['business_name'][0])
 
     if 'is_ein' in requestJson:

@@ -1,7 +1,7 @@
 import requests
 import json
 
-from core import GetNecListRequest
+from core import GetFormListRequest
 from core.ScheduleFiling import ScheduleFiling
 from utils import HeaderUtils, Config, EndPointConfig
 from api_services import JwtGeneration
@@ -12,19 +12,21 @@ from core.ReturnHeader import ReturnHeader
 from core.ReturnData import ReturnData
 from core.NECFormData import NECFormData
 from core.Recipient import Recipient
-from core.CreateBusinessRequest import CreateBusinessRequest
 from core.ForeignAddress import ForeignAddress
-from core.TransmitForm1099NEC import TransmitForm1099NEC
+from core.TransmitFormRequest import TransmitFormRequest
+from core.Business import Business
+from core.USAddress import USAddress
 
 
 def create(businessId, rName, rTIN, amount, recipientId):
     requestModel = CreateForm1099NEC()
 
     returnHeader = ReturnHeader()
-    businessModel = CreateBusinessRequest()
+
+    business = Business()
     # businessModel.set_BusinessId("0fd6e0a3-f122-4cdc-a4da-25cb155010e1")
-    businessModel.set_BusinessId(businessId)
-    returnHeader.set_Business(businessModel.__dict__)
+    business.set_BusinessId(businessId)
+    returnHeader.set_Business(business.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
     submissionManifest = SubmissionManifest()
@@ -56,7 +58,7 @@ def create(businessId, rName, rTIN, amount, recipientId):
     recipientModel.set_FirstPayeeNm(rName)
     recipientModel.set_SecondPayeeNm("")
     recipientModel.set_IsForeign(False)
-    usAddress = ForeignAddress()
+    usAddress = USAddress()
     usAddress.set_Address1("1751 Kinsey Rd")
     usAddress.set_Address2("Main St")
     usAddress.set_City("Dothan")
@@ -118,7 +120,7 @@ def getForm1099NECList(businessId):
 
 # Transmits Form 1099-NEC
 def transmitForm1099NEC(submissionId, recordId):
-    requestModel = TransmitForm1099NEC()
+    requestModel = TransmitFormRequest()
 
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)

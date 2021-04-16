@@ -2,17 +2,17 @@ import json
 
 import requests
 
-from core import GetNecListRequest
-from core.CreateBusinessRequest import CreateBusinessRequest
+from core import GetFormListRequest
+from core.Business import Business
 from core.CreateForm1099NEC import CreateForm1099NEC
-from core.ForeignAddress import ForeignAddress
+from core.USAddress import USAddress
 from core.MISCFormData import MISCFormData
 from core.Recipient import Recipient
 from core.ReturnData import ReturnData
 from core.ReturnHeader import ReturnHeader
 from core.States import States
 from core.SubmissionManifest import SubmissionManifest
-from core.TransmitForm1099NEC import TransmitForm1099NEC
+from core.TransmitFormRequest import TransmitFormRequest
 from utils import HeaderUtils, Config, EndPointConfig
 from core.ScheduleFiling import ScheduleFiling
 
@@ -25,12 +25,11 @@ def create(formRequest: json):
     requestModel = CreateForm1099NEC()
 
     returnHeader = ReturnHeader()
-    businessModel = CreateBusinessRequest()
+    business = Business()
 
     if 'MISCForms_Business_BusinessId' in formRequest:
-        businessModel.set_BusinessId(formRequest['MISCForms_Business_BusinessId'][0])
-
-    returnHeader.set_Business(businessModel.__dict__)
+        business.set_BusinessId(formRequest['MISCForms_Business_BusinessId'][0])
+    returnHeader.set_Business(business.__dict__)
     requestModel.set_ReturnHeader(returnHeader.__dict__)
 
     submissionManifest = SubmissionManifest()
@@ -71,7 +70,7 @@ def create(formRequest: json):
 
     recipientModel.set_SecondPayeeNm("")
     recipientModel.set_IsForeign(False)
-    usAddress = ForeignAddress()
+    usAddress = USAddress()
     usAddress.set_Address1("1751 Kinsey Rd")
     usAddress.set_Address2("Main St")
     usAddress.set_City("Dothan")
@@ -149,7 +148,7 @@ def create(formRequest: json):
 
 # Transmits Form 1099-MISC
 def transmitForm1099MISC(submissionId, recordId):
-    requestModel = TransmitForm1099NEC()
+    requestModel = TransmitFormRequest()
 
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)

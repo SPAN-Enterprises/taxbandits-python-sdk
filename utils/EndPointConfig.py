@@ -29,6 +29,8 @@ GET_MISC_PDF = "Form1099MISC/GetPDF"
 # Form W2 Endpoints
 CREATE_FORM_W2 = "FormW2/Create"
 
+LIST_FORM_W2 = "FormW2/List"
 
+TRANSMIT_FORM_W2 = "FormW2/Transmit"
 
-
+FORM_W2_GET_PDF = "FormW2/GetPDF"
