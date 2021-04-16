@@ -96,6 +96,8 @@ def create(businessId, rName, rTIN, amount, recipientId):
 
     requestModel.set_ReturnData(returnDataList)
 
+    # Create a new Form 1099-NEC
+    # Method: Form1099NEC/Create (POST)
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM1099_NEC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
@@ -103,19 +105,26 @@ def create(businessId, rName, rTIN, amount, recipientId):
     return response
 
 
+# Returns Form 1099-NEC list of specific business
 def getForm1099NECList(businessId):
+
+    # Get NEC list of specific Business Id
+    # Method: Form1099NEC/List (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM1099_NEC_LIST,
                             params={"BusinessId": businessId}, headers=HeaderUtils.getheaders())
 
     return response.json()
 
 
+# Transmits Form 1099-NEC
 def transmitForm1099NEC(submissionId, recordId):
     requestModel = TransmitForm1099NEC()
 
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)
 
+    # Transmits a particular Form 1099-NEC
+    # Method: Form1099NEC/Transmit (POST)
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_1099NEC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
@@ -123,8 +132,11 @@ def transmitForm1099NEC(submissionId, recordId):
     return response.json()
 
 
-# Get NEC List by business_id
+# Returns NEC List of specific business Id
 def get_nec_list(get_list_request: GetNecListRequest):
+
+    # Get NEC list of specific Business Id
+    # Method: Form1099NEC/List (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM_1099NEC_LIST,
                             params={"Page": get_list_request.get_page(),
                                     "PageSize": get_list_request.get_page_size(),
@@ -134,8 +146,10 @@ def get_nec_list(get_list_request: GetNecListRequest):
     return response.json()
 
 
-# Get NEC List by business_id
 def get_pdf(SubmissionId, RecordIds, TINMaskType):
+
+    # Get Form-1099 NEC PDF of particular submission Id and its Record Id
+    # Method: Form1099NEC/GetPDF
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_PDF,
                             params={"SubmissionId": SubmissionId,
                                     "RecordIds": RecordIds,

@@ -1,10 +1,11 @@
-
+# Business Endpoints
 CREATE_BUSINESS = "Business/Create"
 
 GET_BUSINESS = "Business/Get"
 
 GET_BUSINESS_LIST = "Business/List"
 
+# Form 1099-NEC Endpoints
 CREATE_FORM1099_NEC = "Form1099NEC/Create"
 
 GET_FORM1099_NEC_LIST = "Form1099NEC/List"
@@ -16,7 +17,6 @@ TRANSMIT_FORM_1099NEC = "Form1099NEC/Transmit"
 GET_PDF = "Form1099NEC/GetPDF"
 
 #  Form 1099-MISC Endpoints
-
 CREATE_FORM1099_MISC = "Form1099MISC/Create"
 
 GET_FORM_1099MISC_LIST = "Form1099MISC/List"
@@ -26,7 +26,7 @@ TRANSMIT_FORM_1099MISC = "Form1099MISC/Transmit"
 GET_MISC_PDF = "Form1099MISC/GetPDF"
 
 
-
+# Form W2 Endpoints
 CREATE_FORM_W2 = "FormW2/Create"
 
 

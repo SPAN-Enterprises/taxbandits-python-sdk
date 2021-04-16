@@ -48,6 +48,8 @@ def generate_form_w2_request(requestJson):
     formDetails.set_Box4(requestJson['W2Forms[0].FormDetails.Box4'][0])
     createFormW2Request.set_FormDetails(formDetails.__dict__)
 
+    # Create a new Form W2
+    # Method: FormW2/Create (POST)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM_W2,
                             data=json.dumps(createFormW2Request.__dict__),
                             headers=HeaderUtils.getheaders())

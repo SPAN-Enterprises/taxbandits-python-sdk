@@ -85,16 +85,24 @@ def create(formRequest: json):
     # set NEC data
     miscFormDataModel = MISCFormData()
 
-    if 'rentsAMISCForms_MISCFormDetails_Box1' in formRequest and formRequest['MISCForms_MISCFormDetails_Box1'] is not None and isValidString(formRequest['MISCForms_MISCFormDetails_Box1'][0]):
+    if 'rentsAMISCForms_MISCFormDetails_Box1' in formRequest and formRequest[
+        'MISCForms_MISCFormDetails_Box1'] is not None and isValidString(
+            formRequest['MISCForms_MISCFormDetails_Box1'][0]):
         miscFormDataModel.set_B1Rents(float(formRequest['MISCForms_MISCFormDetails_Box1'][0]))
 
-    if 'MISCForms_MISCFormDetails_Box2' in formRequest and formRequest['MISCForms_MISCFormDetails_Box2'] is not None and isValidString(formRequest['MISCForms_MISCFormDetails_Box2'][0]):
+    if 'MISCForms_MISCFormDetails_Box2' in formRequest and formRequest[
+        'MISCForms_MISCFormDetails_Box2'] is not None and isValidString(
+            formRequest['MISCForms_MISCFormDetails_Box2'][0]):
         miscFormDataModel.set_B2Royalties(float(formRequest['MISCForms_MISCFormDetails_Box2'][0]))
 
-    if 'MISCForms_MISCFormDetails_Box3' in formRequest and formRequest['MISCForms_MISCFormDetails_Box3'] is not None and isValidString(formRequest['MISCForms_MISCFormDetails_Box3'][0]):
+    if 'MISCForms_MISCFormDetails_Box3' in formRequest and formRequest[
+        'MISCForms_MISCFormDetails_Box3'] is not None and isValidString(
+            formRequest['MISCForms_MISCFormDetails_Box3'][0]):
         miscFormDataModel.set_B3OtherIncome(float(formRequest['MISCForms_MISCFormDetails_Box3'][0]))
 
-    if 'MISCForms_MISCFormDetails_Box4' in formRequest and formRequest['MISCForms_MISCFormDetails_Box4'] is not None and isValidString(formRequest['MISCForms_MISCFormDetails_Box4'][0]):
+    if 'MISCForms_MISCFormDetails_Box4' in formRequest and formRequest[
+        'MISCForms_MISCFormDetails_Box4'] is not None and isValidString(
+            formRequest['MISCForms_MISCFormDetails_Box4'][0]):
         miscFormDataModel.set_B4FedIncomeTaxWH(float(formRequest['MISCForms_MISCFormDetails_Box4'][0]))
 
     miscFormDataModel.set_B5FishingBoatProceeds(0)
@@ -130,6 +138,8 @@ def create(formRequest: json):
 
     requestModel.set_ReturnData(returnDataList)
 
+    # Create a new Form 1099-MISC
+    # Method: Form1099MISC/Create (POST)
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM1099_MISC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
@@ -137,12 +147,15 @@ def create(formRequest: json):
     return response
 
 
+# Transmits Form 1099-MISC
 def transmitForm1099MISC(submissionId, recordId):
     requestModel = TransmitForm1099NEC()
 
     requestModel.set_SubmissionId(submissionId)
     requestModel.set_RecordIds(recordId)
 
+    # Transmits a particular Form 1099-MISC
+    # Method: Form1099MISC/Transmit (POST)
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_1099MISC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
@@ -150,9 +163,10 @@ def transmitForm1099MISC(submissionId, recordId):
     return response.json()
 
 
-# Get MISC List by business_id
+# Returns MISC List of specific business Id
 def get_misc_list(get_list_request: GetNecListRequest):
-
+    # Get MISC list of specific Business Id
+    # Method: Form1099MISC/List (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM_1099MISC_LIST,
                             params={"Page": get_list_request.get_page(),
                                     "PageSize": get_list_request.get_page_size(),
@@ -163,8 +177,9 @@ def get_misc_list(get_list_request: GetNecListRequest):
     return response.json()
 
 
-# Get MISC List by business_id
 def get_misc_pdf(SubmissionId, RecordIds, TINMaskType):
+    # Get Form-1099 MISC PDF of particular submission Id and its Record Id
+    # Method: Form1099MISC/GetPDF
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_MISC_PDF,
                             params={"SubmissionId": SubmissionId,
                                     "RecordIds": RecordIds,
