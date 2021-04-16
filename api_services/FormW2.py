@@ -89,20 +89,20 @@ def generate_form_w2_request(requestJson):
     returnDataList.append(returnData.__dict__)
     createFormW2Request.set_ReturnData(returnDataList)
 
-    print(json.dumps(createFormW2Request.__dict__))
-
+    # Create a new Form W2
+    # Method: FormW2/Create (POST)
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM_W2,
                              data=json.dumps(createFormW2Request.__dict__),
                              headers=HeaderUtils.getheaders())
 
-    print(response.status_code)
-
-    print(response.json())
     return response.json()
 
 
-# Get W2 List by business_id
+# Returns W2 List by business_id
 def get_w2_list(get_request: GetFormListRequest):
+
+    # Get W2 list of specific Business Id
+    # Method: FormW2/List (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.LIST_FORM_W2,
                             params={"Page": get_request.get_page(),
                                     "PageSize": get_request.get_page_size(),
@@ -115,11 +115,13 @@ def get_w2_list(get_request: GetFormListRequest):
     return response.json()
 
 
-
+# Transmits Form W2
 def transmit_formw2(submissionId):
     requestModel = TransmitFormRequest()
     requestModel.set_SubmissionId(submissionId)
 
+    # Transmits a particular Form W2
+    # Method: FormW2/Transmit (POST)
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_W2,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
@@ -128,6 +130,9 @@ def transmit_formw2(submissionId):
 
 
 def get_w2_pdf(SubmissionId, RecordIds, TINMaskType):
+
+    # Get Form W2 PDF of particular submission Id and its Record Id
+    # Method: FormW2/GetPDF
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.FORM_W2_GET_PDF,
                             params={"SubmissionId": SubmissionId,
                                     "RecordIds": RecordIds,
