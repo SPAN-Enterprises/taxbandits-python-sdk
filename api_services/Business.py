@@ -2,17 +2,14 @@ import requests
 from core.ForeignAddress import ForeignAddress
 from core.GetBusinssList import BusinessListRequest
 import json
-
-from core.GetNecListRequest import GetNecListRequest
 from utils import HeaderUtils, Config, EndPointConfig
-from core.CreateBusinessRequest import CreateBusinessRequest
+from core.Business import Business
 from core.SigningAuthority import SigningAuthority
 from api_services import JwtGeneration
 
 
-# Create the new Business
 def create(requestJson):
-    requestModel = CreateBusinessRequest()
+    requestModel = Business()
     requestModel.set_BusinessNm(requestJson['business_name'][0])
 
     if 'is_ein' in requestJson:
@@ -94,16 +91,11 @@ def create(requestJson):
 
     requestModel.set_SigningAuthority(saModel.__dict__)
 
-    # inputData = json.dumps(CreateBusinessRequest.create(requestModel))
-
-    convertedModel = json.dumps(requestModel.__dict__)
-
-
+    # Creates a new Business and returns Business Id on successful creation
+    # Method: Business/Create (POST)
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_BUSINESS,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
-
-
 
     if response.status_code == 200:
         json_obj = json.loads(response.text)
@@ -112,43 +104,26 @@ def create(requestJson):
         return response.json()
 
 
-# Get Business Information by using BusinessId and EIN
+# Returns a particular business
 def get_business_detail(BusinessId, EIN):
+
+    # Gets particular Business information by using BusinessId and EIN
+    # Method: Business/Get?BusinessId (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_BUSINESS,
                             params={"BusinessId": BusinessId, "EIN": EIN}, headers=HeaderUtils.getheaders())
-
 
     return response.json()
 
 
-# Get Business List
+# Returns list of all the businesses
 def get_business_list(get_business_request: BusinessListRequest):
+
+    # Get a list of all Businesses
+    # Method: Business/List (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_BUSINESS_LIST,
                             params={"Page": get_business_request.get_page(),
                                     "PageSize": get_business_request.get_page_size(),
                                     "FromDate": get_business_request.get_from_date(),
                                     "ToDate": get_business_request.get_to_date()}, headers=HeaderUtils.getheaders())
-
-    return response.json()
-
-
-# Get NEC List by business_id
-def get_nec_list(get_list_request: GetNecListRequest):
-    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM_1099NEC_LIST,
-                            params={"Page": get_list_request.get_page(),
-                                    "PageSize": get_list_request.get_page_size(),
-                                    "FromDate": get_list_request.get_from_date(),
-                                    "BusinessId": get_list_request.get_business_id(),
-                                    "ToDate": get_list_request.get_to_date()}, headers=HeaderUtils.getheaders())
-
-    return response.json()
-
-
-# Get NEC List by business_id
-def get_pdf(SubmissionId,RecordIds,TINMaskType):
-    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_PDF,
-                            params={"SubmissionId": SubmissionId,
-                                    "RecordIds": RecordIds,
-                                    "TINMaskType": TINMaskType}, headers=HeaderUtils.getheaders())
 
     return response.json()

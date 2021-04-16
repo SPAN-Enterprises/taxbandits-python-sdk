@@ -3,15 +3,15 @@
 {% block content %}
 <div class="container">
 
-    <h2><u>Create a New Form 1099-NEC</u></h2>
+    <h2><u>Create a New Form 1099-MISC</u></h2>
 
-    <h3>Form1099NEC/Create</h3>
+    <h3>Form1099MISC/Create</h3>
 
-    <form action="/createForm1099NEC" method="post" id="createForm1099NEC">
+    <form action="/createForm1099MISC" method="post" id="createForm1099MISC">
 
         <div class="horizontalContainer">
-            <label for="business_list">Businesses:</label>
-            <select id="business_list" name="business_list">
+            <label for="MISCForms_Business_BusinessId">Businesses:</label>
+            <select id="MISCForms_Business_BusinessId" name="MISCForms_Business_BusinessId">
                 {% for business in businesses %}
                 <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
                 {% endfor %}
@@ -20,28 +20,46 @@
         </div>
 
         <div class="form-control">
-            <label for="recipientsDropDown">Recipients:</label>
-            <select class="form-control" id="recipientsDropDown" name="recipientsDropDown"
+            <label for="MISCForms_Recipient_RecipientId">Recipients:</label>
+            <select class="form-control" id="MISCForms_Recipient_RecipientId" name="MISCForms_Recipient_RecipientId"
                     onchange="onRecipientClicked()">
                 <option value="-1">Select Recipient</option>
             </select>
         </div>
 
         <div class="form-control">
-            <label for="rName">Recipient Name:</label>
-            <input type="text" name="rName" id="rName" placeholder="Recipient Name" maxlength="35"/>
+            <label for="MISCForms_Recipient_RecipientNm">Recipient Name:</label>
+            <input type="text" name="MISCForms_Recipient_RecipientNm" id="MISCForms_Recipient_RecipientNm"
+                   placeholder="Recipient Name" maxlength="35"/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
-            <label for="rTIN">Recipient TIN:</label>
-            <input type="text" name="rTIN" id="rTIN" placeholder="Recipient TIN" maxlength="9" value=""/>
+            <label for="MISCForms_Recipient_TIN">Recipient TIN:</label>
+            <input type="text" name="MISCForms_Recipient_TIN" id="MISCForms_Recipient_TIN" placeholder="Recipient TIN"
+                   maxlength="9" value=""/>
             <small>Error message</small>
         </div>
 
         <div class="form-control">
-            <label for="amount">Nonemployee compensation:</label>
-            <input type="number" name="amount" id="amount" value="167.25"/>
+            <label for="MISCForms_MISCFormDetails_Box1">Rents Amount:</label>
+            <input type="text" name="MISCForms_MISCFormDetails_Box1" id="MISCForms_MISCFormDetails_Box1" maxlength="12"
+                   value="167.25"/>
+            <small>Error message</small>
+        </div>
+        <div class="form-control">
+            <label for="MISCForms_MISCFormDetails_Box2">Royalties Amount:</label>
+            <input type="text" name="MISCForms_MISCFormDetails_Box2" id="MISCForms_MISCFormDetails_Box2" maxlength="12"/>
+            <small>Error message</small>
+        </div>
+        <div class="form-control">
+            <label for="MISCForms_MISCFormDetails_Box3">Other Income Amount:</label>
+            <input type="text" name="MISCForms_MISCFormDetails_Box3" id="MISCForms_MISCFormDetails_Box3" maxlength="12"/>
+            <small>Error message</small>
+        </div>
+        <div class="form-control">
+            <label for="MISCForms_MISCFormDetails_Box4">Federal income tax withheld Amount:</label>
+            <input type="text" name="MISCForms_MISCFormDetails_Box4" id="MISCForms_MISCFormDetails_Box4" maxlength="12"/>
             <small>Error message</small>
         </div>
 
@@ -99,5 +117,6 @@
             document.getElementById("rTIN").value = strAtt;
         }
     }
+
 </script>
 {% endblock %}

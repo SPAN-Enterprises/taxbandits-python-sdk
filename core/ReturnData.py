@@ -1,5 +1,5 @@
 import json
-class ReturnDataModel:
+class ReturnData:
 
     def get_RecordId(self):
         return self.RecordId
@@ -24,3 +24,9 @@ class ReturnDataModel:
 
     def set_NECFormData(self, NECFormData):
         self.NECFormData = NECFormData
+
+    def get_MISCFormData(self):
+        return self.MISCFormData
+
+    def set_MISCFormData(self, MISCFormData):
+        self.MISCFormData = MISCFormData

@@ -1,18 +1,8 @@
 import json
 
 
-class CreateBusinessRequest:
+class Business:
 
-    def __init__(self):
-        self.BusinessNm = ''
-
-    @classmethod
-    def from_json(cls, json_string):
-        json_dict = json.loads(json_string)
-        return cls(**json_dict)
-
-    # def __repr__(self):
-    #     return f'<CreateBusinessRequest {self.first_name}>'
 
     def get_BusinessNm(self):
         return self.BusinessNm

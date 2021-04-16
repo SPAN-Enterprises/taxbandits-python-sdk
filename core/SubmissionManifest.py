@@ -1,5 +1,5 @@
 import json
-class SubmissionManifestModel:
+class SubmissionManifest:
 
     def __init__(self):
         self.BusinessNm = ''
@@ -67,17 +67,5 @@ class SubmissionManifestModel:
         return self.EfileDate
 
     def set_EfileDate(self, EfileDate):
-        self.EfileDate = EfileDate  # "11/11/2020"
+        self.EfileDate = EfileDate
 
-    # "SubmissionManifest": {
-    #     "SubmissionId": null,
-    #     "TaxYear": "2020",
-    #     "IsFederalFiling": true,
-    #     "IsStateFiling": true,
-    #     "IsPostal": true,
-    #     "IsOnlineAccess": true,
-    #     "IsTinMatching": true,
-    #     "IsScheduleFiling": true,
-    #     "ScheduleFiling": {
-    #         "EfileDate": "11/11/2020"
-    #     }

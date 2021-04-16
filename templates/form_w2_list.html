@@ -3,18 +3,18 @@
 {% block content %}
 <div class="container">
 
-    <h2><u>Form 1099-NEC LIST</u></h2>
+    <h2><u>Form W2 LIST</u></h2>
 
-    <h3>Form1099NEC/List</h3>
+    <h3>FormW2/List</h3>
 
     <div class="horizontalContainer">
-        <label for="business_list">Businesses:</label>
-        <select id="business_list" name="business_list">
+        <label for="MISCForms_Business_BusinessNm">Businesses:</label>
+        <select id="MISCForms_Business_BusinessNm" name="MISCForms_Business_BusinessNm">
             {% for business in businesses %}
             <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
             {% endfor %}
         </select>
-        <button type="button" onclick="loadNECList()">Get NEC List</button>
+        <button type="button" onclick="loadw2List()">Get W2 List</button>
     </div>
 
     <div>
@@ -43,29 +43,26 @@
 
     function transmitClicked(submissionId)
     {
-        debugger;
         console.log(submissionId);
-        window.location = '/transmitForm1099NEC?submissionId=' + submissionId;
+        window.location = '/transmit_form_w2?submissionId=' + submissionId;
     }
 
     function getPdfClicked(submissionId)
     {
-        debugger;
         console.log(submissionId);
-        window.location = '/Form1099NEC/GetPDF?submissionId=' + submissionId;
+        window.location = '/FormW2/GetPDF?submissionId=' + submissionId;
     }
 
-    function loadNECList()
+    function loadw2List()
     {
         $.ajax({
-			url: '/nec_list',
-			data: {BusinessId: $('#business_list').val()},
+			url: '/form_w2_list',
+			data: {BusinessId: $('#MISCForms_Business_BusinessNm').val()},
 			type: 'POST',
 			success: function(data){
 
                 var jsonData = JSON.parse(data);
 
-                debugger
                 // Make a container element for the list
                 listContainer = document.getElementById("listDiv");
                 // Make the list
@@ -145,11 +142,6 @@
 			}
 		});
     }
-
-
-
-
-
 
 </script>
 {% endblock %}
