@@ -42,6 +42,7 @@ def submit():
         return render_template('error_list.html', errorList=response['Errors'],
                                status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
                                    response['StatusMessage']))
+
     else:
 
         return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),

@@ -8,7 +8,6 @@ from core.SigningAuthority import SigningAuthority
 from api_services import JwtGeneration
 
 
-# Create the new Business
 def create(requestJson):
     requestModel = Business()
     requestModel.set_BusinessNm(requestJson['business_name'][0])
@@ -92,10 +91,8 @@ def create(requestJson):
 
     requestModel.set_SigningAuthority(saModel.__dict__)
 
-    # inputData = json.dumps(CreateBusinessRequest.create(requestModel))
-
-    convertedModel = json.dumps(requestModel.__dict__)
-
+    # Creates a new Business and returns Business Id on successful creation
+    # Method: Business/Create (POST)
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_BUSINESS,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
@@ -107,16 +104,22 @@ def create(requestJson):
         return response.json()
 
 
-# Get Business Information by using BusinessId and EIN
+# Returns a particular business
 def get_business_detail(BusinessId, EIN):
+
+    # Gets particular Business information by using BusinessId and EIN
+    # Method: Business/Get?BusinessId (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_BUSINESS,
                             params={"BusinessId": BusinessId, "EIN": EIN}, headers=HeaderUtils.getheaders())
 
     return response.json()
 
 
-# Get Business List
+# Returns list of all the businesses
 def get_business_list(get_business_request: BusinessListRequest):
+
+    # Get a list of all Businesses
+    # Method: Business/List (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_BUSINESS_LIST,
                             params={"Page": get_business_request.get_page(),
                                     "PageSize": get_business_request.get_page_size(),
