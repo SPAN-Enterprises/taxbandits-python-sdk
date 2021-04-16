@@ -115,6 +115,7 @@ def get_w2_list(get_request: GetFormListRequest):
     return response.json()
 
 
+
 def transmit_formw2(submissionId):
     requestModel = TransmitFormRequest()
     requestModel.set_SubmissionId(submissionId)
