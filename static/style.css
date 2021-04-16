@@ -190,3 +190,12 @@ span {
     width: 30%;
     padding: 12px 20px;
 }
+.username input[type='text'], .username select
+{
+width:auto;
+display:inline;
+
+}
+td.labelName {
+    width: 200px;
+}
