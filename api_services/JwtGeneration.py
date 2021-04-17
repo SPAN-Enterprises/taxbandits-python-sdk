@@ -38,7 +38,7 @@ def get_access_token_by_jws(jws):
 
         accessToken = response.json()['AccessToken']
 
-        Config.access_token = accessToken
+        Config.ACCESS_TOKEN = accessToken
         print("Access Token: " + accessToken)  # Print Access Token
         return accessToken
 
