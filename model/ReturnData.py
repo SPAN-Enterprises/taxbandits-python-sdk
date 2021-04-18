@@ -1,4 +1,3 @@
-import json
 class ReturnData:
 
     def get_RecordId(self):
