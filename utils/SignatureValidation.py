@@ -12,7 +12,6 @@ def validate(Timestamp, Signature):
                       ).digest()
     signature = base64.b64encode(digest).decode()
 
-
     if (signature == Signature):
         return True
     else:

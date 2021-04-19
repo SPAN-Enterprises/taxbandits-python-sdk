@@ -7,7 +7,7 @@
     <h3>{{ErrorMessage | safe}}</h3>
     {% endif %}
 
-    <form action="/loadFormList" method="get">
+    <form action="/redirect_form_list" method="get">
         {% if response %}
         <p>{{response | safe}}</p>
         {% endif %}

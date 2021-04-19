@@ -1,7 +1,7 @@
 import json
 
 
-class CreateFormW2Request:
+class FormW2Request:
 
     def get_SubmissionManifest(self):
         return self.SubmissionManifest

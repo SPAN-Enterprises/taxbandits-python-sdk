@@ -3,7 +3,6 @@ import json
 
 class Business:
 
-
     def get_BusinessNm(self):
         return self.BusinessNm
 
@@ -111,3 +110,5 @@ class Business:
 
     def set_BusinessId(self, BusinessId):
         self.BusinessId = BusinessId
+
+

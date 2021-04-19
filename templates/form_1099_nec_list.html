@@ -45,20 +45,20 @@
     {
         debugger;
         console.log(submissionId);
-        window.location = '/transmitForm1099NEC?submissionId=' + submissionId;
+        window.location = '/transmit_form_1099_nec?submissionId=' + submissionId;
     }
 
     function getPdfClicked(submissionId)
     {
         debugger;
         console.log(submissionId);
-        window.location = '/Form1099NEC/GetPDF?submissionId=' + submissionId;
+        window.location = '/form_1099_nec/get_pdf?submissionId=' + submissionId;
     }
 
     function loadNECList()
     {
         $.ajax({
-			url: '/nec_list',
+			url: '/form_1099_nec_list',
 			data: {BusinessId: $('#business_list').val()},
 			type: 'POST',
 			success: function(data){
@@ -107,7 +107,7 @@
                                 transmitBtn.innerHTML = "Transmit";
                                 transmitBtn.value = jsonData[i]['SubmissionId'];
                                 transmitBtn.className = "btn";
-                                idVal = jsonData[i]['SubmissionId']+"_"+jsonData[i]['RecipientId'];
+                                idVal = jsonData[i]['SubmissionId'];
                                 transmitBtn.setAttribute("id", idVal);
                                 listElement.appendChild(transmitBtn);
 

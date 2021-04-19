@@ -7,7 +7,7 @@
 
     <h3>Form1099MISC/Create</h3>
 
-    <form action="/createForm1099MISC" method="post" id="createForm1099MISC">
+    <form action="/save_form_1099_misc" method="post" id="createForm1099MISC">
 
         <div class="horizontalContainer">
             <label for="MISCForms_Business_BusinessId">Businesses:</label>
@@ -16,7 +16,7 @@
                 <option value={{ business.BusinessId}}>{{ business.BusinessNm}} - {{ business.EINorSSN}}</option>
                 {% endfor %}
             </select>
-            <button type="button" id="loadRecipientsBtn" onclick="loadRecipientsList()">Recipient List</button>
+            <button type="button" id="loadRecipientsBtn" onclick="recipientsList()">Recipient List</button>
         </div>
 
         <div class="form-control">
@@ -74,10 +74,10 @@
 
     var recipientList = []
 
-    function loadRecipientsList()
+    function recipientsList()
     {
         $.ajax({
-			url: '/readRecipientsList',
+			url: '/get_recipient_by_business_id_misc',
 			data: {BusinessId: $('#business_list').val()},
 			type: 'POST',
 			success: function(data){

@@ -1,6 +1,5 @@
 class Employee:
 
-
     def get_Sequence(self):
         return self.Sequence
 
@@ -8,7 +7,7 @@ class Employee:
         self.Sequence = Sequence
 
     def get_SSN(self):
-            return self.SSN
+        return self.SSN
 
     def set_SSN(self, SSN):
         self.SSN = SSN
@@ -61,7 +60,6 @@ class Employee:
     def set_StateSpecifics(self, StateSpecifics):
         self.StateSpecifics = StateSpecifics
 
-
     def get_EmployeeUId(self):
         return self.EmployeeUId
 
@@ -79,6 +77,3 @@ class Employee:
 
     def set_USAddress(self, USAddress):
         self.USAddress = USAddress
-
-
-

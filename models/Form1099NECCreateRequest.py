@@ -1,7 +1,7 @@
 import json
 
 
-class CreateForm1099NEC:
+class Form1099NECCreateRequest:
 
     def __init__(self):
         self.BusinessNm = ''

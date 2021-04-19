@@ -1,4 +1,4 @@
-class GetBusinessList:
+class BusinessListRequest:
 
     def get_page_size(self):
         return self._page_size

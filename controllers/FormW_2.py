@@ -1,21 +1,15 @@
-import json
-import requests
-from model.CreateFormW2Request import CreateFormW2Request
-from model.Business import Business
-from model.Employee import Employee
-from model.USAddress import USAddress
-from model.SubmissionManifest import SubmissionManifest
-from model.W2FormData import W2FormData
-from model.ReturnHeader import ReturnHeader
-from model.GetFormListRequest import GetFormListRequest
-from model.ReturnDataFormW2 import ReturnDataFormW2
-from model.TransmitFormRequest import TransmitFormRequest
-from utils import HeaderUtils, Config, EndPointConfig
+from models.Business import Business
+from models.Employee import Employee
+from models.FormW2Request import FormW2Request
+from models.ReturnDataFormW2 import ReturnDataFormW2
+from models.ReturnHeader import ReturnHeader
+from models.SubmissionManifest import SubmissionManifest
+from models.USAddress import USAddress
+from models.W2FormData import W2FormData
 
 
-def generate_form_w2_request(requestJson):
-    createFormW2Request = CreateFormW2Request()
-
+def save_form_w_2(requestJson):
+    createFormW2Request = FormW2Request()
     submissionManifest = SubmissionManifest()
     submissionManifest.set_TaxYear(2020)
     submissionManifest.set_IsFederalFiling(True)
@@ -88,54 +82,4 @@ def generate_form_w2_request(requestJson):
 
     returnDataList.append(returnData.__dict__)
     createFormW2Request.set_ReturnData(returnDataList)
-
-    # Create a new Form W2
-    # Method: FormW2/Create (POST)
-    response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.CREATE_FORM_W2,
-                             data=json.dumps(createFormW2Request.__dict__),
-                             headers=HeaderUtils.getheaders())
-
-    return response.json()
-
-
-# Returns W2 List by business_id
-def get_w2_list(get_request: GetFormListRequest):
-
-    # Get W2 list of specific Business Id
-    # Method: FormW2/List (GET)
-    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.LIST_FORM_W2,
-                            params={"Page": get_request.get_page(),
-                                    "PageSize": get_request.get_page_size(),
-                                    "FromDate": get_request.get_from_date(),
-                                    "BusinessId": get_request.get_business_id(),
-                                    "ToDate": get_request.get_to_date()}, headers=HeaderUtils.getheaders())
-
-    print(response.json())
-
-    return response.json()
-
-
-# Transmits Form W2
-def transmit_formw2(submissionId):
-    requestModel = TransmitFormRequest()
-    requestModel.set_SubmissionId(submissionId)
-
-    # Transmits a particular Form W2
-    # Method: FormW2/Transmit (POST)
-    response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_W2,
-                             data=json.dumps(requestModel.__dict__),
-                             headers=HeaderUtils.getheaders())
-
-    return response.json()
-
-
-def get_w2_pdf(SubmissionId, RecordIds, TINMaskType):
-
-    # Get Form W2 PDF of particular submission Id and its Record Id
-    # Method: FormW2/GetPDF
-    response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.FORM_W2_GET_PDF,
-                            params={"SubmissionId": SubmissionId,
-                                    "RecordIds": RecordIds,
-                                    "TINMaskType": TINMaskType}, headers=HeaderUtils.getheaders())
-
-    return response.json()
+    return createFormW2Request
