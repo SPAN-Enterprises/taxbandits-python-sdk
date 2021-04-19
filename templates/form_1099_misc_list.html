@@ -44,7 +44,7 @@
     function transmitClicked(submissionId)
     {
         console.log(submissionId);
-        window.location = '/transmitForm1099MISC?submissionId=' + submissionId;
+        window.location = '/transmit_form1099_misc?submissionId=' + submissionId;
     }
 
     function getPdfClicked(submissionId)
@@ -104,7 +104,7 @@
                                 transmitBtn.innerHTML = "Transmit";
                                 transmitBtn.value = jsonData[i]['SubmissionId'];
                                 transmitBtn.className = "btn";
-                                idVal = jsonData[i]['SubmissionId']+"_"+jsonData[i]['RecipientId'];
+                                idVal = jsonData[i]['SubmissionId'];
                                 transmitBtn.setAttribute("id", idVal);
                                 listElement.appendChild(transmitBtn);
 

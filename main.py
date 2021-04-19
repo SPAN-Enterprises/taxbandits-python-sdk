@@ -346,6 +346,35 @@ def form_1099_misc_list():
     return json.dumps(form1099NecList)
 
 
+@appInstance.route('/transmit_form1099_misc', methods=['GET'])
+def transmit_form1099_misc():
+
+    response = Form1099MISC.transmit_form_1099_misc(request.args.get('submissionId'))
+
+    print(response)
+
+    if response is not None:
+
+        if response['StatusCode'] == 200:
+
+            return render_template('success.html',
+                                   response='Status Timestamp=' + response['Form1099Records']['SuccessRecords'][0][
+                                       'StatusTs'],
+                                   ErrorMessage='Status= ' + response['Form1099Records']['SuccessRecords'][0]['Status'],
+                                   ButtonText="Form 1099-MISC", FormType="MISC")
+
+        elif 'Errors' in response and response['Errors'] is not None:
+
+            return render_template('error_list.html', errorList=response['Errors'],
+                                   status=str(response['StatusCode']) + " - " + str(
+                                       response['StatusName']) + " - " + str(response['StatusMessage']))
+        else:
+            return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                                   ErrorMessage='Message=' + json.dumps(response))
+
+
+
+
 @appInstance.route('/render_template_create_form_w2', methods=['GET'])
 def form_w2():
     return render_template('create_form_w2.html')

@@ -130,10 +130,9 @@ def save_form_1099misc(formRequest):
     return requestModel
 
 
-def transmit(submissionId, recordId):
+def transmit(submissionId):
     requestModel = TransmitFormRequest()
     requestModel.set_SubmissionId(submissionId)
-    requestModel.set_RecordIds(recordId)
     return requestModel
 
 

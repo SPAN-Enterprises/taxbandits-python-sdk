@@ -17,10 +17,10 @@ def save_form_1099_misc(requestModel):
 
 
 # Transmits Form 1099-MISC
-def transmit_form_1099_misc(submissionId, recordId):
+def transmit_form_1099_misc(submissionId):
     # Transmits a particular Form 1099-MISC
     # Method: Form1099MISC/Transmit (POST)
-    requestModel = transmit(submissionId, recordId)
+    requestModel = transmit(submissionId)
     response = requests.post(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.TRANSMIT_FORM_1099MISC,
                              data=json.dumps(requestModel.__dict__),
                              headers=HeaderUtils.getheaders())
