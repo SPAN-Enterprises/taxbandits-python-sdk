@@ -84,8 +84,6 @@
                 var s = '<option value="-1">Select Recipient</option>';
 			    if(data!=null)
 				{
-				    console.log(data);
-
                     var jsonData = JSON.parse(data)
 
                     if(jsonData!=null && jsonData.length>0)
@@ -105,16 +103,16 @@
 
     function onRecipientClicked()
     {
-        var e = document.getElementById("recipientsDropDown");
+        var e = document.getElementById("MISCForms_Recipient_RecipientId");
         var strAtt = e.options[e.selectedIndex].getAttribute('name'); // will return the value
-        console.log(strAtt);
-
-
+        var recipientName = e.options[e.selectedIndex].text; // will return the inner html text
         if(strAtt!=null)
         {
             strAtt = strAtt.replace("-","");
-            document.getElementById("rTIN").innerHTML = strAtt;
-            document.getElementById("rTIN").value = strAtt;
+            document.getElementById("MISCForms_Recipient_TIN").innerHTML = strAtt;
+            document.getElementById("MISCForms_Recipient_TIN").value = strAtt;
+            document.getElementById("MISCForms_Recipient_RecipientNm").innerHTML = recipientName;
+            document.getElementById("MISCForms_Recipient_RecipientNm").value = recipientName;
         }
     }
 

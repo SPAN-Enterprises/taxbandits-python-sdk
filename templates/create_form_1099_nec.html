@@ -66,8 +66,6 @@
                 var s = '<option value="-1">Select Recipient</option>';
 			    if(data!=null)
 				{
-				    console.log(data);
-
                     var jsonData = JSON.parse(data)
 
                     if(jsonData!=null && jsonData.length>0)
@@ -89,14 +87,15 @@
     {
         var e = document.getElementById("recipientsDropDown");
         var strAtt = e.options[e.selectedIndex].getAttribute('name'); // will return the value
-        console.log(strAtt);
-
+        var recipientName = e.options[e.selectedIndex].text; // will return the inner html text
 
         if(strAtt!=null)
         {
             strAtt = strAtt.replace("-","");
             document.getElementById("rTIN").innerHTML = strAtt;
             document.getElementById("rTIN").value = strAtt;
+            document.getElementById("rName").innerHTML = recipientName;
+            document.getElementById("rName").value = recipientName;
         }
     }
 </script>
