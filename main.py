@@ -277,8 +277,6 @@ def form_1099_misc():
 
     response = Form1099MISC.save_form_1099_misc(requestModel)
 
-    print(response)
-
     if response is not None:
         if response['StatusCode'] == 200:
 
