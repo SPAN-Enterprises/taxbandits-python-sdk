@@ -1,5 +1,5 @@
 from models.Business import Business
-from models.Form10991099CreateRequest import Form10991099CreateRequest
+from models.Form1099CreateRequest import Form1099CreateRequest
 from models.MISCFormData import MISCFormData
 from models.Recipient import Recipient
 from models.ReturnData import ReturnData
@@ -12,7 +12,7 @@ from models.USAddress import USAddress
 
 
 def save_form_1099misc(formRequest):
-    requestModel = Form10991099CreateRequest()
+    requestModel = Form1099CreateRequest()
 
     returnHeader = ReturnHeader()
     business = Business()

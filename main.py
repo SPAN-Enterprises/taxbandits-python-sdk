@@ -244,7 +244,7 @@ def get_form_business_list():
 @appInstance.route('/get_recipient_by_business_id_misc', methods=['POST'])
 def get_recipients_list_misc():
     response = Business.get_recipient_list("MISC", request.form['BusinessId'])
-
+    print(response)
     recipientNameList = []
 
     if response is not None:

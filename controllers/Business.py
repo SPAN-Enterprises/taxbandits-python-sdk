@@ -5,7 +5,7 @@ from api_services.FormW_2 import get_w2_list
 from models.Business import Business
 from models.BusinessListRequest import BusinessListRequest
 from models.ForeignAddress import ForeignAddress
-from models.GetFormListRequest import GetFormListRequest
+from models.FormListRequest import FormListRequest
 from models.SigningAuthority import SigningAuthority
 
 
@@ -122,7 +122,7 @@ def get_all_business_list():
 def get_recipient_list(formType, businessId):
     # Get NEC list of specific Business Id
     # Method: Form1099NEC/List (GET)
-    get_request = GetFormListRequest()
+    get_request = FormListRequest()
 
     get_request.set_business_id(businessId)
 

@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from models.GetFormListRequest import GetFormListRequest
+from models.FormListRequest import FormListRequest
 from models.TransmitFormRequest import TransmitFormRequest
 from utils import HeaderUtils, Config, EndPointConfig
 
@@ -31,7 +31,7 @@ def transmit_form_1099_nec(submissionId):
 
 
 # Returns NEC List of specific business Id
-def get_nec_list(get_list_request: GetFormListRequest):
+def get_nec_list(get_list_request: FormListRequest):
     # Get NEC list of specific Business Id
     # Method: Form1099NEC/List (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM1099_NEC_LIST,

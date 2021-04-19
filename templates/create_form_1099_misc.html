@@ -78,7 +78,7 @@
     {
         $.ajax({
 			url: '/get_recipient_by_business_id_misc',
-			data: {BusinessId: $('#business_list').val()},
+			data: {BusinessId: $('#MISCForms_Business_BusinessId').val()},
 			type: 'POST',
 			success: function(data){
                 var s = '<option value="-1">Select Recipient</option>';
@@ -95,7 +95,7 @@
                         }
                     }
                }
-               $("#recipientsDropDown").html(s);
+               $("#MISCForms_Recipient_RecipientId").html(s);
 			},
 			error: function(error){
 				console.log(error);

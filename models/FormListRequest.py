@@ -1,4 +1,4 @@
-class GetFormListRequest:
+class FormListRequest:
 
     def get_page_size(self):
         return self._page_size

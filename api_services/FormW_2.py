@@ -2,7 +2,7 @@ import json
 
 import requests
 from controllers.FormW_2 import save_form_w_2
-from models.GetFormListRequest import GetFormListRequest
+from models.FormListRequest import FormListRequest
 from models.TransmitFormRequest import TransmitFormRequest
 from utils import HeaderUtils, Config, EndPointConfig
 
@@ -19,7 +19,7 @@ def save_form_w2(requestJson):
 
 
 # Returns W2 List by business_id
-def get_w2_list(get_request: GetFormListRequest):
+def get_w2_list(get_request: FormListRequest):
 
     # Get W2 list of specific Business Id
     # Method: FormW2/List (GET)

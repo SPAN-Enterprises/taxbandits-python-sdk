@@ -2,7 +2,7 @@ import json
 
 import requests
 from controllers.Form1099MISC import transmit
-from models import GetFormListRequest
+from models import FormListRequest
 from utils import HeaderUtils, Config, EndPointConfig
 
 
@@ -29,7 +29,7 @@ def transmit_form_1099_misc(submissionId, recordId):
 
 
 # Returns MISC List of specific business Id
-def get_misc_list(get_list_request: GetFormListRequest):
+def get_misc_list(get_list_request: FormListRequest):
     # Get MISC list of specific Business Id
     # Method: Form1099MISC/List (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM_1099MISC_LIST,
@@ -37,7 +37,8 @@ def get_misc_list(get_list_request: GetFormListRequest):
                                     "PageSize": get_list_request.get_page_size(),
                                     "FromDate": get_list_request.get_from_date(),
                                     "BusinessId": get_list_request.get_business_id(),
-                                    "ToDate": get_list_request.get_to_date()}, headers=HeaderUtils.getheaders())
+                                    "ToDate": get_list_request.get_to_date()},
+                            headers=HeaderUtils.getheaders())
 
     return response.json()
 
