@@ -37,7 +37,9 @@ Sandbox Application URL: https://testapp.taxbandits.com
 ​
 ## Requirements
 Ensure you have Python 3.8.5 and above and pip version 21.0.1 and above
-​
+
+
+
 Install the packages into the pipenv virtual environment from Pipfile:
 > pipenv install
 
