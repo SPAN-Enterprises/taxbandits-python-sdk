@@ -2,9 +2,9 @@ import json
 
 from flask import render_template, Flask, request
 
-from api_services import Form1099NEC, Business, Form1099MISC
+from api_services import Form1099NEC, Business, Form1099MISC, FormW_2
 from api_services.Form1099MISC import get_misc_list, save_form_1099_misc
-from api_services.FormW_2 import save_form_w2, get_w2_list
+from api_services.FormW_2 import save_form_w2, get_w2_list, transmit_formw2
 from controllers import Business
 from controllers.Business import get_recipient_list
 from controllers.Form1099MISC import save_form_1099misc
@@ -455,6 +455,52 @@ def get_misc_pdf():
         if 'Message' in response['Form1099NecRecords'][0]:
             return render_template('pdf_response.html', errorList=response['Form1099NecRecords'],
                                    FormType="Form 1099-NEC")
+        else:
+            return "OK"
+    elif 'Errors' in response and response['Errors'] is not None:
+        return render_template('pdf_response.html', errorList=response['Errors'])
+
+    return "OK"
+
+
+@appInstance.route('/transmit_form_w2', methods=['GET'])
+def transmit_form_w2():
+
+
+    response = transmit_formw2(request.args.get('submissionId'))
+
+    print(response)
+
+    if response is not None:
+
+        if response['StatusCode'] == 200:
+
+            return render_template('success.html',
+                                   response='Status Timestamp=' + response['FormW2Records']['SuccessRecords'][0][
+                                       'StatusTs'],
+                                   ErrorMessage='Status= ' + response['FormW2Records']['SuccessRecords'][0]['Status'],
+                                   ButtonText="Form W2", FormType="W2")
+
+        elif 'Errors' in response and response['Errors'] is not None:
+
+            return render_template('error_list.html', errorList=response['Errors'],
+                                   status=str(response['StatusCode']) + " - " + str(
+                                       response['StatusName']) + " - " + str(response['StatusMessage']))
+        else:
+            return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                                   ErrorMessage='Message=' + json.dumps(response))
+
+
+@appInstance.route('/form_w2/get_pdf', methods=['GET'])
+def get_w2_pdf():
+    SubmissionId = request.args.get('submissionId')
+    TINMaskType = "MASKED"
+    response = FormW_2.get_w2_pdf(SubmissionId, TINMaskType)
+
+    if 'FormW2Records' in response and response['FormW2Records'] is not None:
+        if 'Message' in response['FormW2Records'][0]:
+            return render_template('pdf_response.html', errorList=response['FormW2Records'],
+                                   FormType="Form W2")
         else:
             return "OK"
     elif 'Errors' in response and response['Errors'] is not None:

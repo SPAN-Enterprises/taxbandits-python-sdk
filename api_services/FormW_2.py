@@ -36,7 +36,7 @@ def get_w2_list(get_request: FormListRequest):
 
 
 # Transmits Form W2
-def transmit_form_w2(submissionId):
+def transmit_formw2(submissionId):
     requestModel = TransmitFormRequest()
     requestModel.set_SubmissionId(submissionId)
 
@@ -49,13 +49,12 @@ def transmit_form_w2(submissionId):
     return response.json()
 
 
-def get_w2_pdf(SubmissionId, RecordIds, TINMaskType):
+def get_w2_pdf(SubmissionId, TINMaskType):
 
     # Get Form W2 PDF of particular submission Id and its Record Id
     # Method: FormW2/GetPDF
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.FORM_W2_GET_PDF,
                             params={"SubmissionId": SubmissionId,
-                                    "RecordIds": RecordIds,
                                     "TINMaskType": TINMaskType}, headers=HeaderUtils.getheaders())
 
     return response.json()

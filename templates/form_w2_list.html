@@ -50,7 +50,7 @@
     function getPdfClicked(submissionId)
     {
         console.log(submissionId);
-        window.location = '/FormW2/GetPDF?submissionId=' + submissionId;
+        window.location = '/form_w2/get_pdf?submissionId=' + submissionId;
     }
 
     function loadw2List()
@@ -104,7 +104,7 @@
                                 transmitBtn.innerHTML = "Transmit";
                                 transmitBtn.value = jsonData[i]['SubmissionId'];
                                 transmitBtn.className = "btn";
-                                idVal = jsonData[i]['SubmissionId']+"_"+jsonData[i]['RecipientId'];
+                                idVal = jsonData[i]['SubmissionId'];
                                 transmitBtn.setAttribute("id", idVal);
                                 listElement.appendChild(transmitBtn);
 
