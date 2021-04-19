@@ -457,7 +457,7 @@ def redirect_to_form_list_pages():
         if formType == 'NEC':
             return get_nec_list()
         elif formType == 'MISC':
-            return get_misc_list()
+            return get_business_list_for_1099misc_dropdown()
         elif formType == 'W2':
             return get_w2_list()
 
