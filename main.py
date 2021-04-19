@@ -520,7 +520,7 @@ def get_w2_pdf():
 
     return "OK"
 
-
+# Common method for redirect to form List from form creation success page
 @appInstance.route('/redirect_form_list', methods=['GET'])
 def redirect_to_form_list_pages():
     formType = request.args.get('formtype')
