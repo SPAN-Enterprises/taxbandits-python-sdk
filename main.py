@@ -1,11 +1,12 @@
 from flask import render_template
-
 from api_services import Business, Form1099NEC, Form1099MISC, FormW2
-from controller.business import create_business, create_form1099_nec, create_form1099_misc, get_business_detail_api, \
-    get_all_business_list, get_form_list_request, create_form_w2
-from core.Form1099NecList import Form1099NecList
-from core.GetBusinssList import BusinessListRequest
-from core.Recipient import Recipient
+from controller.business import create_business, get_business_detail_api, get_all_business_list
+from controller.form1099nec import create_form1099_nec, get_form_list_request
+from controller.form1099misc import create_form1099_misc
+from controller.formw2 import create_form_w2
+from model.Form1099NecList import Form1099NecList
+from model.GetBusinessList import GetBusinessList
+from model.Recipient import Recipient
 from api_services.FormW2 import transmit_formw2
 import json
 from flask import Flask, request
@@ -35,7 +36,8 @@ def submit():
         return render_template('success.html',
                                response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' +
                                         response[
-                                            'BusinessId'], ErrorMessage=' Business Created Successfully')
+                                            'BusinessId'], ErrorMessage=' Business Created Successfully',
+                               formtype="Businesses")
 
     elif 'Errors' in response and response['Errors'] is not None:
 
@@ -80,7 +82,8 @@ def submit_form_1099_nec():
 
         return render_template('success.html',
                                response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' + response[
-                                   'SubmissionId'], ErrorMessage=' Form 1099-NEC Created Successfully')
+                                   'SubmissionId'], ErrorMessage=' Form 1099-NEC Created Successfully',
+                               ButtonText="Form 1099-NEC", FormType="NEC")
 
     elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
         'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
@@ -115,7 +118,7 @@ def get_business():
 
 @appInstance.route('/businesslist/', methods=['GET'])
 def business_list():
-    get_business_request = BusinessListRequest()
+    get_business_request = GetBusinessList()
 
     get_business_request.set_page(1)
 
@@ -180,7 +183,7 @@ def read_recipients_list():
 
 @appInstance.route('/FormNecList', methods=['GET'])
 def get_nec_list():
-    get_business_request = BusinessListRequest()
+    get_business_request = GetBusinessList()
 
     get_business_request.set_page(1)
 
@@ -199,7 +202,7 @@ def get_nec_list():
 
 @appInstance.route('/nec_list', methods=['POST'])
 def form_1099_nec_list():
-    response = get_form_list_request("NEC")
+    response = get_form_list_request("NEC", request)
 
     form1099NecList = []
 
@@ -244,7 +247,8 @@ def transmit_form1099_nec():
             return render_template('success.html',
                                    response='Status Timestamp=' + response['Form1099Records']['SuccessRecords'][0][
                                        'StatusTs'],
-                                   ErrorMessage='Status= ' + response['Form1099Records']['SuccessRecords'][0]['Status'])
+                                   ErrorMessage='Status= ' + response['Form1099Records']['SuccessRecords'][0]['Status'],
+                                   ButtonText="Form 1099-NEC", FormType="NEC")
 
         elif 'Errors' in response and response['Errors'] is not None:
 
@@ -269,7 +273,8 @@ def submit_form_1099_misc():
             return render_template('success.html',
                                    response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' +
                                             response['SubmissionId'],
-                                   ErrorMessage='Form 1099-MISC Created Successfully')
+                                   ErrorMessage='Form 1099-MISC Created Successfully', ButtonText="Form 1099-MISC",
+                                   FormType="MISC")
 
         elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
             'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
@@ -302,7 +307,7 @@ def get_misc_list():
 
 @appInstance.route('/misc_list', methods=['POST'])
 def form_1099_misc_list():
-    response = get_form_list_request("MISC")
+    response = get_form_list_request("MISC", request)
 
     form1099NecList = []
 
@@ -349,7 +354,8 @@ def transmit_form1099_misc():
             return render_template('success.html',
                                    response='Status Timestamp=' + response['Form1099Records']['SuccessRecords'][0][
                                        'StatusTs'],
-                                   ErrorMessage='Status= ' + response['Form1099Records']['SuccessRecords'][0]['Status'])
+                                   ErrorMessage='Status= ' + response['Form1099Records']['SuccessRecords'][0]['Status'],
+                                   ButtonText="Form 1099-MISC", FormType="MISC")
 
         elif 'Errors' in response and response['Errors'] is not None:
 
@@ -449,7 +455,7 @@ def submit_form_w2():
                                         response['FormW2Records']['SuccessRecords'][0][
                                             'RecordId'] + '<br>EmployeeId =' +
                                         response['FormW2Records']['SuccessRecords'][0]['EmployeeId'],
-                               ErrorMessage=' Form W2 Created Successfully')
+                               ErrorMessage=' Form W2 Created Successfully', ButtonText="Form W2", FormType="W2")
 
     elif 'Errors' in response and response['Errors'] is not None:
 
@@ -471,7 +477,7 @@ def get_w2_list():
 
 @appInstance.route('/form_w2_list', methods=['POST'])
 def form_w2_list():
-    response = get_form_list_request("W2")
+    response = get_form_list_request("W2", request)
 
     formW2List = []
 
@@ -513,7 +519,8 @@ def transmit_form_w2():
             return render_template('success.html',
                                    response='Status Timestamp=' + response['FormW2Records']['SuccessRecords'][0][
                                        'StatusTs'],
-                                   ErrorMessage='Status= ' + response['FormW2Records']['SuccessRecords'][0]['Status'])
+                                   ErrorMessage='Status= ' + response['FormW2Records']['SuccessRecords'][0]['Status'],
+                                   ButtonText="Form W2", FormType="W2")
 
         elif 'Errors' in response and response['Errors'] is not None:
 
@@ -523,6 +530,7 @@ def transmit_form_w2():
         else:
             return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
                                    ErrorMessage='Message=' + json.dumps(response))
+
 
 @appInstance.route('/FormW2/GetPDF', methods=['GET'])
 def get_w2_pdf():
@@ -541,6 +549,19 @@ def get_w2_pdf():
         return render_template('pdf_response.html', errorList=response['Errors'])
 
     return "OK"
+
+
+@appInstance.route('/loadFormList', methods=['GET'])
+def loadFormList():
+    formType = request.args.get('formtype')
+
+    if formType is not None:
+        if formType == 'NEC':
+            return get_nec_list()
+        elif formType == 'MISC':
+            return get_misc_list()
+        elif formType == 'W2':
+            return get_w2_list()
 
 
 if __name__ == '__main__':

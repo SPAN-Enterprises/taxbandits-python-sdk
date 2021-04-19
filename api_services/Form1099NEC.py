@@ -1,21 +1,21 @@
 import requests
 import json
 
-from core import GetFormListRequest
-from core.ScheduleFiling import ScheduleFiling
+from model import GetFormListRequest
+from model.ScheduleFiling import ScheduleFiling
 from utils import HeaderUtils, Config, EndPointConfig
 from api_services import JwtGeneration
-from core.CreateForm1099NEC import CreateForm1099NEC
-from core.SubmissionManifest import SubmissionManifest
-from core.States import States
-from core.ReturnHeader import ReturnHeader
-from core.ReturnData import ReturnData
-from core.NECFormData import NECFormData
-from core.Recipient import Recipient
-from core.ForeignAddress import ForeignAddress
-from core.TransmitFormRequest import TransmitFormRequest
-from core.Business import Business
-from core.USAddress import USAddress
+from model.CreateForm1099NEC import CreateForm1099NEC
+from model.SubmissionManifest import SubmissionManifest
+from model.States import States
+from model.ReturnHeader import ReturnHeader
+from model.ReturnData import ReturnData
+from model.NECFormData import NECFormData
+from model.Recipient import Recipient
+from model.ForeignAddress import ForeignAddress
+from model.TransmitFormRequest import TransmitFormRequest
+from model.Business import Business
+from model.USAddress import USAddress
 
 
 def create(businessId, rName, rTIN, amount, recipientId):
@@ -135,7 +135,7 @@ def transmitForm1099NEC(submissionId, recordId):
 
 
 # Returns NEC List of specific business Id
-def get_nec_list(get_list_request: GetNecListRequest):
+def get_nec_list(get_list_request: GetFormListRequest):
 
     # Get NEC list of specific Business Id
     # Method: Form1099NEC/List (GET)

@@ -3,14 +3,20 @@
 {% block content %}
 <div>
 
-
     {% if ErrorMessage %}
     <h3>{{ErrorMessage | safe}}</h3>
     {% endif %}
 
-    {% if response %}
-    <p>{{response | safe}}</p>
-    {% endif %}
+    <form action="/loadFormList" method="get">
+        {% if response %}
+        <p>{{response | safe}}</p>
+        {% endif %}
+
+        {% if ButtonText %}
+        <input id="formtype" name="formtype" style="display:none;" value={{ FormType }}>
+        <button type="submit">View {{ ButtonText }}</button>
+        {% endif %}
+    </form>
 
 </div>
 {% endblock %}

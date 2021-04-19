@@ -1,15 +1,15 @@
 import json
 import requests
-from core.CreateFormW2Request import CreateFormW2Request
-from core.Business import Business
-from core.Employee import Employee
-from core.USAddress import USAddress
-from core.SubmissionManifest import SubmissionManifest
-from core.W2FormData import FormDetails
-from core.ReturnHeader import ReturnHeader
-from core.GetFormListRequest import GetFormListRequest
-from core.ReturnDataFormW2 import ReturnDataFormW2
-from core.TransmitFormRequest import TransmitFormRequest
+from model.CreateFormW2Request import CreateFormW2Request
+from model.Business import Business
+from model.Employee import Employee
+from model.USAddress import USAddress
+from model.SubmissionManifest import SubmissionManifest
+from model.W2FormData import W2FormData
+from model.ReturnHeader import ReturnHeader
+from model.GetFormListRequest import GetFormListRequest
+from model.ReturnDataFormW2 import ReturnDataFormW2
+from model.TransmitFormRequest import TransmitFormRequest
 from utils import HeaderUtils, Config, EndPointConfig
 
 
@@ -79,7 +79,7 @@ def generate_form_w2_request(requestJson):
     employee.set_USAddress(usAddress.__dict__)
     returnData.set_Employee(employee.__dict__)
 
-    formDetails = FormDetails()
+    formDetails = W2FormData()
     formDetails.set_B1Wages(requestJson['W2Forms[0].FormDetails.Box1'][0])
     formDetails.set_B2FedTaxWH(requestJson['W2Forms[0].FormDetails.Box2'][0])
     formDetails.set_B3SocSecWages(requestJson['W2Forms[0].FormDetails.Box3'][0])

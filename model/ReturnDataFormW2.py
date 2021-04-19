@@ -1,6 +1,3 @@
-import json
-
-
 class ReturnDataFormW2:
 
     def get_RecordId(self):

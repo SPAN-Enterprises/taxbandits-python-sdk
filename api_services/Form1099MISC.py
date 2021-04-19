@@ -2,19 +2,19 @@ import json
 
 import requests
 
-from core import GetFormListRequest
-from core.Business import Business
-from core.CreateForm1099NEC import CreateForm1099NEC
-from core.USAddress import USAddress
-from core.MISCFormData import MISCFormData
-from core.Recipient import Recipient
-from core.ReturnData import ReturnData
-from core.ReturnHeader import ReturnHeader
-from core.States import States
-from core.SubmissionManifest import SubmissionManifest
-from core.TransmitFormRequest import TransmitFormRequest
+from model import GetFormListRequest
+from model.Business import Business
+from model.CreateForm1099NEC import CreateForm1099NEC
+from model.USAddress import USAddress
+from model.MISCFormData import MISCFormData
+from model.Recipient import Recipient
+from model.ReturnData import ReturnData
+from model.ReturnHeader import ReturnHeader
+from model.States import States
+from model.SubmissionManifest import SubmissionManifest
+from model.TransmitFormRequest import TransmitFormRequest
 from utils import HeaderUtils, Config, EndPointConfig
-from core.ScheduleFiling import ScheduleFiling
+from model.ScheduleFiling import ScheduleFiling
 
 
 def isValidString(param):
@@ -84,7 +84,7 @@ def create(formRequest: json):
     # set NEC data
     miscFormDataModel = MISCFormData()
 
-    if 'rentsAMISCForms_MISCFormDetails_Box1' in formRequest and formRequest[
+    if 'MISCForms_MISCFormDetails_Box1' in formRequest and formRequest[
         'MISCForms_MISCFormDetails_Box1'] is not None and isValidString(
             formRequest['MISCForms_MISCFormDetails_Box1'][0]):
         miscFormDataModel.set_B1Rents(float(formRequest['MISCForms_MISCFormDetails_Box1'][0]))
@@ -163,7 +163,7 @@ def transmitForm1099MISC(submissionId, recordId):
 
 
 # Returns MISC List of specific business Id
-def get_misc_list(get_list_request: GetNecListRequest):
+def get_misc_list(get_list_request: GetFormListRequest):
     # Get MISC list of specific Business Id
     # Method: Form1099MISC/List (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_FORM_1099MISC_LIST,

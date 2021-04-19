@@ -1,14 +1,4 @@
-# foreignAddress = {
-#     "Address1": "22 St",
-#     "Address2": "Clair Ave E",
-#     "City": "Toronto",
-#     "ProvinceOrStateNm": "Ontario",
-#     "Country": "M1R 0E9",
-#     "PostalCd": "M1R 0E9"
-#
-# }
-
-class ForeignAddress:
+class USAddress:
 
     def get_Address1(self):
         return self.Address1
@@ -23,14 +13,9 @@ class ForeignAddress:
 
     def get_City(self):
         return self.City
+
     def set_City(self,city):
         self.City = city
-
-    def get_ProvinceOrStateNm(self):
-        return self.ProvinceOrStateNm
-
-    def set_ProvinceOrStateNm(self,provinceOrStateNm):
-        self.ProvinceOrStateNm = provinceOrStateNm
 
     def get_Country(self):
         return self.Country

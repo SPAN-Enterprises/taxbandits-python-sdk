@@ -1,10 +1,10 @@
 import requests
-from core.ForeignAddress import ForeignAddress
-from core.GetBusinssList import BusinessListRequest
+from model.ForeignAddress import ForeignAddress
+from model.GetBusinessList import GetBusinessList
 import json
 from utils import HeaderUtils, Config, EndPointConfig
-from core.Business import Business
-from core.SigningAuthority import SigningAuthority
+from model.Business import Business
+from model.SigningAuthority import SigningAuthority
 from api_services import JwtGeneration
 
 
@@ -116,7 +116,7 @@ def get_business_detail(BusinessId, EIN):
 
 
 # Returns list of all the businesses
-def get_business_list(get_business_request: BusinessListRequest):
+def get_business_list(get_business_request: GetBusinessList):
 
     # Get a list of all Businesses
     # Method: Business/List (GET)

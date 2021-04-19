@@ -1,4 +1,4 @@
-class FormDetails:
+class W2FormData:
 
     def get_B1Wages(self):
         return self.B1Wages
