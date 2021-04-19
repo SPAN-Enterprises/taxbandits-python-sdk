@@ -1,5 +1,5 @@
 from api_services import Business
-from model.GetBusinessList import GetBusinessList
+from models.GetBusinessList import GetBusinessList
 
 
 def create_business(requestJson):

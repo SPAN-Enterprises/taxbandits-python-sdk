@@ -2,19 +2,19 @@ import json
 
 import requests
 
-from model import GetFormListRequest
-from model.Business import Business
-from model.CreateForm1099NEC import CreateForm1099NEC
-from model.USAddress import USAddress
-from model.MISCFormData import MISCFormData
-from model.Recipient import Recipient
-from model.ReturnData import ReturnData
-from model.ReturnHeader import ReturnHeader
-from model.States import States
-from model.SubmissionManifest import SubmissionManifest
-from model.TransmitFormRequest import TransmitFormRequest
+from models import GetFormListRequest
+from models.Business import Business
+from models.CreateForm1099NEC import CreateForm1099NEC
+from models.USAddress import USAddress
+from models.MISCFormData import MISCFormData
+from models.Recipient import Recipient
+from models.ReturnData import ReturnData
+from models.ReturnHeader import ReturnHeader
+from models.States import States
+from models.SubmissionManifest import SubmissionManifest
+from models.TransmitFormRequest import TransmitFormRequest
 from utils import HeaderUtils, Config, EndPointConfig
-from model.ScheduleFiling import ScheduleFiling
+from models.ScheduleFiling import ScheduleFiling
 
 
 def isValidString(param):

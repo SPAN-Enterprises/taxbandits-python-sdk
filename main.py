@@ -1,12 +1,12 @@
 from flask import render_template
 from api_services import Business, Form1099NEC, Form1099MISC, FormW2
-from controller.business import create_business, get_business_detail_api, get_all_business_list
-from controller.form1099nec import create_form1099_nec, get_form_list_request
-from controller.form1099misc import create_form1099_misc
-from controller.formw2 import create_form_w2
-from model.Form1099NecList import Form1099NecList
-from model.GetBusinessList import GetBusinessList
-from model.Recipient import Recipient
+from controllers.business import create_business, get_business_detail_api, get_all_business_list
+from controllers.form1099nec import create_form1099_nec, get_form_list_request
+from controllers.form1099misc import create_form1099_misc
+from controllers.formw2 import create_form_w2
+from models.Form1099NecList import Form1099NecList
+from models.GetBusinessList import GetBusinessList
+from models.Recipient import Recipient
 from api_services.FormW2 import transmit_formw2
 import json
 from flask import Flask, request

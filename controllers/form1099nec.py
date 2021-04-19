@@ -1,5 +1,5 @@
 from api_services import Form1099NEC, Form1099MISC
-from model.GetFormListRequest import GetFormListRequest
+from models.GetFormListRequest import GetFormListRequest
 from flask import request
 from api_services.FormW2 import get_w2_list
 

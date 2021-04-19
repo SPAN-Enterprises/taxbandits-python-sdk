@@ -1,10 +1,10 @@
 import requests
-from model.ForeignAddress import ForeignAddress
-from model.GetBusinessList import GetBusinessList
+from models.ForeignAddress import ForeignAddress
+from models.GetBusinessList import GetBusinessList
 import json
 from utils import HeaderUtils, Config, EndPointConfig
-from model.Business import Business
-from model.SigningAuthority import SigningAuthority
+from models.Business import Business
+from models.SigningAuthority import SigningAuthority
 from api_services import JwtGeneration
 
 

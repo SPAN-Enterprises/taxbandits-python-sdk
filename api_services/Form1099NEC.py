@@ -1,21 +1,21 @@
 import requests
 import json
 
-from model import GetFormListRequest
-from model.ScheduleFiling import ScheduleFiling
+from models import GetFormListRequest
+from models.ScheduleFiling import ScheduleFiling
 from utils import HeaderUtils, Config, EndPointConfig
 from api_services import JwtGeneration
-from model.CreateForm1099NEC import CreateForm1099NEC
-from model.SubmissionManifest import SubmissionManifest
-from model.States import States
-from model.ReturnHeader import ReturnHeader
-from model.ReturnData import ReturnData
-from model.NECFormData import NECFormData
-from model.Recipient import Recipient
-from model.ForeignAddress import ForeignAddress
-from model.TransmitFormRequest import TransmitFormRequest
-from model.Business import Business
-from model.USAddress import USAddress
+from models.CreateForm1099NEC import CreateForm1099NEC
+from models.SubmissionManifest import SubmissionManifest
+from models.States import States
+from models.ReturnHeader import ReturnHeader
+from models.ReturnData import ReturnData
+from models.NECFormData import NECFormData
+from models.Recipient import Recipient
+from models.ForeignAddress import ForeignAddress
+from models.TransmitFormRequest import TransmitFormRequest
+from models.Business import Business
+from models.USAddress import USAddress
 
 
 def create(businessId, rName, rTIN, amount, recipientId):
