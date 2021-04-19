@@ -348,7 +348,6 @@ def form_1099_misc_list():
 
 @appInstance.route('/transmit_form1099_misc', methods=['GET'])
 def transmit_form1099_misc():
-
     response = Form1099MISC.transmit_form_1099_misc(request.args.get('submissionId'))
 
     print(response)
@@ -371,8 +370,6 @@ def transmit_form1099_misc():
         else:
             return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
                                    ErrorMessage='Message=' + json.dumps(response))
-
-
 
 
 @appInstance.route('/render_template_create_form_w2', methods=['GET'])
@@ -447,6 +444,23 @@ def form_w2_list():
                     formW2List.append(recipientData.__dict__)
 
     return json.dumps(formW2List)
+
+
+@appInstance.route('/form_1099_misc/get_pdf', methods=['GET'])
+def get_misc_pdf():
+    response = Form1099MISC.get_misc_pdf(request.args.get('submissionId'), "MASKED")
+    print(response)
+
+    if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:
+        if 'Message' in response['Form1099NecRecords'][0]:
+            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'],
+                                   FormType="Form 1099-NEC")
+        else:
+            return "OK"
+    elif 'Errors' in response and response['Errors'] is not None:
+        return render_template('pdf_response.html', errorList=response['Errors'])
+
+    return "OK"
 
 
 @appInstance.route('/redirect_form_list', methods=['GET'])
