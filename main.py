@@ -4,7 +4,7 @@ from flask import render_template, Flask, request
 
 from api_services import Form1099NEC, Business, Form1099MISC, FormW_2
 from api_services.Form1099MISC import get_misc_list, save_form_1099_misc
-from api_services.FormW_2 import save_form_w2, get_w2_list, transmit_formw2
+from api_services.FormW_2 import save_form_w2, transmit_formw2, get_w_2_list
 from controllers import Business
 from controllers.Business import get_recipient_list
 from controllers.Form1099MISC import save_form_1099misc
@@ -431,9 +431,9 @@ def form_w2_list():
 
                 for records in response['FormW2Records']:
                     recipientData = Form1099NecList()
-                    if 'EmloyeeName' in records['Employee']:
+                    if 'EmployeeName' in records['Employee']:
                         recipientData.set_RecipientNm(
-                            records['Employee']['EmloyeeName'])
+                            records['Employee']['EmployeeName'])
 
                     recipientData.set_TIN(records['Employee']['SSN'])
                     recipientData.set_RecipientId(

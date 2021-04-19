@@ -1,7 +1,7 @@
 from api_services.Business import get_business_list, get_business_detail, create
 from api_services.Form1099MISC import get_misc_list
 from api_services.Form1099NEC import get_nec_list
-from api_services.FormW_2 import get_w2_list
+from api_services.FormW_2 import get_w_2_list
 from models.Business import Business
 from models.BusinessListRequest import BusinessListRequest
 from models.ForeignAddress import ForeignAddress
@@ -139,7 +139,7 @@ def get_recipient_list(formType, businessId):
     elif formType == "MISC":
         response = get_misc_list(get_request)
     else:
-        get_request.set_to_date('04/18/2021')
-        response = get_w2_list(get_request)
+        get_request.set_to_date('04/19/2021')
+        response = get_w_2_list(get_request)
 
     return response

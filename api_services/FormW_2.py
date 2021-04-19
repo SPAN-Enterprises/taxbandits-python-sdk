@@ -19,7 +19,7 @@ def save_form_w2(requestJson):
 
 
 # Returns W2 List by business_id
-def get_w2_list(get_request: FormListRequest):
+def get_w_2_list(get_request: FormListRequest):
 
     # Get W2 list of specific Business Id
     # Method: FormW2/List (GET)
