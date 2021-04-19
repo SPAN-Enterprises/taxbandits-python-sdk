@@ -151,6 +151,7 @@ def save_form_1099_nec():
                                ErrorMessage='Message=' + json.dumps(response))
 
 
+# 1099-NEC List - Render
 @appInstance.route('/render_template_nec_list', methods=['GET'])
 def get_nec_list():
     businesses = Business.get_all_business_list()
@@ -158,6 +159,7 @@ def get_nec_list():
     return render_template('form_1099_nec_list.html', businesses=businesses)
 
 
+# 1099-NEC List By BusinessId
 @appInstance.route('/form_1099_nec_list', methods=['POST'])
 def form_1099_nec_list():
     response = Business.get_recipient_list("NEC", request.form['BusinessId'])
@@ -190,6 +192,7 @@ def form_1099_nec_list():
     return json.dumps(form1099NecList)
 
 
+# 1099-NEC Transmit
 @appInstance.route('/transmit_form_1099_nec', methods=['GET'])
 def transmit_form1099_nec():
     print(request.args.get('submissionId'))
@@ -216,6 +219,7 @@ def transmit_form1099_nec():
                                    ErrorMessage='Message=' + json.dumps(response))
 
 
+# 1099-NEC get pdf Webhook response
 @appInstance.route('/form_1099_nec/get_pdf', methods=['GET'])
 def get_pdf():
     response = Form1099NEC.get_pdf(request.args.get('submissionId'), request.args.get('RecordIds'), "MASKED")
@@ -269,6 +273,7 @@ def get_recipients_list_misc():
     return json.dumps(recipientNameList)
 
 
+# Save Form 1099-MISC
 @appInstance.route('/save_form_1099_misc', methods=['POST'])
 def form_1099_misc():
     input_request_json = request.form.to_dict(flat=False)
@@ -315,6 +320,7 @@ def get_business_list_for_1099misc_dropdown():
     return render_template('form_1099_misc_list.html', businesses=businesses)
 
 
+# Get 1099-MISC list by BusinessId
 @appInstance.route('/form_1099_misc_list', methods=['POST'])
 def form_1099_misc_list():
     response = Business.get_recipient_list("MISC", request.form['BusinessId'])
@@ -346,6 +352,7 @@ def form_1099_misc_list():
     return json.dumps(form1099NecList)
 
 
+# Transmit Form 1099-MISC
 @appInstance.route('/transmit_form1099_misc', methods=['GET'])
 def transmit_form1099_misc():
     response = Form1099MISC.transmit_form_1099_misc(request.args.get('submissionId'))
@@ -372,13 +379,33 @@ def transmit_form1099_misc():
                                    ErrorMessage='Message=' + json.dumps(response))
 
 
+# Form 1099-MISC Get PDF
+@appInstance.route('/form_1099_misc/get_pdf', methods=['GET'])
+def get_misc_pdf():
+    response = Form1099MISC.get_misc_pdf(request.args.get('submissionId'), "MASKED")
+    print(response)
+
+    if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:
+        if 'Message' in response['Form1099NecRecords'][0]:
+            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'],
+                                   FormType="Form 1099-NEC")
+        else:
+            return "OK"
+    elif 'Errors' in response and response['Errors'] is not None:
+        return render_template('pdf_response.html', errorList=response['Errors'])
+
+    return "OK"
+
+
+# Form W2 Crete
 @appInstance.route('/render_template_create_form_w2', methods=['GET'])
 def form_w2():
     return render_template('create_form_w2.html')
 
 
+# Save Form W-2
 @appInstance.route('/form_w2_success', methods=['POST'])
-def submit_form_w2():
+def save_form_w2():
     input_request_json = request.form.to_dict(flat=False)
 
     response = save_form_w2(input_request_json)
@@ -410,6 +437,7 @@ def submit_form_w2():
                                ErrorMessage='Message=' + json.dumps(response))
 
 
+# Get Business List for Form W-2
 @appInstance.route('/render_template_w2_list', methods=['GET'])
 def get_w2_list():
     businesses = Business.get_all_business_list()
@@ -417,6 +445,7 @@ def get_w2_list():
     return render_template('form_w2_list.html', businesses=businesses)
 
 
+# Form W-2 List
 @appInstance.route('/form_w2_list', methods=['POST'])
 def form_w2_list():
     response = get_recipient_list("W2", request.form['BusinessId'])
@@ -446,27 +475,9 @@ def form_w2_list():
     return json.dumps(formW2List)
 
 
-@appInstance.route('/form_1099_misc/get_pdf', methods=['GET'])
-def get_misc_pdf():
-    response = Form1099MISC.get_misc_pdf(request.args.get('submissionId'), "MASKED")
-    print(response)
-
-    if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:
-        if 'Message' in response['Form1099NecRecords'][0]:
-            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'],
-                                   FormType="Form 1099-NEC")
-        else:
-            return "OK"
-    elif 'Errors' in response and response['Errors'] is not None:
-        return render_template('pdf_response.html', errorList=response['Errors'])
-
-    return "OK"
-
-
+# Form W-2 Transmit
 @appInstance.route('/transmit_form_w2', methods=['GET'])
 def transmit_form_w2():
-
-
     response = transmit_formw2(request.args.get('submissionId'))
 
     print(response)
@@ -491,6 +502,7 @@ def transmit_form_w2():
                                    ErrorMessage='Message=' + json.dumps(response))
 
 
+# Form W-2 Get Pdf
 @appInstance.route('/form_w2/get_pdf', methods=['GET'])
 def get_w2_pdf():
     SubmissionId = request.args.get('submissionId')
