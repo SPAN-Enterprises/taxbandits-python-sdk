@@ -14,15 +14,21 @@ from utils.SignatureValidation import validate
 
 appInstance = Flask(__name__)
 
+# Index Page
+
 
 @appInstance.route('/')
 def index():
     return render_template('index.html')
 
+# Create Business - Get
 
-@appInstance.route('/createbusiness', methods=['get'])
+
+@appInstance.route('/createbusiness', methods=['GET'])
 def load_create_business():
     return render_template('createbusiness.html')
+
+# Create Business - Post
 
 
 @appInstance.route('/success', methods=['POST'])
@@ -76,7 +82,8 @@ def submit_form_1099_nec():
     if 'recipientsDropDown' in input_request_json:
         recipientId = input_request_json['recipientsDropDown'][0]
 
-    response = create_form1099_nec(businessId, rName, rTIN, amount, recipientId)
+    response = create_form1099_nec(
+        businessId, rName, rTIN, amount, recipientId)
 
     if response['StatusCode'] == 200:
 
@@ -86,9 +93,9 @@ def submit_form_1099_nec():
                                ButtonText="Form 1099-NEC", FormType="NEC")
 
     elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
-        'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
-            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
-        'Errors'] is not None:
+            'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
+        response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
+            'Errors'] is not None:
 
         errorRecords = []
 
@@ -108,12 +115,15 @@ def submit_form_1099_nec():
                                ErrorMessage='Message=' + json.dumps(response))
 
 
+# View Business
 @appInstance.route('/detail', methods=['GET'])
 def get_business():
     business_id = request.args.get('business_id')
     ein = request.args.get('ein')
     response = get_business_detail_api(business_id, ein)
     return render_template('detail.html', response=response)
+
+# Business List
 
 
 @appInstance.route('/businesslist/', methods=['GET'])
@@ -277,9 +287,9 @@ def submit_form_1099_misc():
                                    FormType="MISC")
 
         elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
-            'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
-                response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
-            'Errors'] is not None:
+                'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
+            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
+                'Errors'] is not None:
 
             errorRecords = []
 
@@ -412,7 +422,6 @@ def get_status_web_hook():
         print("Signature Valid = " + isSignatureValid)
 
         # if isSignatureValid:
-        # save_response_in_mongodb(response)
 
         return "OK"
 

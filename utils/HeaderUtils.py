@@ -3,9 +3,9 @@ from utils import Config
 
 
 def getheaders():
-    if Config.access_token is None or len(Config.access_token) == 0:
+    if Config.ACCESS_TOKEN is None or len(Config.ACCESS_TOKEN) == 0:
         jws = JwtGeneration.get_jws()
 
         JwtGeneration.get_access_token_by_jws(jws)
 
-    return {'Authorization': 'Bearer ' + Config.access_token, 'Content-Type': 'application/json'}
+    return {'Authorization': 'Bearer ' + Config.ACCESS_TOKEN, 'Content-Type': 'application/json'}
