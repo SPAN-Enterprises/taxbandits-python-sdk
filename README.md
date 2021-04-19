@@ -36,9 +36,17 @@ API Server: https://testapi.taxbandits.com/v1.6.1
 Sandbox Application URL: https://testapp.taxbandits.com
 ​
 ## Requirements
-Ensure you have Python 3.6 and above and pip version 21.0.1 and above
+Ensure you have Python 3.8.5 and above and pip version 21.0.1 and above
+
+
+
+Install the packages into the pipenv virtual environment from Pipfile:
+> pipenv install
+
+Activate the Pipenv shell:
 ​
-> pip install -r requirements.txt
+> pipenv shell
+
 
 ​
 Under utils folder in Config.py add your client secret, client id, user token and auth/api endpoints. The file should look like this
