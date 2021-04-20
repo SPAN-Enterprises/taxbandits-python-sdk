@@ -140,7 +140,7 @@ def transmit(submissionId):
     requestModel.set_SubmissionId(submissionId)
     return requestModel
 
-
+# Validate 1099 MISC List response
 def form_1099_misc_list_response_validation(response):
     form1099NecList = []
     if response is not None:
@@ -164,6 +164,7 @@ def form_1099_misc_list_response_validation(response):
     return json.dumps(form1099NecList)
 
 
+# Validate 1099 MISC Save response
 def save_form_1099_misc_response_validation(response):
     if response is not None:
         if response['StatusCode'] == 200:
@@ -195,8 +196,8 @@ def save_form_1099_misc_response_validation(response):
             return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
                                    ErrorMessage='Message=' + json.dumps(response))
 
-
-def form_1099_misc_transmi_response_validation(response):
+# Validate 1099 MISC Transmit response
+def form_1099_misc_transmit_response_validation(response):
     if response is not None:
 
         if response['StatusCode'] == 200:
@@ -216,7 +217,7 @@ def form_1099_misc_transmi_response_validation(response):
             return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
                                    ErrorMessage='Message=' + json.dumps(response))
 
-
+# Validate 1099 MISC get pdf response
 def form_1099_misc_get_pdf_response_validation(response):
     print(response)
     if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:

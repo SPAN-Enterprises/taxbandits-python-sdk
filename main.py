@@ -5,11 +5,11 @@ from controllers import Business
 from controllers.Business import get_recipient_list, recipient_list_response_validation, \
     save_business_response_validation
 from controllers.Form1099MISC import save_form_1099misc, form_1099_misc_list_response_validation, \
-    save_form_1099_misc_response_validation, form_1099_misc_transmi_response_validation, \
+    save_form_1099_misc_response_validation, form_1099_misc_transmit_response_validation, \
     form_1099_misc_get_pdf_response_validation
 from controllers.Form1099NEC import save_form_nec, nec_save_response_validation, form_nec_list_response_validation, \
     form_1099_nec_transmit_response_validation, form_1099_nec_get_pdf_response_validation
-from controllers.FormW_2 import form_w2_save_reponse_validation, form_w2_list_response_validation, \
+from controllers.FormW_2 import form_w2_save_response_validation, form_w2_list_response_validation, \
     form_w2_transmit_response_validation, form_w2_get_pdf_response_validation
 from utils.SignatureValidation import validate
 
@@ -148,7 +148,7 @@ def form_1099_misc_list():
 @appInstance.route('/transmit_form1099_misc', methods=['GET'])
 def transmit_form1099_misc():
     response = Form1099MISC.transmit_form_1099_misc(request.args.get('submissionId'))
-    return form_1099_misc_transmi_response_validation(response)
+    return form_1099_misc_transmit_response_validation(response)
 
 
 # Form 1099-MISC Get PDF
@@ -169,7 +169,7 @@ def form_w2():
 def save_form_w2():
     input_request_json = request.form.to_dict(flat=False)
     response = save_formw2(input_request_json)
-    return form_w2_save_reponse_validation(response)
+    return form_w2_save_response_validation(response)
 
 
 # Get Business List for Form W-2

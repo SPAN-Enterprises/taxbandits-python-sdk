@@ -116,7 +116,7 @@ def save_form_nec(input_request_json):
 
     return requestModel
 
-
+# Validate 1099 NEC Save response
 def nec_save_response_validation(response):
     if response['StatusCode'] == 200:
 
@@ -147,7 +147,7 @@ def nec_save_response_validation(response):
         return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
                                ErrorMessage='Message=' + json.dumps(response))
 
-
+# Validate 1099 NEC List response
 def form_nec_list_response_validation(response):
     form1099NecList = []
     if response is not None:
@@ -172,7 +172,7 @@ def form_nec_list_response_validation(response):
 
     return json.dumps(form1099NecList)
 
-
+# Validate 1099 NEC Transmit response
 def form_1099_nec_transmit_response_validation(response):
     if response is not None:
 
@@ -194,7 +194,7 @@ def form_1099_nec_transmit_response_validation(response):
             return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
                                    ErrorMessage='Message=' + json.dumps(response))
 
-
+# Validate 1099 NEC Get Pdf response
 def form_1099_nec_get_pdf_response_validation(response):
     if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:
         if 'Message' in response['Form1099NecRecords'][0]:

@@ -120,12 +120,10 @@ def get_all_business_list():
     if response is not None and 'Businesses' in response and response['Businesses'] is not None:
         return response['Businesses']
 
-    # Returns Form 1099-NEC list of specific business
 
-
+# Get NEC list of specific Business Id
+# Method: Form1099NEC/List (GET)
 def get_recipient_list(formType, businessId):
-    # Get NEC list of specific Business Id
-    # Method: Form1099NEC/List (GET)
     get_request = FormListRequest()
 
     get_request.set_business_id(businessId)
@@ -149,6 +147,7 @@ def get_recipient_list(formType, businessId):
     return response
 
 
+# Validate recipient list response
 def recipient_list_response_validation(response):
     recipientNameList = []
     if response is not None:
@@ -170,6 +169,7 @@ def recipient_list_response_validation(response):
     return json.dumps(recipientNameList)
 
 
+# Validate save business response
 def save_business_response_validation(response):
     if response['StatusCode'] == 200:
 
