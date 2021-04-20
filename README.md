@@ -32,13 +32,9 @@ the SDK. See below for more directions:
 
 ### The sandbox urls: (Please make sure to use the right versions)
 
-​ ​ Sandbox Auth Server: https://testoauth.expressauth.net/v2/tbsauth
-​
-
-​ API Server: https://testapi.taxbandits.com/v1.6.1
-​
-
-​ Sandbox Application URL: https://testapp.taxbandits.com
+- Sandbox Auth Server: https://testoauth.expressauth.net/v2/tbsauth ​
+- API Server: https://testapi.taxbandits.com/v1.6.1 ​
+- Sandbox Application URL: https://testapp.taxbandits.com ​
 ​
 
 ## Requirements
