@@ -7,7 +7,7 @@ from models.TransmitFormRequest import TransmitFormRequest
 from utils import HeaderUtils, Config, EndPointConfig
 
 
-def save_form_w2(requestJson):
+def save_formw2(requestJson):
     # Create a new Form W2
     # Method: FormW2/Create (POST)
     formW2Request= save_form_w_2(requestJson)

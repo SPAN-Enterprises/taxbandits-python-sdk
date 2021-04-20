@@ -1,5 +1,10 @@
+import json
+
+from flask import render_template
+
 from models.Business import Business
 from models.Form1099NECCreateRequest import Form1099NECCreateRequest
+from models.Form1099NecList import Form1099NecList
 from models.NECFormData import NECFormData
 from models.Recipient import Recipient
 from models.ReturnData import ReturnData
@@ -110,3 +115,94 @@ def save_form_nec(input_request_json):
     requestModel.set_ReturnData(returnDataList)
 
     return requestModel
+
+
+def nec_save_response_validation(response):
+    if response['StatusCode'] == 200:
+
+        return render_template('success.html',
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>SubmissionId =' + response[
+                                   'SubmissionId'], ErrorMessage=' Form 1099-NEC Created Successfully',
+                               ButtonText="Form 1099-NEC", FormType="NEC")
+
+    elif 'Form1099Records' in response and response['Form1099Records'] is not None and 'ErrorRecords' in response[
+        'Form1099Records'] and response['Form1099Records']['ErrorRecords'][0] is not None and 'Errors' in \
+            response['Form1099Records']['ErrorRecords'][0] and response['Form1099Records']['ErrorRecords'][0][
+        'Errors'] is not None:
+
+        errorRecords = []
+
+        for errorList in response['Form1099Records']['ErrorRecords']:
+
+            if 'Errors' in errorList and errorList['Errors'] is not None:
+
+                for err in errorList['Errors']:
+                    errorRecords.append(err)
+
+        return render_template('error_list.html', errorList=errorRecords,
+                               status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                   response['StatusMessage']))
+    else:
+
+        return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                               ErrorMessage='Message=' + json.dumps(response))
+
+
+def form_nec_list_response_validation(response):
+    form1099NecList = []
+    if response is not None:
+        if 'Form1099Records' in response:
+            if response['Form1099Records'] is not None:
+                for records in response['Form1099Records']:
+                    recipientData = Form1099NecList()
+                    if 'RecipientNm' in records['Recipient']:
+                        recipientData.set_RecipientNm(
+                            records['Recipient']['RecipientNm'])
+                    elif 'RecipientName' in records['Recipient']:
+                        recipientData.set_RecipientNm(
+                            records['Recipient']['RecipientName'])
+
+                    recipientData.set_TIN(records['Recipient']['TIN'])
+                    recipientData.set_RecipientId(
+                        records['Recipient']['RecordId'])
+                    recipientData.set_SubmissionId(records['SubmissionId'])
+                    recipientData.set_BusinessNm(records['BusinessNm'])
+                    recipientData.set_Status(records['Recipient']['Status'])
+                    form1099NecList.append(recipientData.__dict__)
+
+    return json.dumps(form1099NecList)
+
+
+def form_1099_nec_transmit_response_validation(response):
+    if response is not None:
+
+        if response['StatusCode'] == 200:
+
+            return render_template('success.html',
+                                   response='Status Timestamp=' + response['Form1099Records']['SuccessRecords'][0][
+                                       'StatusTs'],
+                                   ErrorMessage='Status= ' + response['Form1099Records']['SuccessRecords'][0]['Status'],
+                                   ButtonText="Form 1099-NEC", FormType="NEC")
+
+        elif 'Errors' in response and response['Errors'] is not None:
+
+            return render_template('error_list.html', errorList=response['Errors'],
+                                   status=str(response['StatusCode']) + " - " + str(
+                                       response['StatusName']) + " - " + str(response['StatusMessage']))
+
+        else:
+            return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                                   ErrorMessage='Message=' + json.dumps(response))
+
+
+def form_1099_nec_get_pdf_response_validation(response):
+    if 'Form1099NecRecords' in response and response['Form1099NecRecords'] is not None:
+        if 'Message' in response['Form1099NecRecords'][0]:
+            return render_template('pdf_response.html', errorList=response['Form1099NecRecords'],
+                                   FormType="Form 1099-NEC")
+        else:
+            return "OK"
+    elif 'Errors' in response and response['Errors'] is not None:
+        return render_template('pdf_response.html', errorList=response['Errors'])
+
+    return "OK"

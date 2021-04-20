@@ -2,12 +2,13 @@
 url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
-
 [packages]
-flask = "*"
 gunicorn = "*"
-
+requests = "~=2.25.1"
+pyngrok = "~=5.0.5"
+Flask = "==1.1.2"
+PyJWT = "==2.0.1"
+Werkzeug = "==0.16.0"
 [dev-packages]
-
 [requires]
-python_version = "3.6"
+python_version = "3.8.5"

@@ -1,3 +1,7 @@
+import json
+
+from flask import render_template
+
 from api_services.Business import get_business_list, get_business_detail, create
 from api_services.Form1099MISC import get_misc_list
 from api_services.Form1099NEC import get_nec_list
@@ -6,11 +10,11 @@ from models.Business import Business
 from models.BusinessListRequest import BusinessListRequest
 from models.ForeignAddress import ForeignAddress
 from models.FormListRequest import FormListRequest
+from models.Recipient import Recipient
 from models.SigningAuthority import SigningAuthority
 
 
 def create_business(requestJson):
-
     requestModel = Business()
     requestModel.set_BusinessNm(requestJson['business_name'][0])
 
@@ -143,3 +147,45 @@ def get_recipient_list(formType, businessId):
         response = get_w_2_list(get_request)
 
     return response
+
+
+def recipient_list_response_validation(response):
+    recipientNameList = []
+    if response is not None:
+        if 'Form1099Records' in response:
+            if response['Form1099Records'] is not None:
+                for records in response['Form1099Records']:
+                    recipientData = Recipient()
+                    recipientData.set_RecipientId(
+                        records['Recipient']['RecipientId'])
+                    if 'RecipientNm' in records['Recipient']:
+                        recipientData.set_FirstPayeeNm(
+                            records['Recipient']['RecipientNm'])
+                    elif 'RecipientName' in records['Recipient']:
+                        recipientData.set_FirstPayeeNm(
+                            records['Recipient']['RecipientName'])
+                    recipientData.set_TIN(records['Recipient']['TIN'])
+                    recipientNameList.append(recipientData.__dict__)
+
+    return json.dumps(recipientNameList)
+
+
+def save_business_response_validation(response):
+    if response['StatusCode'] == 200:
+
+        return render_template('success.html',
+                               response='StatusMessage=' + response['StatusMessage'] + '<br>BusinessId =' +
+                                        response[
+                                            'BusinessId'], ErrorMessage=' Business Created Successfully',
+                               formtype="Businesses")
+
+    elif 'Errors' in response and response['Errors'] is not None:
+
+        return render_template('error_list.html', errorList=response['Errors'],
+                               status=str(response['StatusCode']) + " - " + str(response['StatusName']) + " - " + str(
+                                   response['StatusMessage']))
+
+    else:
+
+        return render_template('success.html', response='StatusMessage=' + str(response['StatusCode']),
+                               ErrorMessage='Message=' + json.dumps(response))
