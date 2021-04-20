@@ -1,8 +1,6 @@
-import json
-
 from flask import render_template, Flask, request
 from api_services import Form1099NEC, Business, Form1099MISC, FormW_2
-from api_services.FormW_2 import  transmit_formw2, save_formw2
+from api_services.FormW_2 import transmit_formw2, save_formw2
 from controllers import Business
 from controllers.Business import get_recipient_list, recipient_list_response_validation, \
     save_business_response_validation
@@ -13,6 +11,7 @@ from controllers.Form1099NEC import save_form_nec, nec_save_response_validation,
     form_1099_nec_transmit_response_validation, form_1099_nec_get_pdf_response_validation
 from controllers.FormW_2 import form_w2_save_reponse_validation, form_w2_list_response_validation, \
     form_w2_transmit_response_validation, form_w2_get_pdf_response_validation
+from utils.SignatureValidation import validate
 
 appInstance = Flask(__name__)
 
@@ -76,7 +75,7 @@ def save_form_1099_nec():
     input_request_json = request.form.to_dict(flat=False)
     requestModel = save_form_nec(input_request_json)
     response = Form1099NEC.save_form_1099_nec(requestModel)
-    return  nec_save_response_validation(response)
+    return nec_save_response_validation(response)
 
 
 # 1099-NEC List - Render
@@ -199,6 +198,33 @@ def transmit_form_w2():
 def get_w2_pdf():
     response = FormW_2.get_w2_pdf(request.args.get('submissionId'), "MASKED")
     return form_w2_get_pdf_response_validation(response)
+
+
+# PDF Webhook response
+@appInstance.route("/pdf_webhook", methods=['POST'])
+def get_web_hook():
+    if request.method == 'POST':
+        Timestamp = request.headers.get('Timestamp')
+
+        Signature = request.headers.get('Signature')
+
+        isSignatureValid = validate(Timestamp, Signature)
+
+        # if isSignatureValid:
+        # save_response_in_mongodb(response)
+
+        return "OK"
+
+
+# Form Status Webhook response
+@appInstance.route("/status_webhook", methods=['POST'])
+def get_status_web_hook():
+    if request.method == 'POST':
+        Timestamp = request.headers.get('Timestamp')
+
+        Signature = request.headers.get('Signature')
+
+        isSignatureValid = validate(Timestamp, Signature)
 
 
 # Common method for redirect to form List from form creation success page
