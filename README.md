@@ -20,7 +20,6 @@ This is a sample based on Python, Flask, ngrok, mongodb and JWT to show how to a
 ​
 You need to signup with TaxBandits Sandbox Developer Console at https://sandbox.taxbandits.com to get the keys to run the SDK. See below for more directions:
 ### To get the sandbox keys:
-​
 - Go to Sandbox Developer console: https://sandbox.taxbandits.com.
   ​
 - Signup or signin to Sandbox
@@ -70,10 +69,19 @@ apiBaseUrls = {
 }
 ```
 ## To view form transmitted to IRS
+Once the IRS accepts or rejects your Form, you will be notified using webhook. In order to configure webhook there are several libraries available in Python. Some of them are, 
+
+1. ngrok
+2. webhooks
+3. Thorn and so on
+
+In this project we have used __ngrok__ for configuring webhook.
+
 1. Configure ngrok
 2. Add webhook URL to your Sandbox account
+
 ### Configure ngrok 
-setup ngrok for webhook url and routing callback to localhost
+Setup ngrok for webhook url and routing callback to localhost
 Follow procedure in ngrok site to Install and [setup ngrok](https://ngrok.com/download)
 ### Add webhook URL to Sandbox account
 1. Sign-in to your [TaxBandits Sandbox](https://sandbox.taxbandits.com/) account 
