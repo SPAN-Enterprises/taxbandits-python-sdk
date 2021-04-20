@@ -9,6 +9,12 @@ This is a sample based on Python, Flask, ngrok, mongodb and JWT to show how to a
 - Create Form 1099-NEC
 - View Form 1099-NEC
 - Transmit Form 1099-NEC
+- Create Form 1099-MISC
+- View Form 1099-MISC
+- Transmit Form 1099-MISC
+- Create Form W2
+- View Form W2
+- Transmit Form W2
 ​
 ## Configuration
 ​
@@ -59,8 +65,8 @@ userCredential = {
 }
 ​
 apiBaseUrls = {
- "O_AUTH_BASE_URL": "https://testoauth.expressauth.net/v1/tbsauth",
- "TBS_API_BASE_URL": "https://testapi.taxbandits.com/v1.6.0/"
+ "O_AUTH_BASE_URL": "https://testoauth.expressauth.net/v2/tbsauth",
+ "TBS_API_BASE_URL": "https://testapi.taxbandits.com/v1.6.1/"
 }
 ```
 ## To view form transmitted to IRS
