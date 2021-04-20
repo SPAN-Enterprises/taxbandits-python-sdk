@@ -1,6 +1,4 @@
 userCredential = {
-
-
      "CLIENT_ID": "YOUR CLIENT ID",
      "SECRET_ID": "YOUR CLIENT SECRET",
      "USER_TOKEN": "YOUR USER TOKEN"
