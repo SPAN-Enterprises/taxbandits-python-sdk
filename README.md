@@ -4,10 +4,9 @@
 # TaxBandits Python Sample SDK
 
 ***
-This is a sample based on Python, Flask, ngrok, mongodb and JWT to show how to authenticate and handshake with
-TaxBandits API. This sample includes:
+This is a sample project written on Python with Flask framework to show how to integrate with TaxBandits API. This covers the following API endpoints:
 ​
-
+- OAuth 2.0 Authentication using JWT
 - Create Business
 - View Businesses
 - Create Form 1099-NEC
