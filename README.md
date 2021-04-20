@@ -116,21 +116,26 @@ and [setup ngrok](https://ngrok.com/download)
     - The users input data's are parsed and request models are constructed here.
     - All API response validations are also done here.
     
+
 * api_services:
     - All TaxBandits API invocations and logics are done here
     - Includes JWS generation and TaxBandits JWT Authentication too
     - UI rendering logics is a part of it
     
+
 * models:
     - This package holds the request and response models of all End Points
     
+
 * static:
     - This package contains static image files that are used in this project.
     - Also holds CSS styling files that are used in our UI.
     
+
 * templates:
     - All our HTML pages are placed under this package.
     
+
 * utils:
     - Config.py:
         - Client Id, Secret Id and User Tokens of the TaxBandits User credentials are stored here.
