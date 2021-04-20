@@ -30,7 +30,7 @@ the SDK. See below for more directions:
 - Signup or signin to Sandbox ​
 - Navigate to Settings and then to API Credentials. Copy Client Id, Client Secret and User Token. ​ ​
 
-### The sandbox urls: (Please make sure to use the right versions)
+### The sandbox URLs: (Please make sure to use the right versions)
 
 - Sandbox Auth Server: https://testoauth.expressauth.net/v2/tbsauth ​
 - API Server: https://testapi.taxbandits.com/v1.6.1 ​
