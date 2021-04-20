@@ -114,12 +114,12 @@ and [setup ngrok](https://ngrok.com/download)
 * controllers:
     - The users input data's are parsed and request models are constructed here.
     - All API response validations are also done here.
+    - UI rendering logics is a part of it
     
 
 * api_services:
     - All TaxBandits API invocations and logics are done here
     - Includes JWS generation and TaxBandits JWT Authentication too
-    - UI rendering logics is a part of it
     
 
 * models:
