@@ -30,8 +30,6 @@ def get_w_2_list(get_request: FormListRequest):
                                     "BusinessId": get_request.get_business_id(),
                                     "ToDate": get_request.get_to_date()}, headers=HeaderUtils.getheaders())
 
-    print(response.json())
-
     return response.json()
 
 

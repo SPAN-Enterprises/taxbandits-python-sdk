@@ -89,9 +89,9 @@ def save_form_w_2(requestJson):
     createFormW2Request.set_ReturnData(returnDataList)
     return createFormW2Request
 
+
 # Validate W2 Save response
 def form_w2_save_response_validation(response):
-    print(response)
     if 'StatusCode' in response:
         if response['StatusCode'] == 200:
 
@@ -117,6 +117,7 @@ def form_w2_save_response_validation(response):
         return render_template('success.html', response='StatusMessage=' + str(response['status']),
                                ErrorMessage='Message=' + json.dumps(response))
 
+
 # Validate W2 List response
 def form_w2_list_response_validation(response):
     formW2List = []
@@ -139,13 +140,11 @@ def form_w2_list_response_validation(response):
 
     return json.dumps(formW2List)
 
+
 # Validate W2 Transmit response
 def form_w2_transmit_response_validation(response):
-    print(response)
     if response is not None:
-
         if response['StatusCode'] == 200:
-
             return render_template('success.html',
                                    response='Status Timestamp=' + response['FormW2Records']['SuccessRecords'][0][
                                        'StatusTs'],

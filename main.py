@@ -95,7 +95,6 @@ def form_1099_nec_list():
 # 1099-NEC Transmit
 @appInstance.route('/transmit_form_1099_nec', methods=['GET'])
 def transmit_form1099_nec():
-    print(request.args.get('submissionId'))
     response = Form1099NEC.transmit_form_1099_nec(request.args.get('submissionId'))
     return form_1099_nec_transmit_response_validation(response)
 
