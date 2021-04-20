@@ -45,7 +45,7 @@ def get_misc_list(get_list_request: FormListRequest):
 
 def get_misc_pdf(SubmissionId, TINMaskType):
     # Get Form-1099 MISC PDF of particular submission Id and its Record Id
-    # Method: Form1099MISC/GetPDF
+    # Method: Form1099MISC/GetPDF (GET)
     response = requests.get(Config.apiBaseUrls['TBS_API_BASE_URL'] + EndPointConfig.GET_MISC_PDF,
                             params={"SubmissionId": SubmissionId,
                                     "TINMaskType": TINMaskType}, headers=HeaderUtils.getheaders())
