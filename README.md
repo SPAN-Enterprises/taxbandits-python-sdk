@@ -69,80 +69,55 @@ apiBaseUrls = {
 }
 ```
 
-## To view form transmitted to IRS
-
-Once the IRS accepts or rejects your Form, you will be notified using webhook. In order to configure webhook there are
-several libraries available in Python. Some of them are,
-
-1. ngrok
-2. webhooks
-3. Thorn and so on
-
-In this project we have used __ngrok__ for configuring webhook.
-
-1. Configure ngrok
-2. Add webhook URL to your Sandbox account
-
-### Configure ngrok
-
-Setup ngrok for webhook url and routing callback to localhost Follow procedure in ngrok site to Install
-and [setup ngrok](https://ngrok.com/download)
-
-### Add webhook URL to Sandbox account
-
-1. Sign-in to your [TaxBandits Sandbox](https://sandbox.taxbandits.com/) account
-2. After successful sign-in go to settings
-3. Select Webhook option
-4. Click Add Webhook
-5. In Add Webhook dialog Select Event Type as __"PDF Complete"__
-6. In Callback URL enter URL obtained via running ngrok utility
-
-## Usage
-
-```javascript {highlight=[1, 7]}
- > python main.py
- * Serving Flask app "main" (lazy loading)
- * Environment: production
-   WARNING: This is a development server. Do not use it in a production deployment.
-   Use a production WSGI server instead.
- * Debug mode: off
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
-```
-
-### Project Package Details
+### Project Folder Structure
 
 * controllers:
-    - The users input data's are parsed and request models are constructed here.
+    - The users input data are parsed and request models are constructed here.
     - All API response validations are also done here.
-    - UI rendering logics is a part of it
+    - UI rendering logics (example, the dropdown values and default value mappings) are also included in the controllers.
     
 
 * api_services:
     - All TaxBandits API invocations and logics are done here
-    - Includes JWS generation and TaxBandits JWT Authentication too
+    - Included the JWS generation and Authentication is done here.
     
 
 * models:
-    - This package holds the request and response models of all End Points
+    - This folder contains the request and response models of all the API end points
     
 
 * static:
-    - This package contains static image files that are used in this project.
-    - Also holds CSS styling files that are used in our UI.
+    - This folder contains static files (images and css) that are used in this project.
     
 
 * templates:
-    - All our HTML pages are placed under this package.
+    - All our HTML pages are placed under this folder. 
     
 
 * utils:
     - Config.py:
         - Client Id, Secret Id and User Tokens of the TaxBandits User credentials are stored here.
-        - EndPoints Base URLs are saved here
+        - API base URLs are maintained here
     - EndPointConfig.py:
         - All the EndPoints accessed in this project are saved in this file.
     - HeaderUtils.py:
         - Header details for invoking TaxBandits APIs are generated and processed here.
-        - These header details will be passed in each EndPoint invocation.
+        - These header details will be passed during each EndPoint invocation.
     - SignatureValidation.py:
-        - Webhook signature validations are done here in order to authorize if the webhook is triggered by TaxBandits or not.
+        - Webhook signature validations are done here to check if the webhook is triggered by TaxBandits.
+
+### Complete Documentation
+
+​ Please refer the following link for the complete API documentation that covers all the API methods with their sample request and response.
+
+​ https://developer.taxbandits.com/docs/
+
+​ Also refer our medium articls for more help.
+
+​ https://taxbanditsdev.medium.com/
+
+
+### Contact Details
+
+​ Email: developer@taxbandits.com  
+​ Phone: 704.684.4751
