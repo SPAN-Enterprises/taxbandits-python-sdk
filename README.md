@@ -2,8 +2,9 @@
 ​
 # TaxBandits Python Sample SDK
 ***
-This is a sample based on Python, Flask, ngrok, mongodb and JWT to show how to authenticate and handshake with TaxBandits API. This sample includes:
+This is a sample project written on Python with Flask framework to show how to integrate with TaxBandits API. This covers the following API endpoints:
 ​
+- OAuth 2.0 Authentication using JWT
 - Create Business
 - View Businesses
 - Create Form 1099-NEC
@@ -67,37 +68,4 @@ apiBaseUrls = {
  "O_AUTH_BASE_URL": "https://testoauth.expressauth.net/v2/tbsauth",
  "TBS_API_BASE_URL": "https://testapi.taxbandits.com/v1.6.1/"
 }
-```
-## To view form transmitted to IRS
-Once the IRS accepts or rejects your Form, you will be notified using webhook. In order to configure webhook there are several libraries available in Python. Some of them are, 
-
-1. ngrok
-2. webhooks
-3. Thorn and so on
-
-In this project we have used __ngrok__ for configuring webhook.
-
-1. Configure ngrok
-2. Add webhook URL to your Sandbox account
-
-### Configure ngrok 
-Setup ngrok for webhook url and routing callback to localhost
-Follow procedure in ngrok site to Install and [setup ngrok](https://ngrok.com/download)
-### Add webhook URL to Sandbox account
-1. Sign-in to your [TaxBandits Sandbox](https://sandbox.taxbandits.com/) account 
-2. After successful sign-in go to settings 
-3. Select Webhook option
-4. Click Add Webhook
-5. In Add Webhook dialog Select Event Type as __"PDF Complete"__
-6. In Callback URL enter URL obtained via running ngrok utility
-
-## Usage
-```javascript {highlight=[1, 7]}
- > python main.py
- * Serving Flask app "main" (lazy loading)
- * Environment: production
-   WARNING: This is a development server. Do not use it in a production deployment.
-   Use a production WSGI server instead.
- * Debug mode: off
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 ```
