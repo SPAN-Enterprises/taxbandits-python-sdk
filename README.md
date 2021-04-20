@@ -74,12 +74,12 @@ apiBaseUrls = {
     
 
 * api_services:
-    - All TaxBandits API invocations and logics are done here
+    - All TaxBandits API invocations and logics are done here.
     - Included the JWS generation and Authentication is done here.
     
 
 * models:
-    - This folder contains the request and response models of all the API end points
+    - This folder contains the request and response models of all the API end points.
     
 
 * static:
@@ -92,8 +92,8 @@ apiBaseUrls = {
 
 * utils:
     - Config.py:
-        - Client Id, Secret Id and User Tokens of the TaxBandits User credentials are stored here.
-        - API base URLs are maintained here
+        - Client Id, Secret Id and User Token of the TaxBandits User credentials are stored here.
+        - API base URLs are maintained here.
     - EndPointConfig.py:
         - All the EndPoints accessed in this project are saved in this file.
     - HeaderUtils.py:
@@ -108,7 +108,7 @@ apiBaseUrls = {
 
 ​ https://developer.taxbandits.com/docs/
 
-​ Also refer our medium articls for more help.
+​ Also refer our medium articles for more help.
 
 ​ https://taxbanditsdev.medium.com/
 
